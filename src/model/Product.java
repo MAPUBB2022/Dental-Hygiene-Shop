@@ -1,7 +1,9 @@
 package model;
 
 public class Product {
-    private int id;
+
+    private static int idCounter = 0;
+    private Integer id;
     private String name;
     private float basePrice;
     private int stock;
@@ -66,5 +68,16 @@ public class Product {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public Product(String name, float basePrice, int stock, String type, String use) {
+        idCounter++;
+        this.id = idCounter;
+        this.name = name;
+        this.basePrice = basePrice;
+        this.stock = stock;
+        this.type = type;
+        this.use = use;
+        this.description = "This product has no description yet.";
     }
 }
