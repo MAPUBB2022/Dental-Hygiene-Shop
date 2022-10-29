@@ -1,15 +1,18 @@
 package model;
 
 public class Address {
+    private static int idCounter = 0;
     private int id;
     private String country;
     private String region;
     private String city;
     private String street;
     private String number;
-    private int postalCode;
+    private String postalCode;
 
-    public Address(String country, String region, String city, String street, String number, int postalCode) {
+    public Address(String country, String region, String city, String street, String number, String postalCode) {
+        idCounter++;
+        this.id = idCounter;
         this.country = country;
         this.region = region;
         this.city = city;
@@ -66,11 +69,12 @@ public class Address {
         this.number = number;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
+
 }
