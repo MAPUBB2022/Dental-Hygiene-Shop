@@ -1,7 +1,7 @@
-package repository.databaseRepo;
+package model.repository.databaseRepo;
 
 import model.Order;
-import repository.OrderRepository;
+import model.repository.OrderRepository;
 
 public class JdbcOrderRepository implements OrderRepository {
     @Override
