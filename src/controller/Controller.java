@@ -1,4 +1,5 @@
 package controller;
 
-public class Controller {
+public class Controller<Repo>{
+    Repo repo;
 }
