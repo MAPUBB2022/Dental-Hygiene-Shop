@@ -4,13 +4,15 @@ public class Address {
     private int id;
     private String country;
     private String region;
+    private String city;
     private String street;
     private String number;
     private int postalCode;
 
-    public Address(String country, String region, String street, String number, int postalCode) {
+    public Address(String country, String region, String city, String street, String number, int postalCode) {
         this.country = country;
         this.region = region;
+        this.city = city;
         this.street = street;
         this.number = number;
         this.postalCode = postalCode;
@@ -30,6 +32,14 @@ public class Address {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getRegion() {

@@ -3,6 +3,7 @@ package model;
 import java.util.List;
 
 public class RegisteredUser extends User {
+    private Integer id;
     private String password;
     private List<Address> addresses;
     private int defaultAddressId;
@@ -10,24 +11,8 @@ public class RegisteredUser extends User {
 
     @Override
     public void placeOrder() {
-
+        //add order to orderRepo list
+        //add order to customer's order history
     }
 
-    @Override
-    public void addToCart() {
-
-    }
-
-    @Override
-    public void removeFromCart() {
-
-    }
-
-    public boolean deleteAccount(){
-        return false;
-    }
-
-    public boolean modifyAccount(){
-        return false;
-    }
 }
