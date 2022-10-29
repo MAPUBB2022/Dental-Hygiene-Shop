@@ -1,8 +1,7 @@
-package repository.memoryRepo;
+package model.repository.memoryRepo;
 
 import model.Order;
-import repository.OrderRepository;
-import repository.UserRepository;
+import model.repository.OrderRepository;
 
 public class InMemoryOrderRepository implements OrderRepository {
     @Override
