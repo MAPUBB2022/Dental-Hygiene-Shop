@@ -30,5 +30,5 @@ public abstract class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public abstract void placeOrder();
+    public abstract void placeOrder(Order order);
 }

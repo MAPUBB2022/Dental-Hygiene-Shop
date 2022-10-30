@@ -61,7 +61,9 @@ public class RegisteredUser extends User {
     }
 
     @Override
-    public void placeOrder() {
+    public void placeOrder(Order order) {
+
+
         //add order to orderRepo list
         //add order to customer's order history
     }

@@ -6,7 +6,7 @@ public class UnregisteredUser extends User {
     }
 
     @Override
-    public void placeOrder() {
+    public void placeOrder(Order order) {
 
     }
 }
