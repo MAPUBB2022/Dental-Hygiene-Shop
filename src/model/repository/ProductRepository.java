@@ -3,14 +3,14 @@ package model.repository;
 import model.Product;
 
 public interface ProductRepository extends ICrudRepository<Integer, Product> {
-    public void modifyName(String newName);
+    public void modifyName(Integer ID, String newName);
 
-    public void modifyBasePrice(float newBasePrice);
+    public void modifyBasePrice(Integer ID, float newBasePrice);
 
-    public void modifyStock(int newStock);
+    public void modifyStock(Integer ID, int newStock);
 
-    public void modifyType(String newType);
+    public void modifyType(Integer ID, String newType);
 
-    public void modifyUse(String newUse);
+    public void modifyUse(Integer ID, String newUse);
 
 }

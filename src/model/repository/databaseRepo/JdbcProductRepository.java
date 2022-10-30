@@ -25,27 +25,27 @@ public class JdbcProductRepository implements ProductRepository {
     }
 
     @Override
-    public void modifyName(String newName) {
+    public void modifyName(Integer ID, String newName) {
 
     }
 
     @Override
-    public void modifyBasePrice(float newBasePrice) {
+    public void modifyBasePrice(Integer ID, float newBasePrice) {
 
     }
 
     @Override
-    public void modifyStock(int newStock) {
+    public void modifyStock(Integer ID, int newStock) {
 
     }
 
     @Override
-    public void modifyType(String newType) {
+    public void modifyType(Integer ID, String newType) {
 
     }
 
     @Override
-    public void modifyUse(String newUse) {
+    public void modifyUse(Integer ID, String newUse) {
 
     }
 }
