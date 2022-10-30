@@ -7,9 +7,19 @@ public class Order {
     public static int idCounter = 0;
     private Integer id;
     private LocalDateTime dateTime;
-    private Integer userId;
+    private final Integer userId;
     private List<ProductOrder> products;
     private Address deliveryAddress;
+
+    private double price;
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public LocalDateTime getDateTime() {
         return dateTime;
@@ -54,5 +64,28 @@ public class Order {
         this.userId = userId;
         this.deliveryAddress = deliveryAddress;
         this.products = products;
+        this.price = calculatePrice();
+    }
+
+    public ProductOrder findById(Integer id) {
+        for (ProductOrder p : this.products) {
+            if (p.getProductId().equals(id)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public void deleteProduct(Integer id) {
+        ProductOrder product = findById(id);
+        products.remove(product);
+    }
+
+    public double calculatePrice() {
+        double s = 0;
+        for (ProductOrder p : products) {
+            s += p.getPrice() * p.getQuantity();
+        }
+        return s;
     }
 }

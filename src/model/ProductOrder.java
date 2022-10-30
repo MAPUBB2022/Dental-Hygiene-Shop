@@ -4,7 +4,7 @@ public class ProductOrder {
     private Integer orderId;
     private Integer productId;
     private int quantity;
-    private int price;
+    private double price;
 
     public ProductOrder(Integer orderId, Integer productId, int quantity, int price) {
         this.orderId = orderId;
@@ -37,11 +37,11 @@ public class ProductOrder {
         this.quantity = quantity;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }
