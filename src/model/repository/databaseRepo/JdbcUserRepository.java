@@ -29,37 +29,37 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     @Override
-    public void modifyName(String newName) {
+    public void modifyName(Integer ID, String newName) {
 
     }
 
     @Override
-    public void modifyEmail(String newEmail) {
+    public void modifyEmail(Integer ID, String newEmail) {
 
     }
 
     @Override
-    public void modifyPhoneNumber(String newPhoneNumber) {
+    public void modifyPhoneNumber(Integer ID, String newPhoneNumber) {
 
     }
 
     @Override
-    public void modifyPassword(String newPassword) {
+    public void modifyPassword(Integer ID, String newPassword) {
 
     }
 
     @Override
-    public void modifyAddresses(Address newAddress) {
+    public void modifyAddresses(Integer ID, List<Address> newAddresses) {
 
     }
 
     @Override
-    public void modifyDefaultAddressId(int newDefaultAddressId) {
+    public void modifyDefaultAddressId(Integer ID, int newDefaultAddressId) {
 
     }
 
     @Override
-    public void modifyOrderHistory(List<Order> newOrderHistory) {
+    public void modifyOrderHistory(Integer ID, List<Order> newOrderHistory) {
 
     }
 }

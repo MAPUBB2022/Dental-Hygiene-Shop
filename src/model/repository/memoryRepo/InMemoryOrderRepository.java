@@ -6,7 +6,6 @@ import model.repository.OrderRepository;
 public class InMemoryOrderRepository implements OrderRepository {
     @Override
     public void add(Order order) {
-
     }
 
     @Override
@@ -16,7 +15,6 @@ public class InMemoryOrderRepository implements OrderRepository {
 
     @Override
     public void update(Integer ID, Order order) {
-
     }
 
     @Override
