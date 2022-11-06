@@ -35,13 +35,6 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
-    public void update(Integer ID, Product product) {
-        Product productToRemove = this.findById(ID);
-        productList.remove(productToRemove);
-        productList.add(product);
-    }
-
-    @Override
     public Product findById(Integer ID) {
         for (Product p : productList) {
             if (Objects.equals(p.getId(), ID)) {

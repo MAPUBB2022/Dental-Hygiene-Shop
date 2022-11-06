@@ -1,6 +1,8 @@
 package model.repository.memoryRepo;
 
+import model.Address;
 import model.Order;
+import model.ProductOrder;
 import model.repository.OrderRepository;
 
 import java.util.List;
@@ -21,13 +23,6 @@ public class InMemoryOrderRepository implements OrderRepository {
     }
 
     @Override
-    public void update(Integer ID, Order newOrder) {
-        //replaces a given order with a new order
-        this.delete(ID);
-        this.add(newOrder);
-    }
-
-    @Override
     public Order findById(Integer ID) {
 
         for (Order o : orderList) {
@@ -36,6 +31,16 @@ public class InMemoryOrderRepository implements OrderRepository {
             }
         }
         return null;
+    }
+
+    public void modifyProducts(Integer ID, List<ProductOrder> products){
+        Order order = this.findById(ID);
+        order.setProducts(products);
+    }
+
+    public void modifyDeliveryAddress(Integer ID, Address newDeliveryAddress){
+        Order order = this.findById(ID);
+        order.setDeliveryAddress(newDeliveryAddress);
     }
 
 }

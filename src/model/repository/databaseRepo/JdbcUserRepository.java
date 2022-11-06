@@ -3,6 +3,7 @@ package model.repository.databaseRepo;
 import model.Address;
 import model.Order;
 import model.RegisteredUser;
+import model.ShoppingCart;
 import model.repository.UserRepository;
 
 import java.util.List;
@@ -27,6 +28,9 @@ public class JdbcUserRepository implements UserRepository {
     public RegisteredUser findById(Integer ID) {
         return null;
     }
+
+    @Override
+    public void modifyShoppingCart(Integer ID, ShoppingCart newShoppingCart){}
 
     @Override
     public void modifyName(Integer ID, String newName) {

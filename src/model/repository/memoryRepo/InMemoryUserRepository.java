@@ -1,9 +1,6 @@
 package model.repository.memoryRepo;
 
-import model.Address;
-import model.Order;
-import model.Product;
-import model.RegisteredUser;
+import model.*;
 import model.repository.UserRepository;
 
 import java.util.List;
@@ -37,13 +34,6 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public void update(Integer ID, RegisteredUser registeredUser) {
-        RegisteredUser registeredUserToDelete = this.findById(ID);
-        registeredUserList.remove(registeredUserToDelete);
-        registeredUserList.add(registeredUser);
-    }
-
-    @Override
     public RegisteredUser findById(Integer ID) {
         for (RegisteredUser r : registeredUserList) {
             if (Objects.equals(r.getId(), ID)) {
@@ -51,6 +41,12 @@ public class InMemoryUserRepository implements UserRepository {
             }
         }
         return null;
+    }
+
+    @Override
+    public void modifyShoppingCart(Integer ID, ShoppingCart newShoppingCart){
+        RegisteredUser registeredUser = this.findById(ID);
+        registeredUser.setCart(newShoppingCart);
     }
 
     @Override

@@ -6,6 +6,14 @@ public abstract class User {
     private String email;
     private String phoneNumber;
 
+    public ShoppingCart getCart() {
+        return cart;
+    }
+
+    public void setCart(ShoppingCart cart) {
+        this.cart = cart;
+    }
+
     public String getName() {
         return name;
     }
