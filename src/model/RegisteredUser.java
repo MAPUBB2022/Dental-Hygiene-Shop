@@ -5,19 +5,10 @@ import java.util.List;
 
 public class RegisteredUser extends User {
     private static int idCounter = 0;
-    private Integer id;
     private String password;
     private List<Address> addresses;
     private Integer defaultAddressId;
     private List<Order> orderHistory;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getPassword() {
         return password;
@@ -53,19 +44,12 @@ public class RegisteredUser extends User {
 
     public RegisteredUser(String password) {
         idCounter ++;
-        this.id = idCounter;
+        this.setId(idCounter);
         this.password = password;
         this.addresses = new ArrayList<>();
         this.orderHistory = new ArrayList<>();
         this.defaultAddressId = null;
     }
 
-    @Override
-    public void placeOrder(Order order) {
-
-
-        //add order to orderRepo list
-        //add order to customer's order history
-    }
 
 }

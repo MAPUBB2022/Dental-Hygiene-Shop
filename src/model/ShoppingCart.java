@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCart {
-    private List<Product> products;
+    private List<ProductOrder> products;
 
-    public List<Product> getProducts() {
+    public List<ProductOrder> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<ProductOrder> products) {
         this.products = products;
     }
 
@@ -18,7 +18,7 @@ public class ShoppingCart {
         products = new ArrayList<>();
     }
 
-    public void addProduct(Product product) {
+    public void addProduct(ProductOrder product) {
         products.add(product);
     }
 }

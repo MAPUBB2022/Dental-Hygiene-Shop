@@ -13,6 +13,7 @@ public class Order {
 
     private double price;
 
+
     public double getPrice() {
         return price;
     }
