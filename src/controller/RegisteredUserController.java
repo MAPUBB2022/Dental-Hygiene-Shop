@@ -33,8 +33,14 @@ public class RegisteredUserController implements IController<InMemoryOrderReposi
         userRepository.findById(userId).getOrderHistory().add(order);
     }
 
-    public Integer login(String email, String password) {
-        return userRepository.findIdByEmail(email);
+    public RegisteredUser login(String email, String password) {
+        RegisteredUser registeredUser = userRepository.findByEmail(email);
+        if (registeredUser != null) {
+            if (password.equals(registeredUser.getPassword())){
+                return registeredUser;
+            }
+        }
+        return null;
     }
 
     public void createAccount(RegisteredUser user){

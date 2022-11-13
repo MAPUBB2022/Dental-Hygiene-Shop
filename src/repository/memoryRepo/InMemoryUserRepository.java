@@ -67,10 +67,10 @@ public class InMemoryUserRepository implements UserRepository {
         return null;
     }
 
-    public Integer findIdByEmail (String email){
+    public RegisteredUser findByEmail (String email){
         for (RegisteredUser r : userList) {
             if (Objects.equals(r.getEmail(), email)) {
-                return r.getId();
+                return r;
             }
         }
         return null;
