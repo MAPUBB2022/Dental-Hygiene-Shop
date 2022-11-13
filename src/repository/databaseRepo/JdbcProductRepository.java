@@ -14,10 +14,6 @@ public class JdbcProductRepository implements ProductRepository {
 
     }
 
-    @Override
-    public void update(Integer ID, Product product) {
-
-    }
 
     @Override
     public Product findById(Integer ID) {

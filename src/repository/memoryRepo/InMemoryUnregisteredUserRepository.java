@@ -33,11 +33,6 @@ public class InMemoryUnregisteredUserRepository implements ICrudRepository<Integ
     }
 
     @Override
-    public void update(Integer integer, UnregisteredUser unregisteredUser) {
-            //nu stiu
-    }
-
-    @Override
     public UnregisteredUser findById(Integer integer) {
         for (UnregisteredUser r : userList) {
             if (Objects.equals(r.getId(), integer)) {
