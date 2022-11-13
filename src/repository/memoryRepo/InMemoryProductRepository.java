@@ -1,10 +1,16 @@
 package repository.memoryRepo;
 
 import model.Product;
+import model.ProductType;
+import model.ProductUse;
 import repository.ProductRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static model.ProductType.*;
+import static model.ProductUse.*;
 
 public class InMemoryProductRepository implements ProductRepository {
 
@@ -12,6 +18,26 @@ public class InMemoryProductRepository implements ProductRepository {
 
     public InMemoryProductRepository(List<Product> productList) {
         this.productList = productList;
+    }
+
+    public InMemoryProductRepository() {
+        productList = new ArrayList<>();
+        populateProducts();
+    }
+
+    public void populateProducts() {
+        Product p1 = new Product("Colgate Max White", "150ml", TOOTHPASTE, 3.5, HOME, 500);
+        Product p2 = new Product("Colgate Max White 3D", "200ml", MOUTHWASH, 13.5, HOME, 150);
+        Product p3 = new Product("Oral B Silky", "50m", DENTAL_FLOSS, 13.5, HOME, 150);
+        Product p4 = new Product("Oral B Pro 2", "2pcs", TOOTHBRUSH, 13.5, HOME, 200);
+        Product p5 = new Product("Sensodyne Repair & Protect", "100ml", TOOTHPASTE, 4, HOME, 300);
+        Product p6 = new Product("Listerine Cool", "100ml", MOUTHWASH, 8, HOME, 43);
+        productList.add(p1);
+        productList.add(p2);
+        productList.add(p3);
+        productList.add(p4);
+        productList.add(p5);
+        productList.add(p6);
     }
 
     public List<Product> getProductList() {
@@ -62,13 +88,13 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
-    public void modifyType(Integer ID, String newType) {
+    public void modifyType(Integer ID, ProductType newType) {
         Product product = this.findById(ID);
         product.setType(newType);
     }
 
     @Override
-    public void modifyUse(Integer ID, String newUse) {
+    public void modifyUse(Integer ID, ProductUse newUse) {
         Product product = this.findById(ID);
         product.setUse(newUse);
     }

@@ -5,26 +5,28 @@ public class Product {
     private static int idCounter = 0;
     private Integer id;
     private String name;
-    private float basePrice;
+    private double basePrice;
+
+    private String size;//no spaces, no commas (dots only), no capital letters
     private int stock;
 
-    private String type;
+    private ProductType type;//see enum
 
-    private String use;//home or medical
+    private ProductUse use;//see enum
 
-    public String getType() {
+    public ProductType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ProductType type) {
         this.type = type;
     }
 
-    public String getUse() {
+    public ProductUse getUse() {
         return use;
     }
 
-    public void setUse(String use) {
+    public void setUse(ProductUse use) {
         this.use = use;
     }
 
@@ -54,11 +56,11 @@ public class Product {
         this.name = name;
     }
 
-    public float getBasePrice() {
+    public double getBasePrice() {
         return basePrice;
     }
 
-    public void setBasePrice(float basePrice) {
+    public void setBasePrice(double basePrice) {
         this.basePrice = basePrice;
     }
 
@@ -70,10 +72,20 @@ public class Product {
         this.stock = stock;
     }
 
-    public Product(String name, float basePrice, int stock, String type, String use) {
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public Product(String name, String size, ProductType type, double basePrice, ProductUse use, int stock) {
         idCounter++;
         this.id = idCounter;
         this.name = name;
+        this.size = size;
         this.basePrice = basePrice;
         this.stock = stock;
         this.type = type;

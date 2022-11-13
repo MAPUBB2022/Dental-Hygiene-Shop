@@ -26,7 +26,6 @@ public class RegisteredUserController implements IController<InMemoryOrderReposi
         return new Order(LocalDateTime.now(), userId,
                 userRepository.findById(userId).getAddresses().get(userRepository.findById(userId).getDefaultAddressId()),
                 products);
-        //this will be remade into separate functions
     }
 
     public void placeOrder(Integer userId, Order order) {
@@ -36,6 +35,10 @@ public class RegisteredUserController implements IController<InMemoryOrderReposi
 
     public Integer login(String email, String password) {
         return userRepository.findIdByEmail(email);
+    }
+
+    public void createAccount(RegisteredUser user){
+        userRepository.add(user);
     }
 
 }

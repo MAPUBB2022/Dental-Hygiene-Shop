@@ -1,6 +1,8 @@
 package repository;
 
 import model.Product;
+import model.ProductType;
+import model.ProductUse;
 
 public interface ProductRepository extends ICrudRepository<Integer, Product> {
     public void modifyName(Integer ID, String newName);
@@ -9,8 +11,8 @@ public interface ProductRepository extends ICrudRepository<Integer, Product> {
 
     public void modifyStock(Integer ID, int newStock);
 
-    public void modifyType(Integer ID, String newType);
+    public void modifyType(Integer ID, ProductType newType);
 
-    public void modifyUse(Integer ID, String newUse);
+    public void modifyUse(Integer ID, ProductUse newUse);
 
 }

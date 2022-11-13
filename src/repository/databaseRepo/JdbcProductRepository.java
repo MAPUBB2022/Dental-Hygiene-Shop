@@ -1,6 +1,8 @@
 package repository.databaseRepo;
 
 import model.Product;
+import model.ProductType;
+import model.ProductUse;
 import repository.ProductRepository;
 
 public class JdbcProductRepository implements ProductRepository {
@@ -13,12 +15,6 @@ public class JdbcProductRepository implements ProductRepository {
     public void delete(Integer ID) {
 
     }
-
-    @Override
-    public void update(Integer ID, Product product) {
-
-    }
-
     @Override
     public Product findById(Integer ID) {
         return null;
@@ -40,12 +36,12 @@ public class JdbcProductRepository implements ProductRepository {
     }
 
     @Override
-    public void modifyType(Integer ID, String newType) {
+    public void modifyType(Integer ID, ProductType newType) {
 
     }
 
     @Override
-    public void modifyUse(Integer ID, String newUse) {
+    public void modifyUse(Integer ID, ProductUse newUse) {
 
     }
 }
