@@ -58,13 +58,9 @@ public class UserView implements View {
 
 
     public RegisteredUser signUp() {
-        String name, email, phoneNumber, password;
-        List<Address> addresses = new ArrayList<>();
-        Integer defaultAddressId;
-        List<Order> orderHistory = new ArrayList<>();
-
         Scanner scanner = new Scanner(System.in);
 
+        String name, email, phoneNumber, password, country, region, city, street, number, postalCode;
         System.out.println("Name: ");
         name = scanner.next();
         System.out.println("Email:");
@@ -73,9 +69,26 @@ public class UserView implements View {
         phoneNumber = scanner.next();
         System.out.println("Password: ");
         password = scanner.next();
+        System.out.println("Country: ");
+        country = scanner.next();
+        System.out.println("Region:");
+        region = scanner.next();
+        System.out.println("City:");
+        city = scanner.next();
+        System.out.println("Street: ");
+        street = scanner.next();
+        System.out.println("Number: ");
+        number = scanner.next();
+        System.out.println("Postal code: ");
+        postalCode = scanner.next();
 
-        RegisteredUser user = new RegisteredUser(name, email, phoneNumber, password, addresses, defaultAddressId, orderHistory);
-        return user;
+        Address address = new Address(country, region, city, street, number, postalCode);
+        List<Address> addresses = new ArrayList<>();
+        addresses.add(address);
+        Integer defaultAddressId = address.getId();
+        List<Order> orderHistory = new ArrayList<>();
+
+        return new RegisteredUser(name, email, phoneNumber, password, addresses, defaultAddressId, orderHistory);
     }
 
     public void continueAsGuest() {
