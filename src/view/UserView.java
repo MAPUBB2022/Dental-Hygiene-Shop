@@ -12,19 +12,24 @@ import java.util.Scanner;
 public class UserView implements View {
     private RegisteredUserController controller;
 
-    public void registeredUserViewPrompt() {
+    public UserView(RegisteredUserController controller) {
+        this.controller = controller;
+    }
+
+    public void showPrompt() {
         System.out.println("\nMAIN MENU\nOptions:\n0. Exit\n1. Login\n2. Sign up\n3. Continue as guest\n");
     }
 
-    public void registeredUserMenu() {
+    public void showMenu() {
         int option = -1;
         boolean exit = false;
+        RegisteredUser user;
         Scanner scanner = new Scanner(System.in);
         while (!exit) {
             try {
-                registeredUserViewPrompt();
+                showPrompt();
                 option = scanner.nextInt();
-                if (option < 0 || option > 7) {
+                if (option < 0 || option > 3) {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException exception) {
@@ -40,16 +45,22 @@ public class UserView implements View {
                     email = scanner.next();
                     System.out.println("Enter your password:");
                     password = scanner.next();
-                    RegisteredUser user = controller.login(email, password);
+                    user = controller.login(email, password);
                     if (user == null) {
                         System.out.println("Wrong email or password");
                     } else {
-                        // next menu
+                        System.out.println(user.toString());
                     }
+                    break;
                 case 2:
-                    signUp();
+                    user = signUp();
+                    controller.createAccount(user);
+                    System.out.println("Successfully created an account");
+                    System.out.println(user.toString());
+                    break;
                 case 3:
                     continueAsGuest();
+                    break;
             }
         }
 
@@ -61,25 +72,25 @@ public class UserView implements View {
         Scanner scanner = new Scanner(System.in);
 
         String name, email, phoneNumber, password, country, region, city, street, number, postalCode;
-        System.out.println("Name: ");
+        System.out.print("Name: ");
         name = scanner.next();
-        System.out.println("Email:");
+        System.out.print("Email: ");
         email = scanner.next();
-        System.out.println("Phone number: ");
+        System.out.print("Phone number: ");
         phoneNumber = scanner.next();
-        System.out.println("Password: ");
+        System.out.print("Password: ");
         password = scanner.next();
-        System.out.println("Country: ");
+        System.out.print("Country: ");
         country = scanner.next();
-        System.out.println("Region:");
+        System.out.print("Region: ");
         region = scanner.next();
-        System.out.println("City:");
+        System.out.print("City: ");
         city = scanner.next();
-        System.out.println("Street: ");
+        System.out.print("Street: ");
         street = scanner.next();
-        System.out.println("Number: ");
+        System.out.print("Number: ");
         number = scanner.next();
-        System.out.println("Postal code: ");
+        System.out.print("Postal code: ");
         postalCode = scanner.next();
 
         Address address = new Address(country, region, city, street, number, postalCode);

@@ -1,11 +1,15 @@
 
 import controller.*;
+import model.Product;
 import repository.memoryRepo.*;
 import view.UserView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 //        InMemoryUserRepository userRepo = new InMemoryUserRepository();
 //        RegisteredUserController controller = new RegisteredUserController(null, null, userRepo);
 //
@@ -14,8 +18,13 @@ public class Main {
 //
 //        x = controller.login("oana@yahoo.com", "psswd");
 //        System.out.println(x);
-        UserView userView = new UserView();
-        userView.registeredUserMenu();
+        List<Product> productList = new ArrayList<Product>();
+        InMemoryOrderRepository inMemoryOrderRepository = new InMemoryOrderRepository();
+        InMemoryProductRepository inMemoryProductRepository = new InMemoryProductRepository(productList);
+        InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
+        RegisteredUserController controller = new RegisteredUserController(inMemoryOrderRepository, inMemoryProductRepository, inMemoryUserRepository);
+        UserView userView = new UserView(controller);
+        userView.showMenu();
     }
 
 }
