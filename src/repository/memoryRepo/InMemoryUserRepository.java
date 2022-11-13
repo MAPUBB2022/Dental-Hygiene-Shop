@@ -1,9 +1,14 @@
 package repository.memoryRepo;
 
+<<<<<<< HEAD:src/repository/memoryRepo/InMemoryUserRepository.java
 import model.Address;
 import model.Order;
 import model.RegisteredUser;
 import repository.UserRepository;
+=======
+import model.*;
+import model.repository.UserRepository;
+>>>>>>> 2233cc6058bce07170462584dbc425526fcf336b:src/model/repository/memoryRepo/InMemoryUserRepository.java
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +54,7 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
+<<<<<<< HEAD:src/repository/memoryRepo/InMemoryUserRepository.java
     public void update(Integer ID, RegisteredUser registeredUser) {
         RegisteredUser registeredUserToDelete = this.findById(ID);
         userList.remove(registeredUserToDelete);
@@ -56,6 +62,8 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
+=======
+>>>>>>> 2233cc6058bce07170462584dbc425526fcf336b:src/model/repository/memoryRepo/InMemoryUserRepository.java
     public RegisteredUser findById(Integer ID) {
         for (RegisteredUser r : userList) {
             if (Objects.equals(r.getId(), ID)) {
@@ -81,6 +89,12 @@ public class InMemoryUserRepository implements UserRepository {
             }
         }
         return null;
+    }
+
+    @Override
+    public void modifyShoppingCart(Integer ID, ShoppingCart newShoppingCart){
+        RegisteredUser registeredUser = this.findById(ID);
+        registeredUser.setCart(newShoppingCart);
     }
 
     @Override

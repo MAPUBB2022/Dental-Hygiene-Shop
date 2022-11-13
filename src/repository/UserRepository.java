@@ -3,10 +3,13 @@ package repository;
 import model.Address;
 import model.Order;
 import model.RegisteredUser;
+import model.ShoppingCart;
 
 import java.util.List;
 
 public interface UserRepository extends ICrudRepository<Integer, RegisteredUser>{
+
+    public void modifyShoppingCart(Integer ID, ShoppingCart newShoppingCart);
     public void modifyName(Integer ID, String newName);
     public void modifyEmail(Integer ID, String newEmail);
     public void modifyPhoneNumber(Integer ID, String newPhoneNumber);

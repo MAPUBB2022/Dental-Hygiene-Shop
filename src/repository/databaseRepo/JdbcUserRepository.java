@@ -3,7 +3,9 @@ package repository.databaseRepo;
 import model.Address;
 import model.Order;
 import model.RegisteredUser;
+import model.ShoppingCart;
 import repository.UserRepository;
+
 
 import java.util.List;
 
@@ -19,14 +21,13 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     @Override
-    public void update(Integer ID, RegisteredUser registeredUser) {
-
-    }
-
-    @Override
     public RegisteredUser findById(Integer ID) {
         return null;
     }
+
+    @Override
+    public void modifyShoppingCart(Integer ID, ShoppingCart newShoppingCart){}
+
 
     @Override
     public void modifyName(Integer ID, String newName) {

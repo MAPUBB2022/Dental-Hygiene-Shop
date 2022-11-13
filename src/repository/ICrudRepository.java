@@ -5,7 +5,6 @@ public interface ICrudRepository<ID, E> {
 
     void delete(ID id); // losche nach ID
 
-    void update(ID id, E e); // erstelle update des Elements mit einem neuen Element e
 
     E findById(ID id); // suche nach ID
 }

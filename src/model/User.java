@@ -15,12 +15,21 @@ public abstract class User {
     private String email;
     private String phoneNumber;
 
+<<<<<<< HEAD
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+=======
+    public ShoppingCart getCart() {
+        return cart;
+    }
+
+    public void setCart(ShoppingCart cart) {
+        this.cart = cart;
+>>>>>>> 2233cc6058bce07170462584dbc425526fcf336b
     }
 
     public String getName() {
