@@ -1,7 +1,7 @@
-package model.repository.databaseRepo;
+package repository.databaseRepo;
 
 import model.Product;
-import model.repository.ProductRepository;
+import repository.ProductRepository;
 
 public class JdbcProductRepository implements ProductRepository {
     @Override

@@ -1,8 +1,7 @@
-package model.repository.memoryRepo;
+package repository.memoryRepo;
 
 import model.Product;
-import model.RegisteredUser;
-import model.repository.ProductRepository;
+import repository.ProductRepository;
 
 import java.util.List;
 import java.util.Objects;

@@ -1,7 +1,7 @@
-package model.repository.memoryRepo;
+package repository.memoryRepo;
 
 import model.Order;
-import model.repository.OrderRepository;
+import repository.OrderRepository;
 
 import java.util.List;
 import java.util.Objects;

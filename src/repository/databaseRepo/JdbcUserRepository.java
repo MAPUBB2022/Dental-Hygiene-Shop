@@ -1,9 +1,9 @@
-package model.repository.databaseRepo;
+package repository.databaseRepo;
 
 import model.Address;
 import model.Order;
 import model.RegisteredUser;
-import model.repository.UserRepository;
+import repository.UserRepository;
 
 import java.util.List;
 

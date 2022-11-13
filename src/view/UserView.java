@@ -1,7 +1,7 @@
 package view;
 
-import controller.Controller;
+import controller.RegisteredUserController;
 
 public class UserView implements View{
-    private Controller controller;
+    private RegisteredUserController controller;
 }

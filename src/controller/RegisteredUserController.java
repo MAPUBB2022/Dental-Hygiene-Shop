@@ -1,0 +1,41 @@
+package controller;
+
+import model.*;
+import repository.memoryRepo.InMemoryOrderRepository;
+import repository.memoryRepo.InMemoryProductRepository;
+import repository.memoryRepo.InMemoryUserRepository;
+import org.jetbrains.annotations.NotNull;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+public class RegisteredUserController implements IController<InMemoryOrderRepository, InMemoryProductRepository, InMemoryUserRepository> {
+    InMemoryOrderRepository orderRepository;
+    InMemoryProductRepository productRepository;
+    InMemoryUserRepository userRepository;
+
+    public RegisteredUserController(InMemoryOrderRepository orderRepository, InMemoryProductRepository productRepository, InMemoryUserRepository userRepository) {
+        this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+    }
+
+    public Order createOrder(@NotNull ShoppingCart shoppingCart, Integer userId) {
+        List<ProductOrder> products = List.copyOf(shoppingCart.getProducts());
+
+        return new Order(LocalDateTime.now(), userId,
+                userRepository.findById(userId).getAddresses().get(userRepository.findById(userId).getDefaultAddressId()),
+                products);
+        //this will be remade into separate functions
+    }
+
+    public void placeOrder(Integer userId, Order order) {
+        orderRepository.add(order);
+        userRepository.findById(userId).getOrderHistory().add(order);
+    }
+
+    public Integer login(String email, String password) {
+        return userRepository.findIdByEmail(email);
+    }
+
+}

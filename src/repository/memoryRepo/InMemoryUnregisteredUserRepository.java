@@ -1,9 +1,7 @@
-package model.repository.memoryRepo;
+package repository.memoryRepo;
 
-import model.RegisteredUser;
 import model.UnregisteredUser;
-import model.repository.ICrudRepository;
-import model.repository.UserRepository;
+import repository.ICrudRepository;
 
 import java.util.ArrayList;
 import java.util.List;

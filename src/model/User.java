@@ -4,6 +4,13 @@ public abstract class User {
     private ShoppingCart cart;
 
     private Integer id;
+
+    public User(String name, String email, String phoneNumber) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
     private String name;
     private String email;
     private String phoneNumber;

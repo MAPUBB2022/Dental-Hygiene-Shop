@@ -1,4 +1,4 @@
-package model.repository;
+package repository;
 
 public interface ICrudRepository<ID, E> {
     void add(E e); //fuge ein Element von Typ E hinzu

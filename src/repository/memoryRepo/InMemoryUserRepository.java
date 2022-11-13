@@ -1,53 +1,83 @@
-package model.repository.memoryRepo;
+package repository.memoryRepo;
 
 import model.Address;
 import model.Order;
-import model.Product;
 import model.RegisteredUser;
-import model.repository.UserRepository;
+import repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class InMemoryUserRepository implements UserRepository {
+    private List<RegisteredUser> userList;
 
-    private List<RegisteredUser> registeredUserList;
-
-    public InMemoryUserRepository(List<RegisteredUser> registeredUserList) {
-        this.registeredUserList = registeredUserList;
+    public InMemoryUserRepository() {
+        this.populateUsers();
     }
 
-    public List<RegisteredUser> getRegisteredUserList() {
-        return registeredUserList;
+    public void populateUsers(){
+        this.userList = new ArrayList<>();
+        RegisteredUser user1 = new RegisteredUser("Ana", "ana@yahoo.com", "01234",
+                "psswd", new ArrayList<Address>(), null, new ArrayList<Order>());
+        this.userList.add(user1);
+        RegisteredUser user2 = new RegisteredUser("Oana", "oana@yahoo.com", "01234",
+                "psswd", new ArrayList<Address>(), null, new ArrayList<Order>());
+        this.userList.add(user2);
+    }
+    public InMemoryUserRepository(List<RegisteredUser> userList) {
+        this.userList = userList;
     }
 
-    public void setRegisteredUserList(List<RegisteredUser> registeredUserList) {
-        this.registeredUserList = registeredUserList;
+    public List<RegisteredUser> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<RegisteredUser> userList) {
+        this.userList = userList;
     }
 
     @Override
     public void add(RegisteredUser registeredUser) {
-        registeredUserList.add(registeredUser);
+        userList.add(registeredUser);
     }
 
     @Override
     public void delete(Integer ID) {
         RegisteredUser registeredUser = this.findById(ID);
-        registeredUserList.remove(registeredUser);
+        userList.remove(registeredUser);
     }
 
     @Override
     public void update(Integer ID, RegisteredUser registeredUser) {
         RegisteredUser registeredUserToDelete = this.findById(ID);
-        registeredUserList.remove(registeredUserToDelete);
-        registeredUserList.add(registeredUser);
+        userList.remove(registeredUserToDelete);
+        userList.add(registeredUser);
     }
 
     @Override
     public RegisteredUser findById(Integer ID) {
-        for (RegisteredUser r : registeredUserList) {
+        for (RegisteredUser r : userList) {
             if (Objects.equals(r.getId(), ID)) {
                 return r;
+            }
+        }
+        return null;
+    }
+
+    public String findPasswordByEmail (String email){
+        for (RegisteredUser r : userList) {
+            if (Objects.equals(r.getEmail(), email)) {
+                return r.getPassword();
+            }
+        }
+        return null;
+    }
+
+    public Integer findIdByEmail (String email){
+        for (RegisteredUser r : userList) {
+            if (Objects.equals(r.getEmail(), email)) {
+                return r.getId();
             }
         }
         return null;

@@ -42,14 +42,25 @@ public class RegisteredUser extends User {
         this.orderHistory = orderHistory;
     }
 
+    /*
     public RegisteredUser(String password) {
+        super();
         idCounter ++;
         this.setId(idCounter);
         this.password = password;
         this.addresses = new ArrayList<>();
         this.orderHistory = new ArrayList<>();
         this.defaultAddressId = null;
+    }*/
+
+    public RegisteredUser(String name, String email, String phoneNumber, String password, List<Address> addresses,
+                          Integer defaultAddressId, List<Order> orderHistory) {
+        super(name, email, phoneNumber);
+        idCounter ++;
+        this.setId(idCounter);
+        this.password = password;
+        this.addresses = addresses;
+        this.defaultAddressId = defaultAddressId;
+        this.orderHistory = orderHistory;
     }
-
-
 }
