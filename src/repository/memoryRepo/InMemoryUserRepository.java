@@ -1,14 +1,10 @@
 package repository.memoryRepo;
 
-<<<<<<< HEAD:src/repository/memoryRepo/InMemoryUserRepository.java
 import model.Address;
 import model.Order;
 import model.RegisteredUser;
 import repository.UserRepository;
-=======
 import model.*;
-import model.repository.UserRepository;
->>>>>>> 2233cc6058bce07170462584dbc425526fcf336b:src/model/repository/memoryRepo/InMemoryUserRepository.java
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,17 +49,6 @@ public class InMemoryUserRepository implements UserRepository {
         userList.remove(registeredUser);
     }
 
-    @Override
-<<<<<<< HEAD:src/repository/memoryRepo/InMemoryUserRepository.java
-    public void update(Integer ID, RegisteredUser registeredUser) {
-        RegisteredUser registeredUserToDelete = this.findById(ID);
-        userList.remove(registeredUserToDelete);
-        userList.add(registeredUser);
-    }
-
-    @Override
-=======
->>>>>>> 2233cc6058bce07170462584dbc425526fcf336b:src/model/repository/memoryRepo/InMemoryUserRepository.java
     public RegisteredUser findById(Integer ID) {
         for (RegisteredUser r : userList) {
             if (Objects.equals(r.getId(), ID)) {

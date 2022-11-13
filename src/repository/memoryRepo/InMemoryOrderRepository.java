@@ -2,12 +2,8 @@ package repository.memoryRepo;
 
 import model.Address;
 import model.Order;
-<<<<<<< HEAD:src/repository/memoryRepo/InMemoryOrderRepository.java
-import repository.OrderRepository;
-=======
 import model.ProductOrder;
-import model.repository.OrderRepository;
->>>>>>> 2233cc6058bce07170462584dbc425526fcf336b:src/model/repository/memoryRepo/InMemoryOrderRepository.java
+import repository.OrderRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,8 +33,6 @@ public class InMemoryOrderRepository implements OrderRepository {
         return null;
     }
 
-<<<<<<< HEAD:src/repository/memoryRepo/InMemoryOrderRepository.java
-=======
     public void modifyProducts(Integer ID, List<ProductOrder> products){
         Order order = this.findById(ID);
         order.setProducts(products);
@@ -48,6 +42,5 @@ public class InMemoryOrderRepository implements OrderRepository {
         Order order = this.findById(ID);
         order.setDeliveryAddress(newDeliveryAddress);
     }
->>>>>>> 2233cc6058bce07170462584dbc425526fcf336b:src/model/repository/memoryRepo/InMemoryOrderRepository.java
 
 }
