@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserView implements View {
+public class UserView implements IView {
     private RegisteredUserController controller;
 
     public UserView(RegisteredUserController controller) {

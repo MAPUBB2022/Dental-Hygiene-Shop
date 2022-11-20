@@ -3,9 +3,9 @@ package repository.databaseRepo;
 import model.Product;
 import model.ProductType;
 import model.ProductUse;
-import repository.ProductRepository;
+import repository.IProductRepository;
 
-public class JdbcProductRepository implements ProductRepository {
+public class JdbcProductRepository implements IProductRepository {
     @Override
     public void add(Product product) {
 

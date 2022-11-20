@@ -4,7 +4,7 @@ import model.Product;
 import model.ProductType;
 import model.ProductUse;
 
-public interface ProductRepository extends ICrudRepository<Integer, Product> {
+public interface IProductRepository extends ICrudRepository<Integer, Product> {
     public void modifyName(Integer ID, String newName);
 
     public void modifyBasePrice(Integer ID, float newBasePrice);

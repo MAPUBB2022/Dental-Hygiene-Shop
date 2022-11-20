@@ -3,14 +3,14 @@ package repository.memoryRepo;
 import model.Address;
 import model.Order;
 import model.RegisteredUser;
-import repository.UserRepository;
+import repository.IUserRepository;
 import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class InMemoryUserRepository implements UserRepository {
+public class InMemoryUserRepository implements IUserRepository {
     private List<RegisteredUser> userList;
 
     public InMemoryUserRepository() {

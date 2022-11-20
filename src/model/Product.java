@@ -6,7 +6,6 @@ public class Product {
     private Integer id;
     private String name;
     private double basePrice;
-
     private String size;//no spaces, no commas (dots only), no capital letters
     private int stock;
 
@@ -91,5 +90,16 @@ public class Product {
         this.type = type;
         this.use = use;
         this.description = "This product has no description yet.";
+    }
+
+    @Override
+    public String toString() {
+        return "\nProduct " +
+                "id: " + id +
+                "\nname: " + name +
+                "\nbase price: " + basePrice +
+                "\nsize: " + size +
+                "\ntype: " + type +
+                "\nuse: " + use;
     }
 }
