@@ -15,6 +15,30 @@ public class RegisteredUserController implements IController<InMemoryOrderReposi
     InMemoryProductRepository productRepository;
     InMemoryUserRepository userRepository;
 
+    public InMemoryOrderRepository getOrderRepository() {
+        return orderRepository;
+    }
+
+    public void setOrderRepository(InMemoryOrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
+    public InMemoryProductRepository getProductRepository() {
+        return productRepository;
+    }
+
+    public void setProductRepository(InMemoryProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    public InMemoryUserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    public void setUserRepository(InMemoryUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public RegisteredUserController(InMemoryOrderRepository orderRepository, InMemoryProductRepository productRepository, InMemoryUserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;

@@ -9,6 +9,7 @@ public abstract class User {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.cart = new ShoppingCart();
     }
 
     @Override

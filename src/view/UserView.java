@@ -1,10 +1,7 @@
 package view;
 
 import controller.RegisteredUserController;
-import model.Address;
-import model.Order;
-import model.RegisteredUser;
-import model.User;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,14 +53,14 @@ public class UserView implements IView {
             }
             switch (mainMenuOption) {
                 case 0 -> mainMenuExit = true;
-                case 1 -> menuLogin(scanner);
+                case 1 -> logIntoAccount(scanner);
                 case 2 -> finishSignUp();
                 case 3 -> continueAsGuest();
             }
         }
     }
 
-    public void menuLogin(Scanner scanner) {
+    public void logIntoAccount(Scanner scanner) {
         RegisteredUser user;
         String email, password;
         System.out.println("Enter your email:");
@@ -75,7 +72,94 @@ public class UserView implements IView {
             System.out.println("Wrong email or password");
         } else {
             setUser(user);
+            useRegisteredUserMenu();
         }
+    }
+
+    public void showRegisteredUserMenuPrompt() {
+        System.out.println("""
+
+                REGISTERED USER MENU
+                Options:
+                0. Exit
+                1. Show all products
+                2. Filter products
+                3. Sort products
+                4. Add to cart
+                5. View cart
+                6. Place order
+                7. View orders
+                """);
+    }
+
+    private void useRegisteredUserMenu() {
+        int registeredUserMenuOption = -1;
+        boolean registeredUserMenuExit = false;
+        Scanner scanner = new Scanner(System.in);
+        while (!registeredUserMenuExit) {
+            try {
+                showRegisteredUserMenuPrompt();
+                registeredUserMenuOption = scanner.nextInt();
+                if (registeredUserMenuOption < 0 || registeredUserMenuOption > 7) {
+                    throw new IllegalArgumentException();
+                }
+            } catch (IllegalArgumentException exception) {
+                System.out.println("Invalid input");
+            }
+            switch (registeredUserMenuOption) {
+                case 0 -> {
+                    registeredUserMenuExit = true;
+                    this.user = null;
+                }
+                case 1 -> showAllProducts();
+                case 2 -> filterProducts();
+                case 3 -> sortProducts();
+                case 4 -> addProductsToCart();
+                case 5 -> viewCart();
+                case 6 -> placeOrder();
+                case 7 -> viewOrders();
+            }
+        }
+    }
+
+    public Integer readProductId() {
+        System.out.println("ID of product to add to cart: ");
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
+    }
+
+    public Integer readProductQuantity() {
+        System.out.println("Quantity to add to cart: ");
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
+    }
+    private void addProductsToCart() {
+        Integer productId = readProductId();
+        Integer quantity = readProductQuantity();
+        ProductOrder product = user.getCart().findById(productId);
+        if (product != null) {
+            product.setQuantity(product.getQuantity()+quantity);
+        }
+        else {
+            user.getCart().addProduct(new ProductOrder(productId, quantity,
+                    controller.getProductRepository().findById(productId).getBasePrice()));
+        }
+    }
+
+    private void viewCart() {
+        List<ProductOrder> productOrders = this.user.getCart().getProducts();
+        for (ProductOrder product : productOrders) {
+            System.out.println(controller.getProductRepository().findById(product.getProductId()).getName());
+            System.out.println(product);
+        }
+    }
+
+    private void placeOrder() {
+        Order newOrder = controller.createOrderWithUser((RegisteredUser) user);
+        controller.placeOrderWithUser((RegisteredUser) user, newOrder);
+    }
+
+    private void viewOrders() {
     }
 
     public void finishSignUp() {
@@ -126,7 +210,7 @@ public class UserView implements IView {
     public void showGuestMenuPrompt() {
         System.out.println("""
 
-                MAIN MENU
+                GUEST MENU
                 Options:
                 0. Exit
                 1. Show all products
@@ -150,7 +234,10 @@ public class UserView implements IView {
                 System.out.println("Invalid input");
             }
             switch (guestMenuOption) {
-                case 0 -> guestMenuExit = true;
+                case 0 -> {
+                    guestMenuExit = true;
+                    this.user = null;
+                }
                 case 1 -> showAllProducts();
                 case 2 -> filterProducts();
                 case 3 -> sortProducts();
@@ -159,6 +246,12 @@ public class UserView implements IView {
     }
 
     public void showAllProducts() {
+        for (Product p: controller.getProductRepository().getProductList()){
+            if (p.getStock() == 0){
+                System.out.println("\nout of stock");
+            }
+            System.out.println(p);
+        }
     }
 
     public void filterProducts() {
@@ -168,7 +261,7 @@ public class UserView implements IView {
     public void showFilteringMenuPrompt() {
         System.out.println("""
 
-                MAIN MENU
+                FILTERING MENU
                 Options:
                 0. Exit
                 1. Filter by name
@@ -186,7 +279,7 @@ public class UserView implements IView {
             try {
                 showFilteringMenuPrompt();
                 filteringMenuOption = scanner.nextInt();
-                if (filteringMenuOption < 0 || filteringMenuOption > 3) {
+                if (filteringMenuOption < 0 || filteringMenuOption > 4) {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException exception) {
@@ -224,7 +317,7 @@ public class UserView implements IView {
     public void showSortingMenuPrompt() {
         System.out.println("""
 
-                MAIN MENU
+                SORTING MENU
                 Options:
                 0. Exit
                 1. Sort by price (ascending)
@@ -242,7 +335,7 @@ public class UserView implements IView {
             try {
                 showSortingMenuPrompt();
                 sortingMenuOption = scanner.nextInt();
-                if (sortingMenuOption < 0 || sortingMenuOption > 3) {
+                if (sortingMenuOption < 0 || sortingMenuOption > 4) {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException exception) {

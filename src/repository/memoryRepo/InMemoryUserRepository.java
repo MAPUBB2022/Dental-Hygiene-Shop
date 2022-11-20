@@ -19,12 +19,13 @@ public class InMemoryUserRepository implements IUserRepository {
 
     public void populateUsers(){
         this.userList = new ArrayList<>();
+        Address address = new Address("USA", "NY","NY","5h Ave", "12","12345");
+        address.setId(1);
+        List<Address> addrList = new ArrayList<>();
+        addrList.add(address);
         RegisteredUser user1 = new RegisteredUser("Ana", "ana@yahoo.com", "01234",
-                "psswd", new ArrayList<Address>(), null, new ArrayList<Order>());
+                "psswd", addrList, 1, new ArrayList<Order>());
         this.userList.add(user1);
-        RegisteredUser user2 = new RegisteredUser("Oana", "oana@yahoo.com", "01234",
-                "psswd", new ArrayList<Address>(), null, new ArrayList<Order>());
-        this.userList.add(user2);
     }
     public InMemoryUserRepository(List<RegisteredUser> userList) {
         this.userList = userList;

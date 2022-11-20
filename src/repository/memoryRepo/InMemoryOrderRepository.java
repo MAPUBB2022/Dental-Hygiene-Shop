@@ -5,11 +5,16 @@ import model.Order;
 import model.ProductOrder;
 import repository.IOrderRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class InMemoryOrderRepository implements IOrderRepository {
     private List<Order> orderList;
+
+    public InMemoryOrderRepository() {
+        this.orderList = new ArrayList<>();
+    }
 
     @Override
     public void add(Order order) {

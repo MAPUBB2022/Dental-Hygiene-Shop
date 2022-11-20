@@ -25,9 +25,8 @@ public class Main {
         UserView userView = new UserView(controller);
         userView.useMainMenu();
 
-        //userView.showMenu();
-        //String x = .get(0).toString();
-        System.out.println(inMemoryProductRepository.getProductList());
+//        userView.showMenu();
+
     }
 
 }
