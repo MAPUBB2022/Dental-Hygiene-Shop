@@ -11,6 +11,13 @@ public class ProductOrder {
         this.price = price;
     }
 
+    @Override
+    public String toString() {
+        return "product id: " + productId +
+                "\nquantity: " + quantity +
+                "\nprice: " + price;
+    }
+
     public Integer getProductId() {
         return productId;
     }

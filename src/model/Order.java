@@ -98,6 +98,16 @@ public class Order {
                 "\ndate, time: " + dateTime.toString() +
                 "\ntotal price: " + price +
                 "\ndelivery address: " + deliveryAddress +
-                "\nproducts: ";
+                "\nproducts: "+
+                productsToString();
+    }
+
+    public String productsToString(){
+        StringBuilder pList = new StringBuilder("");
+        for (ProductOrder p: products){
+            pList.append("\n");
+            pList.append(p);
+        }
+        return new String(pList);
     }
 }
