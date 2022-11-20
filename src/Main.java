@@ -24,7 +24,7 @@ public class Main {
         InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
         RegisteredUserController controller = new RegisteredUserController(inMemoryOrderRepository, inMemoryProductRepository, inMemoryUserRepository);
         UserView userView = new UserView(controller);
-        userView.showMenu();
+        userView.useMainMenu();
     }
 
 }
