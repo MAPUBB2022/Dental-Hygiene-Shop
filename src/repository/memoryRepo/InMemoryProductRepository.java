@@ -3,7 +3,7 @@ package repository.memoryRepo;
 import model.Product;
 import model.ProductType;
 import model.ProductUse;
-import repository.ProductRepository;
+import repository.IProductRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.Objects;
 import static model.ProductType.*;
 import static model.ProductUse.*;
 
-public class InMemoryProductRepository implements ProductRepository {
+public class InMemoryProductRepository implements IProductRepository {
 
     private List<Product> productList;
 
@@ -28,8 +28,8 @@ public class InMemoryProductRepository implements ProductRepository {
     public void populateProducts() {
         Product p1 = new Product("Colgate Max White", "150ml", TOOTHPASTE, 3.5, HOME, 500);
         Product p2 = new Product("Colgate Max White 3D", "200ml", MOUTHWASH, 13.5, HOME, 150);
-        Product p3 = new Product("Oral B Silky", "50m", DENTAL_FLOSS, 13.5, HOME, 150);
-        Product p4 = new Product("Oral B Pro 2", "2pcs", TOOTHBRUSH, 13.5, HOME, 200);
+        Product p3 = new Product("Oral-B Silky", "50m", DENTAL_FLOSS, 13.5, HOME, 150);
+        Product p4 = new Product("Oral-B Pro 2", "2pcs", TOOTHBRUSH, 13.5, HOME, 200);
         Product p5 = new Product("Sensodyne Repair & Protect", "100ml", TOOTHPASTE, 4, HOME, 300);
         Product p6 = new Product("Listerine Cool", "100ml", MOUTHWASH, 8, HOME, 43);
         productList.add(p1);

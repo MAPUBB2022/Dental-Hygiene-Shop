@@ -26,6 +26,20 @@ public class RegisteredUser extends User {
         this.addresses = addresses;
     }
 
+    public void addAddress(Address address) {
+        this.addresses.add(address);
+    }
+
+    public Address findAddressById(Integer addressId) {
+        for (Address a : this.addresses) {
+            if
+            (a.getId() == addressId) {
+                return a;
+            }
+        }
+        return null;
+    }
+
     public int getDefaultAddressId() {
         return defaultAddressId;
     }
@@ -56,7 +70,7 @@ public class RegisteredUser extends User {
     public RegisteredUser(String name, String email, String phoneNumber, String password, List<Address> addresses,
                           Integer defaultAddressId, List<Order> orderHistory) {
         super(name, email, phoneNumber);
-        idCounter ++;
+        idCounter++;
         this.setId(idCounter);
         this.password = password;
         this.addresses = addresses;

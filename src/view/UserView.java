@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class UserView implements View {
     private final RegisteredUserController controller;
 
@@ -22,6 +23,9 @@ public class UserView implements View {
     public User getUser() {
         return user;
     }
+    
+public class UserView implements IView {
+    private RegisteredUserController controller;
 
     public UserView(RegisteredUserController controller) {
         this.controller = controller;

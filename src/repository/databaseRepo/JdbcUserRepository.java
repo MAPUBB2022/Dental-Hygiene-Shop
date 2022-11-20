@@ -4,12 +4,12 @@ import model.Address;
 import model.Order;
 import model.RegisteredUser;
 import model.ShoppingCart;
-import repository.UserRepository;
+import repository.IUserRepository;
 
 
 import java.util.List;
 
-public class JdbcUserRepository implements UserRepository {
+public class JdbcUserRepository implements IUserRepository {
     @Override
     public void add(RegisteredUser registeredUser) {
 

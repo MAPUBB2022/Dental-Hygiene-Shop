@@ -18,13 +18,16 @@ public class Main {
 //
 //        x = controller.login("oana@yahoo.com", "psswd");
 //        System.out.println(x);
-        List<Product> productList = new ArrayList<Product>();
         InMemoryOrderRepository inMemoryOrderRepository = new InMemoryOrderRepository();
-        InMemoryProductRepository inMemoryProductRepository = new InMemoryProductRepository(productList);
+        InMemoryProductRepository inMemoryProductRepository = new InMemoryProductRepository();
         InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
         RegisteredUserController controller = new RegisteredUserController(inMemoryOrderRepository, inMemoryProductRepository, inMemoryUserRepository);
         UserView userView = new UserView(controller);
         userView.useMainMenu();
+        //userView.showMenu();
+        //String x = .get(0).toString();
+        System.out.println(inMemoryProductRepository.getProductList());
+
     }
 
 }

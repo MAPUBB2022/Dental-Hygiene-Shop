@@ -3,11 +3,11 @@ package repository.databaseRepo;
 import model.Address;
 import model.Order;
 import model.ProductOrder;
-import repository.OrderRepository;
+import repository.IOrderRepository;
 
 import java.util.List;
 
-public class JdbcOrderRepository implements OrderRepository {
+public class JdbcOrderRepository implements IOrderRepository {
     @Override
     public void add(Order order) {
 

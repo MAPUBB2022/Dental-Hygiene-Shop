@@ -3,12 +3,12 @@ package repository.memoryRepo;
 import model.Address;
 import model.Order;
 import model.ProductOrder;
-import repository.OrderRepository;
+import repository.IOrderRepository;
 
 import java.util.List;
 import java.util.Objects;
 
-public class InMemoryOrderRepository implements OrderRepository {
+public class InMemoryOrderRepository implements IOrderRepository {
     private List<Order> orderList;
 
     @Override

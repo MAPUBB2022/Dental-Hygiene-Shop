@@ -7,7 +7,7 @@ import model.ShoppingCart;
 
 import java.util.List;
 
-public interface UserRepository extends ICrudRepository<Integer, RegisteredUser>{
+public interface IUserRepository extends ICrudRepository<Integer, RegisteredUser>{
 
     public void modifyShoppingCart(Integer ID, ShoppingCart newShoppingCart);
     public void modifyName(Integer ID, String newName);

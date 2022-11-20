@@ -89,4 +89,15 @@ public class Order {
         }
         return s;
     }
+
+
+    @Override
+    public String toString() {
+        return "\nOrder " +
+                "id: " + id +
+                "\ndate, time: " + dateTime.toString() +
+                "\ntotal price: " + price +
+                "\ndelivery address: " + deliveryAddress +
+                "\nproducts: ";
+    }
 }
