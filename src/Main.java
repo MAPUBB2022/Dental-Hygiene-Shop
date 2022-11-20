@@ -22,7 +22,6 @@ public class Main {
         InMemoryProductRepository inMemoryProductRepository = new InMemoryProductRepository();
         InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
         RegisteredUserController controller = new RegisteredUserController(inMemoryOrderRepository, inMemoryProductRepository, inMemoryUserRepository);
-        UserView userView = new UserView(controller);
         //userView.showMenu();
         //String x = .get(0).toString();
         System.out.println(inMemoryProductRepository.getProductList());
