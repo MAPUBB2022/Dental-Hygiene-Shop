@@ -65,6 +65,7 @@ public class RegisteredUserController implements IController<InMemoryOrderReposi
     public void placeOrderWithUser(@NotNull RegisteredUser user, Order order) {
         orderRepository.add(order);
         user.getOrderHistory().add(order);
+        user.getCart().getProducts().clear();
     }
 
     public RegisteredUser login(String email, String password) {

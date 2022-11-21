@@ -21,6 +21,12 @@ public class Address {
         this.postalCode = postalCode;
     }
 
+    @Override
+    public String toString() {
+        return "\n"  + city + ", " + street + ", no. " + number + " (" + postalCode + ')'
+                + "\n" + region + ", " + country;
+    }
+
     public int getId() {
         return id;
     }
