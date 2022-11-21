@@ -129,37 +129,78 @@ public class UserView implements IView {
     }
 
     public Integer readProductQuantity() {
-        System.out.println("Quantity to add to cart: ");
+        System.out.println("Quantity to add to cart (adding negative quantity will remove pieces): ");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextInt();
     }
+
     private void addProductsToCart() {
+        //should be rewritten so that operations are handled by controller
+        //check if product exists in productRepo
         Integer productId = readProductId();
-        Integer quantity = readProductQuantity();
+        Integer qtyToAdd = readProductQuantity();
         ProductOrder product = user.getCart().findById(productId);
         if (product != null) {
-            product.setQuantity(product.getQuantity()+quantity);
-        }
-        else {
-            user.getCart().addProduct(new ProductOrder(productId, quantity,
-                    controller.getProductRepository().findById(productId).getBasePrice()));
+            int qtyInCart = product.getQuantity();
+            if (qtyInCart + qtyToAdd <= 0) {
+                user.getCart().getProducts().remove(product);
+            } else {
+                product.setQuantity(qtyInCart + qtyToAdd);
+            }
+        } else {
+            if (qtyToAdd >= 0) {
+                user.getCart().addProduct(new ProductOrder(productId, qtyToAdd,
+                        controller.getProductRepository().findById(productId).getBasePrice()));
+            }
+            else {
+                System.out.println("nothing was added to cart");
+            }
         }
     }
 
     private void viewCart() {
         List<ProductOrder> productOrders = this.user.getCart().getProducts();
-        for (ProductOrder product : productOrders) {
-            System.out.println(controller.getProductRepository().findById(product.getProductId()).getName());
-            System.out.println(product);
+        if (productOrders.isEmpty()) {
+            System.out.println("Cart is empty");
+        } else {
+            for (ProductOrder product : productOrders) {
+                System.out.println(controller.getProductRepository().findById(product.getProductId()).getName());
+                System.out.println(product);
+            }
+            emptyCart();
         }
+    }
+
+    public String readOptionEmptyCart() {
+        //returns lowercase letter(s)
+        System.out.println("Empty cart? Y/N");
+        Scanner s = new Scanner(System.in);
+        return s.nextLine().toLowerCase();
+    }
+
+    public void emptyCart() {
+        String option = readOptionEmptyCart();
+        if ((!option.equals("y")) && (!option.equals("n"))) {
+            System.out.println("\ninvalid option");
+        } else {
+            if (option.equals("y")) {
+                user.getCart().getProducts().clear();
+                System.out.println("\nCart emptied");
+            } else {
+                System.out.println("\nCart not emptied");
+            }
+        }
+
     }
 
     private void placeOrder() {
         Order newOrder = controller.createOrderWithUser((RegisteredUser) user);
         controller.placeOrderWithUser((RegisteredUser) user, newOrder);
+        System.out.println("\nOrder placed. Cart emptied");
     }
 
     private void viewOrders() {
+        System.out.println(((RegisteredUser) user).getOrderHistory());
     }
 
     public void finishSignUp() {
@@ -246,8 +287,8 @@ public class UserView implements IView {
     }
 
     public void showAllProducts() {
-        for (Product p: controller.getProductRepository().getProductList()){
-            if (p.getStock() == 0){
+        for (Product p : controller.getProductRepository().getProductList()) {
+            if (p.getStock() == 0) {
                 System.out.println("\nout of stock");
             }
             System.out.println(p);
@@ -255,7 +296,8 @@ public class UserView implements IView {
     }
 
     public void filterProducts() {
-        useFilteringMenu();
+        System.out.println("Coming soon");
+        //useFilteringMenu();
     }
 
     public void showFilteringMenuPrompt() {
@@ -311,7 +353,8 @@ public class UserView implements IView {
     }
 
     public void sortProducts() {
-        useSortingMenu();
+        System.out.println("Coming soon");
+        //        useSortingMenu();
     }
 
     public void showSortingMenuPrompt() {
