@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class SQLDatabaseConnection {
@@ -14,7 +15,12 @@ public class SQLDatabaseConnection {
                         + "trustServerCertificate=true;";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
-            // Code here.
+            try (PreparedStatement statement = connection.prepareStatement("insert into TEST(Name) values (?)")) {
+                statement.setString(1, "ion");
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         // Handle any errors that may have occurred.
         catch (SQLException e) {
