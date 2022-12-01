@@ -17,9 +17,9 @@ public class InMemoryUserRepository implements IUserRepository {
         this.populateUsers();
     }
 
-    public void populateUsers(){
+    public void populateUsers() {
         this.userList = new ArrayList<>();
-        Address address = new Address("USA", "NY","NY","5h Ave", "12","12345");
+        Address address = new Address("USA", "NY", "NY", "5h Ave", "12", "12345");
         address.setId(1);
         List<Address> addrList = new ArrayList<>();
         addrList.add(address);
@@ -27,6 +27,7 @@ public class InMemoryUserRepository implements IUserRepository {
                 "psswd", addrList, 1, new ArrayList<Order>());
         this.userList.add(user1);
     }
+
     public InMemoryUserRepository(List<RegisteredUser> userList) {
         this.userList = userList;
     }
@@ -59,7 +60,7 @@ public class InMemoryUserRepository implements IUserRepository {
         return null;
     }
 
-    public String findPasswordByEmail (String email){
+    public String findPasswordByEmail(String email) {
         for (RegisteredUser r : userList) {
             if (Objects.equals(r.getEmail(), email)) {
                 return r.getPassword();
@@ -68,7 +69,7 @@ public class InMemoryUserRepository implements IUserRepository {
         return null;
     }
 
-    public RegisteredUser findByEmail (String email){
+    public RegisteredUser findByEmail(String email) {
         for (RegisteredUser r : userList) {
             if (Objects.equals(r.getEmail(), email)) {
                 return r;
@@ -78,7 +79,7 @@ public class InMemoryUserRepository implements IUserRepository {
     }
 
     @Override
-    public void modifyShoppingCart(Integer ID, ShoppingCart newShoppingCart){
+    public void modifyShoppingCart(Integer ID, ShoppingCart newShoppingCart) {
         RegisteredUser registeredUser = this.findById(ID);
         registeredUser.setCart(newShoppingCart);
     }

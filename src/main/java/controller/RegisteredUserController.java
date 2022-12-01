@@ -1,45 +1,45 @@
 package controller;
 
 import model.*;
-import repository.memoryRepo.InMemoryOrderRepository;
-import repository.memoryRepo.InMemoryProductRepository;
-import repository.memoryRepo.InMemoryUserRepository;
+import repository.IOrderRepository;
+import repository.IProductRepository;
+import repository.IUserRepository;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-public class RegisteredUserController implements IController<InMemoryOrderRepository, InMemoryProductRepository, InMemoryUserRepository> {
-    InMemoryOrderRepository orderRepository;
-    InMemoryProductRepository productRepository;
-    InMemoryUserRepository userRepository;
+public class RegisteredUserController implements IController<IOrderRepository, IProductRepository, IUserRepository> {
+    IOrderRepository orderRepository;
+    IProductRepository productRepository;
+    IUserRepository userRepository;
 
-    public InMemoryOrderRepository getOrderRepository() {
+    public IOrderRepository getOrderRepository() {
         return orderRepository;
     }
 
-    public void setOrderRepository(InMemoryOrderRepository orderRepository) {
+    public void setOrderRepository(IOrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 
-    public InMemoryProductRepository getProductRepository() {
+    public IProductRepository getProductRepository() {
         return productRepository;
     }
 
-    public void setProductRepository(InMemoryProductRepository productRepository) {
+    public void setProductRepository(IProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-    public InMemoryUserRepository getUserRepository() {
+    public IUserRepository getUserRepository() {
         return userRepository;
     }
 
-    public void setUserRepository(InMemoryUserRepository userRepository) {
+    public void setUserRepository(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public RegisteredUserController(InMemoryOrderRepository orderRepository, InMemoryProductRepository productRepository, InMemoryUserRepository userRepository) {
+    public RegisteredUserController(IOrderRepository orderRepository, IProductRepository productRepository, IUserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;

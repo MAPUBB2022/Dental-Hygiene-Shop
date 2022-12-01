@@ -11,6 +11,16 @@ import java.util.List;
 
 public class JdbcUserRepository implements IUserRepository {
     @Override
+    public List<RegisteredUser> getUserList() {
+        return null;
+    }
+
+    @Override
+    public void setUserList(List<RegisteredUser> userList) {
+
+    }
+
+    @Override
     public void add(RegisteredUser registeredUser) {
 
     }
@@ -22,6 +32,16 @@ public class JdbcUserRepository implements IUserRepository {
 
     @Override
     public RegisteredUser findById(Integer ID) {
+        return null;
+    }
+
+    @Override
+    public String findPasswordByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public RegisteredUser findByEmail(String email) {
         return null;
     }
 

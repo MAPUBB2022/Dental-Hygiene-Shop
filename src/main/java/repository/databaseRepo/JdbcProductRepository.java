@@ -5,7 +5,19 @@ import model.ProductType;
 import model.ProductUse;
 import repository.IProductRepository;
 
+import java.util.List;
+
 public class JdbcProductRepository implements IProductRepository {
+    @Override
+    public List<Product> getProductList() {
+        return null;
+    }
+
+    @Override
+    public void setProductList(List<Product> productList) {
+
+    }
+
     @Override
     public void add(Product product) {
 

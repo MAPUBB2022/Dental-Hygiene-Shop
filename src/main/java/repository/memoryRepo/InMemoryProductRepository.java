@@ -12,7 +12,7 @@ import java.util.Objects;
 import static model.ProductType.*;
 import static model.ProductUse.*;
 
-public class InMemoryProductRepository implements IProductRepository {
+public class    InMemoryProductRepository implements IProductRepository {
 
     private List<Product> productList;
 
