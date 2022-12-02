@@ -1,6 +1,6 @@
 package view;
 
-import controller.RegisteredUserController;
+import controller.Controller;
 import model.*;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 
 public class UserView implements IView {
-    private final RegisteredUserController controller;
+    private final Controller controller;
 
     private User user;
 
@@ -21,7 +21,7 @@ public class UserView implements IView {
         return user;
     }
 
-    public UserView(RegisteredUserController controller) {
+    public UserView(Controller controller) {
         this.controller = controller;
     }
 
@@ -61,7 +61,7 @@ public class UserView implements IView {
     }
 
     public void logIntoAccount(Scanner scanner) {
-        RegisteredUser user;
+        User user;
         String email, password;
         System.out.println("Enter your email:");
         email = scanner.next();
@@ -72,11 +72,11 @@ public class UserView implements IView {
             System.out.println("Wrong email or password");
         } else {
             setUser(user);
-            useRegisteredUserMenu();
+            useUserMenu();
         }
     }
 
-    public void showRegisteredUserMenuPrompt() {
+    public void showUserMenuPrompt() {
         System.out.println("""
 
                 REGISTERED USER MENU
@@ -92,23 +92,23 @@ public class UserView implements IView {
                 """);
     }
 
-    private void useRegisteredUserMenu() {
-        int registeredUserMenuOption = -1;
-        boolean registeredUserMenuExit = false;
+    private void useUserMenu() {
+        int userMenuOption = -1;
+        boolean userMenuExit = false;
         Scanner scanner = new Scanner(System.in);
-        while (!registeredUserMenuExit) {
+        while (!userMenuExit) {
             try {
-                showRegisteredUserMenuPrompt();
-                registeredUserMenuOption = scanner.nextInt();
-                if (registeredUserMenuOption < 0 || registeredUserMenuOption > 7) {
+                showUserMenuPrompt();
+                userMenuOption = scanner.nextInt();
+                if (userMenuOption < 0 || userMenuOption > 7) {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException exception) {
                 System.out.println("Invalid input");
             }
-            switch (registeredUserMenuOption) {
+            switch (userMenuOption) {
                 case 0 -> {
-                    registeredUserMenuExit = true;
+                    userMenuExit = true;
                     this.user = null;
                 }
                 case 1 -> showAllProducts();
@@ -194,23 +194,23 @@ public class UserView implements IView {
     }
 
     private void placeOrder() {
-        Order newOrder = controller.createOrderWithUser((RegisteredUser) user);
-        controller.placeOrderWithUser((RegisteredUser) user, newOrder);
+        Order newOrder = controller.createOrderWithUser((User) user);
+        controller.placeOrderWithUser((User) user, newOrder);
         System.out.println("\nOrder placed. Cart emptied");
     }
 
     private void viewOrders() {
-        System.out.println(((RegisteredUser) user).getOrderHistory());
+        System.out.println(((User) user).getOrderHistory());
     }
 
     public void finishSignUp() {
         //prints a successful sign up message and sends new user data to controller
-        RegisteredUser user = readNewUser();
+        User user = readNewUser();
         controller.createAccount(user);
         System.out.println("Successfully created an account");
     }
 
-    public RegisteredUser readNewUser() {
+    public User readNewUser() {
         Scanner scanner = new Scanner(System.in);
 
         String name, email, phoneNumber, password, country, region, city, street, number, postalCode;
@@ -241,7 +241,7 @@ public class UserView implements IView {
         Integer defaultAddressId = address.getId();
         List<Order> orderHistory = new ArrayList<>();
 
-        return new RegisteredUser(name, email, phoneNumber, password, addresses, defaultAddressId, orderHistory);
+        return new User(name, email, phoneNumber, password, addresses, defaultAddressId, orderHistory);
     }
 
     public void continueAsGuest() {

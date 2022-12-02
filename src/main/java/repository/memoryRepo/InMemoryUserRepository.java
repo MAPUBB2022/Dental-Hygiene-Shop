@@ -2,7 +2,7 @@ package repository.memoryRepo;
 
 import model.Address;
 import model.Order;
-import model.RegisteredUser;
+import model.User;
 import repository.IUserRepository;
 import model.*;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class InMemoryUserRepository implements IUserRepository {
-    private List<RegisteredUser> userList;
+    private List<User> userList;
 
     public InMemoryUserRepository() {
         this.populateUsers();
@@ -23,36 +23,36 @@ public class InMemoryUserRepository implements IUserRepository {
         address.setId(1);
         List<Address> addrList = new ArrayList<>();
         addrList.add(address);
-        RegisteredUser user1 = new RegisteredUser("Ana", "ana@yahoo.com", "01234",
+        User user1 = new User("Ana", "ana@yahoo.com", "01234",
                 "psswd", addrList, 1, new ArrayList<Order>());
         this.userList.add(user1);
     }
 
-    public InMemoryUserRepository(List<RegisteredUser> userList) {
+    public InMemoryUserRepository(List<User> userList) {
         this.userList = userList;
     }
 
-    public List<RegisteredUser> getUserList() {
+    public List<User> getUserList() {
         return userList;
     }
 
-    public void setUserList(List<RegisteredUser> userList) {
+    public void setUserList(List<User> userList) {
         this.userList = userList;
     }
 
     @Override
-    public void add(RegisteredUser registeredUser) {
-        userList.add(registeredUser);
+    public void add(User user) {
+        userList.add(user);
     }
 
     @Override
     public void delete(Integer ID) {
-        RegisteredUser registeredUser = this.findById(ID);
-        userList.remove(registeredUser);
+        User user = this.findById(ID);
+        userList.remove(user);
     }
 
-    public RegisteredUser findById(Integer ID) {
-        for (RegisteredUser r : userList) {
+    public User findById(Integer ID) {
+        for (User r : userList) {
             if (Objects.equals(r.getId(), ID)) {
                 return r;
             }
@@ -61,7 +61,7 @@ public class InMemoryUserRepository implements IUserRepository {
     }
 
     public String findPasswordByEmail(String email) {
-        for (RegisteredUser r : userList) {
+        for (User r : userList) {
             if (Objects.equals(r.getEmail(), email)) {
                 return r.getPassword();
             }
@@ -69,8 +69,8 @@ public class InMemoryUserRepository implements IUserRepository {
         return null;
     }
 
-    public RegisteredUser findByEmail(String email) {
-        for (RegisteredUser r : userList) {
+    public User findByEmail(String email) {
+        for (User r : userList) {
             if (Objects.equals(r.getEmail(), email)) {
                 return r;
             }
@@ -80,49 +80,49 @@ public class InMemoryUserRepository implements IUserRepository {
 
     @Override
     public void modifyShoppingCart(Integer ID, ShoppingCart newShoppingCart) {
-        RegisteredUser registeredUser = this.findById(ID);
-        registeredUser.setCart(newShoppingCart);
+        User user = this.findById(ID);
+        user.setCart(newShoppingCart);
     }
 
     @Override
     public void modifyName(Integer ID, String newName) {
-        RegisteredUser registeredUser = this.findById(ID);
-        registeredUser.setName(newName);
+        User user = this.findById(ID);
+        user.setName(newName);
     }
 
     @Override
     public void modifyEmail(Integer ID, String newEmail) {
-        RegisteredUser registeredUser = this.findById(ID);
-        registeredUser.setEmail(newEmail);
+        User user = this.findById(ID);
+        user.setEmail(newEmail);
     }
 
     @Override
     public void modifyPhoneNumber(Integer ID, String newPhoneNumber) {
-        RegisteredUser registeredUser = this.findById(ID);
-        registeredUser.setPhoneNumber(newPhoneNumber);
+        User user = this.findById(ID);
+        user.setPhoneNumber(newPhoneNumber);
     }
 
     @Override
     public void modifyPassword(Integer ID, String newPassword) {
-        RegisteredUser registeredUser = this.findById(ID);
-        registeredUser.setPassword(newPassword);
+        User user = this.findById(ID);
+        user.setPassword(newPassword);
     }
 
     @Override
     public void modifyAddresses(Integer ID, List<Address> newAddresses) {
-        RegisteredUser registeredUser = this.findById(ID);
-        registeredUser.setAddresses(newAddresses);
+        User user = this.findById(ID);
+        user.setAddresses(newAddresses);
     }
 
     @Override
     public void modifyDefaultAddressId(Integer ID, int newDefaultAddressId) {
-        RegisteredUser registeredUser = this.findById(ID);
-        registeredUser.setDefaultAddressId(newDefaultAddressId);
+        User user = this.findById(ID);
+        user.setDefaultAddressId(newDefaultAddressId);
     }
 
     @Override
     public void modifyOrderHistory(Integer ID, List<Order> newOrderHistory) {
-        RegisteredUser registeredUser = this.findById(ID);
-        registeredUser.setOrderHistory(newOrderHistory);
+        User user = this.findById(ID);
+        user.setOrderHistory(newOrderHistory);
     }
 }

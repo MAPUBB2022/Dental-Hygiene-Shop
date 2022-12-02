@@ -2,7 +2,7 @@ package repository.databaseRepo;
 
 import model.Address;
 import model.Order;
-import model.RegisteredUser;
+import model.User;
 import model.ShoppingCart;
 import repository.IUserRepository;
 
@@ -11,17 +11,17 @@ import java.util.List;
 
 public class JdbcUserRepository implements IUserRepository {
     @Override
-    public List<RegisteredUser> getUserList() {
+    public List<User> getUserList() {
         return null;
     }
 
     @Override
-    public void setUserList(List<RegisteredUser> userList) {
+    public void setUserList(List<User> userList) {
 
     }
 
     @Override
-    public void add(RegisteredUser registeredUser) {
+    public void add(User user) {
 
     }
 
@@ -31,7 +31,7 @@ public class JdbcUserRepository implements IUserRepository {
     }
 
     @Override
-    public RegisteredUser findById(Integer ID) {
+    public User findById(Integer ID) {
         return null;
     }
 
@@ -41,7 +41,7 @@ public class JdbcUserRepository implements IUserRepository {
     }
 
     @Override
-    public RegisteredUser findByEmail(String email) {
+    public User findByEmail(String email) {
         return null;
     }
 
