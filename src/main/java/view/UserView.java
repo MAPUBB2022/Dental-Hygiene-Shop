@@ -79,7 +79,7 @@ public class UserView implements IView {
     public void showUserMenuPrompt() {
         System.out.println("""
 
-                REGISTERED USER MENU
+                USER MENU
                 Options:
                 0. Exit
                 1. Show all products
