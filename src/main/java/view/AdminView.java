@@ -1,5 +1,5 @@
 package view;
-import controller.RegisteredUserController;
+import controller.Controller;
 public class AdminView implements IView {
-    private RegisteredUserController controller;
+    private Controller controller;
 }

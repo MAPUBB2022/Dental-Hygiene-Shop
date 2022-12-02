@@ -2,26 +2,26 @@ package repository;
 
 import model.Address;
 import model.Order;
-import model.RegisteredUser;
+import model.User;
 import model.ShoppingCart;
 
 import java.util.List;
 
-public interface IUserRepository extends ICrudRepository<Integer, RegisteredUser> {
+public interface IUserRepository extends ICrudRepository<Integer, User> {
 
-    public List<RegisteredUser> getUserList();
+    public List<User> getUserList();
 
-    public void setUserList(List<RegisteredUser> userList);
+    public void setUserList(List<User> userList);
 
-    public void add(RegisteredUser registeredUser);
+    public void add(User user);
 
     public void delete(Integer ID);
 
-    public RegisteredUser findById(Integer ID);
+    public User findById(Integer ID);
 
     public String findPasswordByEmail(String email);
 
-    public RegisteredUser findByEmail(String email);
+    public User findByEmail(String email);
 
     public void modifyShoppingCart(Integer ID, ShoppingCart newShoppingCart);
 

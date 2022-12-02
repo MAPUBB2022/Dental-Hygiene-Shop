@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-public class RegisteredUserController implements IController<IOrderRepository, IProductRepository, IUserRepository> {
+public class Controller {
     IOrderRepository orderRepository;
     IProductRepository productRepository;
     IUserRepository userRepository;
@@ -39,7 +39,7 @@ public class RegisteredUserController implements IController<IOrderRepository, I
         this.userRepository = userRepository;
     }
 
-    public RegisteredUserController(IOrderRepository orderRepository, IProductRepository productRepository, IUserRepository userRepository) {
+    public Controller(IOrderRepository orderRepository, IProductRepository productRepository, IUserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
@@ -52,7 +52,7 @@ public class RegisteredUserController implements IController<IOrderRepository, I
                 products);
     }*/
 
-    public Order createOrderWithUser(@NotNull RegisteredUser user) {
+    public Order createOrderWithUser(@NotNull User user) {
         List<ProductOrder> products = List.copyOf(user.getCart().getProducts());
         return new Order(LocalDateTime.now(), user.getId(), user.findAddressById(user.getDefaultAddressId()), products);
     }
@@ -62,28 +62,28 @@ public class RegisteredUserController implements IController<IOrderRepository, I
         userRepository.findById(userId).getOrderHistory().add(order);
     }
 
-    public void placeOrderWithUser(@NotNull RegisteredUser user, Order order) {
+    public void placeOrderWithUser(@NotNull User user, Order order) {
         orderRepository.add(order);
         user.getOrderHistory().add(order);
         user.getCart().getProducts().clear();
     }
 
-    public RegisteredUser login(String email, String password) {
-        RegisteredUser registeredUser = userRepository.findByEmail(email);
-        if (registeredUser != null) {
-            if (password.equals(registeredUser.getPassword())) {
-                return registeredUser;
+    public User login(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            if (password.equals(user.getPassword())) {
+                return user;
             }
         }
         return null;
     }
 
-    public void addToCart(@NotNull RegisteredUser user, Integer productId, Integer quantity) {
+    public void addToCart(@NotNull User user, Integer productId, Integer quantity) {
         ProductOrder product = new ProductOrder(productId, quantity, productRepository.findById(productId).getBasePrice());
         user.getCart().addProduct(product);
     }
 
-    public void createAccount(RegisteredUser user) {
+    public void createAccount(User user) {
         userRepository.add(user);
     }
 
