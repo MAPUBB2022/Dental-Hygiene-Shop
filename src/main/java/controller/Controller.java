@@ -112,10 +112,14 @@ public class Controller {
     }
 
     public List<Product> filterByHasInName(String text){
-        List<Product> filtered = new java.util.ArrayList<>(List.copyOf(productRepository.getProductList())).
+        return new java.util.ArrayList<>(List.copyOf(productRepository.getProductList())).
                 stream().filter((Product a) -> a.getName().toLowerCase().contains(text.toLowerCase())).toList();
-        return filtered;
     }
 
+//    public List<Product> filterByType(String text){
+//        List<Product> filtered = new java.util.ArrayList<>(List.copyOf(productRepository.getProductList())).
+//                stream().filter((Product a) -> a.getType().to).toList();
+//        return filtered;
+//    }
 
 }

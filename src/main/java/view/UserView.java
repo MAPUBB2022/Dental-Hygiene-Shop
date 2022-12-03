@@ -336,7 +336,18 @@ public class UserView implements IView {
         }
     }
 
+    String readName (){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter (part of) product name:");
+        return scanner.nextLine();
+       //System.out.println(name);
+    }
+
     private void filterProductsByName() {
+
+        String name = readName();
+        List<Product> filtered = controller.filterByHasInName(name);
+        System.out.println(filtered);
 
     }
 
