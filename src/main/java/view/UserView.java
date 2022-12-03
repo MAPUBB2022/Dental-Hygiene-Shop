@@ -45,7 +45,7 @@ public class UserView implements IView {
         while (!mainMenuExit) {
             try {
                 showMainMenuPrompt();
-                mainMenuOption = scanner.nextInt();
+                mainMenuOption = Integer.parseInt(scanner.next());
                 if (mainMenuOption < 0 || mainMenuOption > 3) {
                     throw new IllegalArgumentException();
                 }
@@ -100,7 +100,7 @@ public class UserView implements IView {
         while (!userMenuExit) {
             try {
                 showUserMenuPrompt();
-                userMenuOption = scanner.nextInt();
+                userMenuOption = Integer.parseInt(scanner.next());
                 if (userMenuOption < 0 || userMenuOption > 7) {
                     throw new IllegalArgumentException();
                 }
@@ -267,7 +267,7 @@ public class UserView implements IView {
         while (!guestMenuExit) {
             try {
                 showGuestMenuPrompt();
-                guestMenuOption = scanner.nextInt();
+                guestMenuOption = Integer.parseInt(scanner.next());
                 if (guestMenuOption < 0 || guestMenuOption > 3) {
                     throw new IllegalArgumentException();
                 }
@@ -319,7 +319,7 @@ public class UserView implements IView {
         while (!filteringMenuExit) {
             try {
                 showFilteringMenuPrompt();
-                filteringMenuOption = scanner.nextInt();
+                filteringMenuOption = Integer.parseInt(scanner.next());
                 if (filteringMenuOption < 0 || filteringMenuOption > 4) {
                     throw new IllegalArgumentException();
                 }
@@ -434,12 +434,13 @@ public class UserView implements IView {
         while (!sortingMenuExit) {
             try {
                 showSortingMenuPrompt();
-                sortingMenuOption = scanner.nextInt();
+                sortingMenuOption = Integer.parseInt(scanner.next());
                 if (sortingMenuOption < 0 || sortingMenuOption > 4) {
                     throw new IllegalArgumentException();
                 }
-            } catch (IllegalArgumentException exception) {
-                System.out.println("Invalid input");
+            }
+            catch (IllegalArgumentException exception) {
+                System.out.println("Invalid option");
             }
             switch (sortingMenuOption) {
                 case 0 -> sortingMenuExit = true;
