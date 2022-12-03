@@ -296,8 +296,7 @@ public class UserView implements IView {
     }
 
     public void filterProducts() {
-        System.out.println("Coming soon");
-        //useFilteringMenu();
+        useFilteringMenu();
     }
 
     public void showFilteringMenuPrompt() {
@@ -353,8 +352,7 @@ public class UserView implements IView {
     }
 
     public void sortProducts() {
-        System.out.println("Coming soon");
-        //        useSortingMenu();
+        useSortingMenu();
     }
 
     public void showSortingMenuPrompt() {
@@ -395,14 +393,22 @@ public class UserView implements IView {
     }
 
     private void sortByPriceAscending() {
+        List <Product> sorted = controller.sortByPrice(true);
+        System.out.println(sorted);
     }
 
     private void sortByPriceDescending() {
+        List <Product> sorted = controller.sortByPrice(false);
+        System.out.println(sorted);
     }
 
     private void sortByNameAscending() {
+        List <Product> sorted = controller.sortByName(true);
+        System.out.println(sorted);
     }
 
     private void sortByNameDescending() {
+        List <Product> sorted = controller.sortByName(false);
+        System.out.println(sorted);
     }
 }

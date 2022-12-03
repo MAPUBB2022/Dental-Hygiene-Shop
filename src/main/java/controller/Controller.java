@@ -101,4 +101,21 @@ public class Controller {
     }
 
 
+    public List<Product> sortByPrice(boolean ascending) {
+
+        List<Product> sorted = new java.util.ArrayList<>(List.copyOf(productRepository.getProductList()));
+        sorted.sort((Product a, Product b) -> (int) (a.getBasePrice()-b.getBasePrice()));
+        if (!ascending) {
+            Collections.reverse(sorted);
+        }
+        return sorted;
+    }
+
+    public List<Product> filterByHasInName(String text){
+        List<Product> filtered = new java.util.ArrayList<>(List.copyOf(productRepository.getProductList())).
+                stream().filter((Product a) -> a.getName().toLowerCase().contains(text.toLowerCase())).toList();
+        return filtered;
+    }
+
+
 }
