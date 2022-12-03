@@ -1,5 +1,8 @@
 
 import controller.*;
+import model.Product;
+import model.ProductType;
+import model.ProductUse;
 import repository.memoryRepo.*;
 import view.UserView;
 
@@ -19,7 +22,9 @@ public class Main {
         InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
         Controller controller = new Controller(inMemoryOrderRepository, inMemoryProductRepository, inMemoryUserRepository);
         UserView userView = new UserView(controller);
-        userView.useMainMenu();
+
+         userView.useMainMenu();
+
 
 //        userView.showMenu();
 

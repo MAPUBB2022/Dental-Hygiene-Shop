@@ -4,6 +4,7 @@ import controller.Controller;
 import model.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -151,8 +152,7 @@ public class UserView implements IView {
             if (qtyToAdd >= 0) {
                 user.getCart().addProduct(new ProductOrder(productId, qtyToAdd,
                         controller.getProductRepository().findById(productId).getBasePrice()));
-            }
-            else {
+            } else {
                 System.out.println("nothing was added to cart");
             }
         }
@@ -330,33 +330,81 @@ public class UserView implements IView {
                 case 0 -> filteringMenuExit = true;
                 case 1 -> filterProductsByName();
                 case 2 -> filterProductsByType();
+                //create function choose type/use, throws exception if type/use doesn't exist, returns the type/use
                 case 3 -> filterProductsByUse();
                 case 4 -> filterProductsBySize();
             }
         }
     }
 
-    String readName (){
+    String readName() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter (part of) product name:");
         return scanner.nextLine();
-       //System.out.println(name);
+        //System.out.println(name);
+    }
+
+    void printProductList(List<Product> list) {
+        if (list.isEmpty()) {
+            System.out.println("Nothing found");
+        } else {
+            for (Product p : list) {
+                System.out.println(p);
+            }
+        }
     }
 
     private void filterProductsByName() {
-
         String name = readName();
         List<Product> filtered = controller.filterByHasInName(name);
-        System.out.println(filtered);
+        printProductList(filtered);
 
+    }
+
+    ProductType readType() throws IllegalArgumentException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Types: ");
+        System.out.println(Arrays.toString(ProductType.values()));
+        System.out.println("Enter EXACT product type:");
+        String type = scanner.nextLine();
+        if (!Arrays.toString(ProductType.values()).contains(type)) {
+            throw new IllegalArgumentException();
+        }
+
+        return ProductType.valueOf(type);
     }
 
     private void filterProductsByType() {
+        try {
+            ProductType type = readType();
+            List<Product> filtered = controller.filterByType(type);
+            printProductList(filtered);
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Type does not exist");
+        }
+    }
 
+    ProductUse readUse() throws IllegalArgumentException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Uses: ");
+        System.out.println(Arrays.toString(ProductUse.values()));
+        System.out.println("Enter EXACT product use:");
+        String type = scanner.nextLine();
+        if (!Arrays.toString(ProductUse.values()).contains(type)) {
+            throw new IllegalArgumentException();
+        }
+
+        return ProductUse.valueOf(type);
     }
 
     private void filterProductsByUse() {
-
+        try {
+            ProductUse use = readUse();
+            List<Product> filtered = controller.filterByUse(use);
+            printProductList(filtered);
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Use does not exist");
+        }
     }
 
     private void filterProductsBySize() {
@@ -404,22 +452,22 @@ public class UserView implements IView {
     }
 
     private void sortByPriceAscending() {
-        List <Product> sorted = controller.sortByPrice(true);
-        System.out.println(sorted);
+        List<Product> sorted = controller.sortByPrice(true);
+        printProductList(sorted);
     }
 
     private void sortByPriceDescending() {
-        List <Product> sorted = controller.sortByPrice(false);
-        System.out.println(sorted);
+        List<Product> sorted = controller.sortByPrice(false);
+        printProductList(sorted);
     }
 
     private void sortByNameAscending() {
-        List <Product> sorted = controller.sortByName(true);
-        System.out.println(sorted);
+        List<Product> sorted = controller.sortByName(true);
+        printProductList(sorted);
     }
 
     private void sortByNameDescending() {
-        List <Product> sorted = controller.sortByName(false);
-        System.out.println(sorted);
+        List<Product> sorted = controller.sortByName(false);
+        printProductList(sorted);
     }
 }

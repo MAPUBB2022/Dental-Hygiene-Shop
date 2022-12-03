@@ -116,10 +116,15 @@ public class Controller {
                 stream().filter((Product a) -> a.getName().toLowerCase().contains(text.toLowerCase())).toList();
     }
 
-//    public List<Product> filterByType(String text){
-//        List<Product> filtered = new java.util.ArrayList<>(List.copyOf(productRepository.getProductList())).
-//                stream().filter((Product a) -> a.getType().to).toList();
-//        return filtered;
-//    }
+    public List<Product> filterByType(ProductType type){
+        return new java.util.ArrayList<>(List.copyOf(productRepository.getProductList())).
+                stream().filter((Product a) -> a.getType().equals(type)).toList();
+    }
+
+    public List<Product> filterByUse(ProductUse use){
+        return new java.util.ArrayList<>(List.copyOf(productRepository.getProductList())).
+                stream().filter((Product a) -> a.getUse().equals(use)).toList();
+    }
+
 
 }
