@@ -1,8 +1,14 @@
 package model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Product {
 
     private static int idCounter = 0;
+
+    @Id
     private Integer id;
     private String name;
     private double basePrice;
@@ -12,6 +18,9 @@ public class Product {
     private ProductType type;//see enum
 
     private ProductUse use;//see enum
+
+    public Product() {
+    }
 
     public ProductType getType() {
         return type;

@@ -1,6 +1,11 @@
 package model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class ProductOrder {
+    @Id
     private Integer productId;
     private int quantity;
     private double price;
@@ -9,6 +14,9 @@ public class ProductOrder {
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
+    }
+
+    public ProductOrder() {
     }
 
     @Override

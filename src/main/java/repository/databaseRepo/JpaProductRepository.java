@@ -7,7 +7,7 @@ import repository.IProductRepository;
 
 import java.util.List;
 
-public class JdbcProductRepository implements IProductRepository {
+public class JpaProductRepository implements IProductRepository {
     @Override
     public List<Product> getProductList() {
         return null;

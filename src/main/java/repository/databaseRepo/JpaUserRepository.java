@@ -9,7 +9,7 @@ import repository.IUserRepository;
 
 import java.util.List;
 
-public class JdbcUserRepository implements IUserRepository {
+public class JpaUserRepository implements IUserRepository {
     @Override
     public List<User> getUserList() {
         return null;
