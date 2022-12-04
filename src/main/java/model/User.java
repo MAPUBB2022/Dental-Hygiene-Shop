@@ -11,7 +11,6 @@ public class User {
     private Integer id;
 
     @OneToOne
-    private Integer id;
     private ShoppingCart cart;
     private String name;
     private String email;
@@ -23,9 +22,10 @@ public class User {
     private List<Address> addresses;
     private Integer defaultAddressId;
 
+    @OneToOne
+    private Address address;
     @OneToMany(cascade = CascadeType.ALL, targetEntity = Order.class)
     @JoinColumn(name = "user_id")
-    private Address address;
     private List<Order> orderHistory;
 
     public User() {
