@@ -45,21 +45,10 @@ public class Controller {
         this.userRepository = userRepository;
     }
 
-    /*public Order createOrderWithId(@NotNull ShoppingCart shoppingCart, Integer userId) {
-        List<ProductOrder> products = List.copyOf(shoppingCart.getProducts());
-     return new Order(LocalDateTime.now(), userId,
-                userRepository.findById(userId).getAddresses().!!!!!!!!!(userRepository.findById(userId).getDefaultAddressId()),
-                products);
-    }*/
 
     public Order createOrderWithUser(@NotNull User user) {
         List<ProductOrder> products = List.copyOf(user.getCart().getProducts());
-        return new Order(LocalDateTime.now(), user.getId(), user.findAddressById(user.getDefaultAddressId()), products);
-    }
-
-    public void placeOrderWithId(Integer userId, Order order) {
-        orderRepository.add(order);
-        userRepository.findById(userId).getOrderHistory().add(order);
+        return new Order(LocalDateTime.now(), user.getId(), user.getAddress(), products);
     }
 
     public void placeOrderWithUser(@NotNull User user, Order order) {
@@ -78,9 +67,33 @@ public class Controller {
         return null;
     }
 
-    public void addToCart(@NotNull User user, Integer productId, Integer quantity) {
+    public void addNewProductToCart(@NotNull User user, Integer productId, Integer quantity) {
         ProductOrder product = new ProductOrder(productId, quantity, productRepository.findById(productId).getBasePrice());
         user.getCart().addProduct(product);
+    }
+
+    public ProductOrder addToCart(@NotNull User user, Integer productId, Integer qtyToAdd) {
+
+        Product searched = productRepository.findById(productId);
+        if (searched == null) {
+            return null;
+        }
+        ProductOrder product = user.getCart().findById(productId);
+        if (product != null) {
+            int qtyInCart = product.getQuantity();
+            if (qtyInCart + qtyToAdd <= 0) {
+                user.getCart().getProducts().remove(product);
+            } else {
+                product.setQuantity(qtyInCart + qtyToAdd);
+            }
+        } else {
+            if (qtyToAdd >= 0) {
+                addNewProductToCart(user, productId, qtyToAdd);
+            } else {
+                return null;
+            }
+        }
+        return product;
     }
 
     public void createAccount(User user) {
@@ -98,6 +111,32 @@ public class Controller {
             Collections.reverse(sorted);
         }
         return sorted;
+    }
+
+
+    public List<Product> sortByPrice(boolean ascending) {
+
+        List<Product> sorted = new java.util.ArrayList<>(List.copyOf(productRepository.getProductList()));
+        sorted.sort((Product a, Product b) -> (int) (a.getBasePrice() - b.getBasePrice()));
+        if (!ascending) {
+            Collections.reverse(sorted);
+        }
+        return sorted;
+    }
+
+    public List<Product> filterByHasInName(String text) {
+        return new java.util.ArrayList<>(List.copyOf(productRepository.getProductList())).
+                stream().filter((Product a) -> a.getName().toLowerCase().contains(text.toLowerCase())).toList();
+    }
+
+    public List<Product> filterByType(ProductType type) {
+        return new java.util.ArrayList<>(List.copyOf(productRepository.getProductList())).
+                stream().filter((Product a) -> a.getType().equals(type)).toList();
+    }
+
+    public List<Product> filterByUse(ProductUse use) {
+        return new java.util.ArrayList<>(List.copyOf(productRepository.getProductList())).
+                stream().filter((Product a) -> a.getUse().equals(use)).toList();
     }
 
 

@@ -12,6 +12,11 @@ import java.util.List;
 
 public class JpaOrderRepository implements IOrderRepository {
     @Override
+    public List<Order> getOrderList() {
+        return null;
+    }
+
+    @Override
     public void add(Order order) {
 
     }

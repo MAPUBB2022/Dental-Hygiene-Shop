@@ -21,10 +21,8 @@ public class InMemoryUserRepository implements IUserRepository {
         this.userList = new ArrayList<>();
         Address address = new Address("USA", "NY", "NY", "5h Ave", "12", "12345");
         address.setId(1);
-        List<Address> addrList = new ArrayList<>();
-        addrList.add(address);
         User user1 = new User("Ana", "ana@yahoo.com", "01234",
-                "psswd", addrList, 1, new ArrayList<Order>());
+                "psswd", address, new ArrayList<Order>());
         this.userList.add(user1);
     }
 
@@ -106,18 +104,6 @@ public class InMemoryUserRepository implements IUserRepository {
     public void modifyPassword(Integer ID, String newPassword) {
         User user = this.findById(ID);
         user.setPassword(newPassword);
-    }
-
-    @Override
-    public void modifyAddresses(Integer ID, List<Address> newAddresses) {
-        User user = this.findById(ID);
-        user.setAddresses(newAddresses);
-    }
-
-    @Override
-    public void modifyDefaultAddressId(Integer ID, int newDefaultAddressId) {
-        User user = this.findById(ID);
-        user.setDefaultAddressId(newDefaultAddressId);
     }
 
     @Override

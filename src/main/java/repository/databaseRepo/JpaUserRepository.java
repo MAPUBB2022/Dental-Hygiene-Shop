@@ -69,15 +69,6 @@ public class JpaUserRepository implements IUserRepository {
 
     }
 
-    @Override
-    public void modifyAddresses(Integer ID, List<Address> newAddresses) {
-
-    }
-
-    @Override
-    public void modifyDefaultAddressId(Integer ID, int newDefaultAddressId) {
-
-    }
 
     @Override
     public void modifyOrderHistory(Integer ID, List<Order> newOrderHistory) {

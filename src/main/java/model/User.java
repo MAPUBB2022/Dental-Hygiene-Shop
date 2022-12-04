@@ -11,14 +11,11 @@ public class User {
     private Integer id;
 
     @OneToOne
+    private Integer id;
     private ShoppingCart cart;
-
     private String name;
-
     private String email;
-
     private String phoneNumber;
-
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, targetEntity = Address.class)
@@ -28,6 +25,7 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, targetEntity = Order.class)
     @JoinColumn(name = "user_id")
+    private Address address;
     private List<Order> orderHistory;
 
     public User() {
@@ -81,34 +79,13 @@ public class User {
         this.password = password;
     }
 
-    public List<Address> getAddresses() {
-        return addresses;
+
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
-    }
-
-    public void addAddress(Address address) {
-        this.addresses.add(address);
-    }
-
-    public Address findAddressById(Integer addressId) {
-        for (Address a : this.addresses) {
-            if
-            (a.getId() == addressId) {
-                return a;
-            }
-        }
-        return null;
-    }
-
-    public int getDefaultAddressId() {
-        return defaultAddressId;
-    }
-
-    public void setDefaultAddressId(int defaultAddressId) {
-        this.defaultAddressId = defaultAddressId;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public List<Order> getOrderHistory() {
@@ -130,8 +107,8 @@ public class User {
         this.defaultAddressId = null;
     }*/
 
-    public User(String name, String email, String phoneNumber, String password, List<Address> addresses,
-                Integer defaultAddressId, List<Order> orderHistory) {
+    public User(String name, String email, String phoneNumber, String password,
+                Address address, List<Order> orderHistory) {
         this.cart = new ShoppingCart();
         this.name = name;
         this.email = email;
@@ -139,8 +116,7 @@ public class User {
         idCounter++;
         this.setId(idCounter);
         this.password = password;
-        this.addresses = addresses;
-        this.defaultAddressId = defaultAddressId;
+        this.address = address;
         this.orderHistory = orderHistory;
     }
 
@@ -153,8 +129,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", password='" + password + '\'' +
-                ", addresses=" + addresses +
-                ", defaultAddressId=" + defaultAddressId +
+                ", defaultAddressId=" + address +
                 ", orderHistory=" + orderHistory +
                 '}';
     }

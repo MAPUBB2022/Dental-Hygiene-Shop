@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class UserView implements IView {
-    private final Controller controller;
+public class UserView extends View {
 
     private User user;
 
@@ -22,7 +21,7 @@ public class UserView implements IView {
     }
 
     public UserView(Controller controller) {
-        this.controller = controller;
+        super(controller);
     }
 
     public void showMainMenuPrompt() {
@@ -44,7 +43,7 @@ public class UserView implements IView {
         while (!mainMenuExit) {
             try {
                 showMainMenuPrompt();
-                mainMenuOption = scanner.nextInt();
+                mainMenuOption = Integer.parseInt(scanner.next());
                 if (mainMenuOption < 0 || mainMenuOption > 3) {
                     throw new IllegalArgumentException();
                 }
@@ -90,6 +89,7 @@ public class UserView implements IView {
                 6. Place order
                 7. View orders
                 """);
+        //modify address!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     private void useUserMenu() {
@@ -99,7 +99,7 @@ public class UserView implements IView {
         while (!userMenuExit) {
             try {
                 showUserMenuPrompt();
-                userMenuOption = scanner.nextInt();
+                userMenuOption = Integer.parseInt(scanner.next());
                 if (userMenuOption < 0 || userMenuOption > 7) {
                     throw new IllegalArgumentException();
                 }
@@ -125,37 +125,36 @@ public class UserView implements IView {
     public Integer readProductId() {
         System.out.println("ID of product to add to cart: ");
         Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        try {
+            return Integer.parseInt(scanner.next());
+        } catch (NumberFormatException exc) {
+            System.out.println("Input is not a number. Aborting");
+            return null;
+        }
     }
 
     public Integer readProductQuantity() {
         System.out.println("Quantity to add to cart (adding negative quantity will remove pieces): ");
         Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        try {
+            return Integer.parseInt(scanner.next());
+        } catch (NumberFormatException exc) {
+            System.out.println("Input is not a number. Aborting");
+            return null;
+        }
     }
 
     private void addProductsToCart() {
         //should be rewritten so that operations are handled by controller
         //check if product exists in productRepo
         Integer productId = readProductId();
-        Integer qtyToAdd = readProductQuantity();
-        ProductOrder product = user.getCart().findById(productId);
-        if (product != null) {
-            int qtyInCart = product.getQuantity();
-            if (qtyInCart + qtyToAdd <= 0) {
-                user.getCart().getProducts().remove(product);
-            } else {
-                product.setQuantity(qtyInCart + qtyToAdd);
-            }
-        } else {
-            if (qtyToAdd >= 0) {
-                user.getCart().addProduct(new ProductOrder(productId, qtyToAdd,
-                        controller.getProductRepository().findById(productId).getBasePrice()));
-            }
-            else {
-                System.out.println("nothing was added to cart");
+        if (productId != null) {
+            Integer qtyToAdd = readProductQuantity();
+            if (qtyToAdd != null) {
+                controller.addToCart(user, productId, qtyToAdd);
             }
         }
+
     }
 
     private void viewCart() {
@@ -200,7 +199,7 @@ public class UserView implements IView {
     }
 
     private void viewOrders() {
-        System.out.println(((User) user).getOrderHistory());
+        System.out.println(user.getOrderHistory());
     }
 
     public void finishSignUp() {
@@ -236,30 +235,12 @@ public class UserView implements IView {
         postalCode = scanner.next();
 
         Address address = new Address(country, region, city, street, number, postalCode);
-        List<Address> addresses = new ArrayList<>();
-        addresses.add(address);
-        Integer defaultAddressId = address.getId();
         List<Order> orderHistory = new ArrayList<>();
 
-        return new User(name, email, phoneNumber, password, addresses, defaultAddressId, orderHistory);
+        return new User(name, email, phoneNumber, password, address, orderHistory);
     }
 
-    public void continueAsGuest() {
-        useGuestMenu();
-    }
-
-    public void showGuestMenuPrompt() {
-        System.out.println("""
-
-                GUEST MENU
-                Options:
-                0. Exit
-                1. Show all products
-                2. Filter products
-                3. Sort products
-                """);
-    }
-
+    @Override
     public void useGuestMenu() {
         int guestMenuOption = -1;
         boolean guestMenuExit = false;
@@ -267,7 +248,7 @@ public class UserView implements IView {
         while (!guestMenuExit) {
             try {
                 showGuestMenuPrompt();
-                guestMenuOption = scanner.nextInt();
+                guestMenuOption = Integer.parseInt(scanner.next());
                 if (guestMenuOption < 0 || guestMenuOption > 3) {
                     throw new IllegalArgumentException();
                 }
@@ -286,123 +267,4 @@ public class UserView implements IView {
         }
     }
 
-    public void showAllProducts() {
-        for (Product p : controller.getProductRepository().getProductList()) {
-            if (p.getStock() == 0) {
-                System.out.println("\nout of stock");
-            }
-            System.out.println(p);
-        }
-    }
-
-    public void filterProducts() {
-        System.out.println("Coming soon");
-        //useFilteringMenu();
-    }
-
-    public void showFilteringMenuPrompt() {
-        System.out.println("""
-
-                FILTERING MENU
-                Options:
-                0. Exit
-                1. Filter by name
-                2. Filter by type
-                3. Filter by use
-                4. Filter by size
-                """);
-    }
-
-    public void useFilteringMenu() {
-        int filteringMenuOption = -1;
-        boolean filteringMenuExit = false;
-        Scanner scanner = new Scanner(System.in);
-        while (!filteringMenuExit) {
-            try {
-                showFilteringMenuPrompt();
-                filteringMenuOption = scanner.nextInt();
-                if (filteringMenuOption < 0 || filteringMenuOption > 4) {
-                    throw new IllegalArgumentException();
-                }
-            } catch (IllegalArgumentException exception) {
-                System.out.println("Invalid input");
-            }
-            switch (filteringMenuOption) {
-                case 0 -> filteringMenuExit = true;
-                case 1 -> filterProductsByName();
-                case 2 -> filterProductsByType();
-                case 3 -> filterProductsByUse();
-                case 4 -> filterProductsBySize();
-            }
-        }
-    }
-
-    private void filterProductsByName() {
-
-    }
-
-    private void filterProductsByType() {
-
-    }
-
-    private void filterProductsByUse() {
-
-    }
-
-    private void filterProductsBySize() {
-    }
-
-    public void sortProducts() {
-        System.out.println("Coming soon");
-        //        useSortingMenu();
-    }
-
-    public void showSortingMenuPrompt() {
-        System.out.println("""
-
-                SORTING MENU
-                Options:
-                0. Exit
-                1. Sort by price (ascending)
-                2. Sort by price (descending)
-                3. Sort by name (ascending)
-                4. Sort by name (descending)
-                """);
-    }
-
-    public void useSortingMenu() {
-        int sortingMenuOption = -1;
-        boolean sortingMenuExit = false;
-        Scanner scanner = new Scanner(System.in);
-        while (!sortingMenuExit) {
-            try {
-                showSortingMenuPrompt();
-                sortingMenuOption = scanner.nextInt();
-                if (sortingMenuOption < 0 || sortingMenuOption > 4) {
-                    throw new IllegalArgumentException();
-                }
-            } catch (IllegalArgumentException exception) {
-                System.out.println("Invalid input");
-            }
-            switch (sortingMenuOption) {
-                case 0 -> sortingMenuExit = true;
-                case 1 -> sortByPriceAscending();
-                case 2 -> sortByPriceDescending();
-                case 3 -> sortByNameAscending();
-                case 4 -> sortByNameDescending();
-            }
-        }
-    }
-
-    private void sortByPriceAscending() {
-    }
-
-    private void sortByPriceDescending() {
-    }
-
-    private void sortByNameAscending() {
-    }
-
-    private void sortByNameDescending() {
-    }
 }

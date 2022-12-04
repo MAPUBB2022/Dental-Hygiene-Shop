@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface IOrderRepository extends ICrudRepository<Integer, Order> {
 
+    public List<Order> getOrderList();
+
     public void add(Order order);
 
     public void delete(Integer ID);
