@@ -16,7 +16,7 @@ public interface IOrderRepository extends ICrudRepository<Integer, Order> {
 
     public Order findById(Integer ID);
 
-    public void modifyProducts(Integer ID, List<ProductOrder> products);
+    abstract void modifyProducts(Integer ID, List<ProductOrder> products);
 
-    public void modifyDeliveryAddress(Integer ID, Address newDeliveryAddress);
+    abstract void modifyDeliveryAddress(Integer ID, Address newDeliveryAddress);
 }
