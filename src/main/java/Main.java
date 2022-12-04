@@ -4,6 +4,7 @@ import model.Product;
 import model.ProductType;
 import model.ProductUse;
 import repository.memoryRepo.*;
+import view.AdminView;
 import view.UserView;
 
 public class Main {
@@ -16,8 +17,9 @@ public class Main {
         Controller controller = new Controller(inMemoryOrderRepository, inMemoryProductRepository, inMemoryUserRepository);
         UserView userView = new UserView(controller);
 
-         userView.useMainMenu();
-
+        //userView.useMainMenu();
+        AdminView aview = new AdminView(controller);
+        aview.showAllOrders();
 
 //        userView.showMenu();
 

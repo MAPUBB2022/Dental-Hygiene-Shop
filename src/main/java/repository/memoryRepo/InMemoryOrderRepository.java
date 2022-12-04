@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class InMemoryOrderRepository implements IOrderRepository {
+    @Override
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
     private List<Order> orderList;
 
     public InMemoryOrderRepository() {
