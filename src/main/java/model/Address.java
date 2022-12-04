@@ -1,7 +1,12 @@
 package model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Address {
     private static int idCounter = 0;
+    @Id
     private int id;
     private String country;
     private String region;
@@ -21,9 +26,12 @@ public class Address {
         this.postalCode = postalCode;
     }
 
+    public Address() {
+    }
+
     @Override
     public String toString() {
-        return "\n"  + city + ", " + street + ", no. " + number + " (" + postalCode + ')'
+        return "\n" + city + ", " + street + ", no. " + number + " (" + postalCode + ')'
                 + "\n" + region + ", " + country;
     }
 

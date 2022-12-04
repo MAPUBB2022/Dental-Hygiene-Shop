@@ -1,18 +1,29 @@
 package model;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
 public class Order {
     public static int idCounter = 0;
+
+    @Id
     private Integer id;
     private LocalDateTime dateTime;
-    private final Integer userId;
+    private Integer userId;
+
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = ProductOrder.class)
+    @JoinColumn(name = "order_id")
     private List<ProductOrder> products;
+
+    @OneToOne
     private Address deliveryAddress;
 
     private double price;
 
+    public Order() {
+    }
 
     public double getPrice() {
         return price;
@@ -98,13 +109,13 @@ public class Order {
                 "\ndate, time: " + dateTime.toString() +
                 "\ntotal price: " + price +
                 "\ndelivery address: " + deliveryAddress +
-                "\nproducts: "+
+                "\nproducts: " +
                 productsToString();
     }
 
-    public String productsToString(){
+    public String productsToString() {
         StringBuilder pList = new StringBuilder("");
-        for (ProductOrder p: products){
+        for (ProductOrder p : products) {
             pList.append("\n");
             pList.append(p);
         }

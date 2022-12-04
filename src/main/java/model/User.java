@@ -1,12 +1,16 @@
 package model;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class User {
     private static int idCounter = 0;
 
+    @Id
     private Integer id;
 
+    @OneToOne
     private ShoppingCart cart;
 
     private String name;
@@ -16,9 +20,18 @@ public class User {
     private String phoneNumber;
 
     private String password;
+
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = Address.class)
+    @JoinColumn(name = "user_id")
     private List<Address> addresses;
     private Integer defaultAddressId;
+
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = Order.class)
+    @JoinColumn(name = "user_id")
     private List<Order> orderHistory;
+
+    public User() {
+    }
 
     public Integer getId() {
         return id;

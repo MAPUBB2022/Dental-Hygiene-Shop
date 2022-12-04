@@ -3,9 +3,18 @@ import controller.*;
 import repository.memoryRepo.*;
 import view.UserView;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 public class Main {
 
     public static void main(String[] args) {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("default");
+        EntityManager manager = factory.createEntityManager();
+
+        manager.getTransaction().begin();
+
 //        InMemoryUserRepository userRepo = new InMemoryUserRepository();
 //        Controller controller = new Controller(null, null, userRepo);
 //
@@ -22,6 +31,8 @@ public class Main {
         userView.useMainMenu();
 
 //        userView.showMenu();
+
+        manager.getTransaction().commit();
 
     }
 
