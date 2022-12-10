@@ -17,16 +17,7 @@ public class Main {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("default");
         EntityManager manager = factory.createEntityManager();
 
-        manager.getTransaction().begin();
-
-//        InMemoryUserRepository userRepo = new InMemoryUserRepository();
-//        Controller controller = new Controller(null, null, userRepo);
-//
-//        Integer x = controller.login("ana@yahoo.com", "psswd");
-//        System.out.println(x);
-//
-//        x = controller.login("oana@yahoo.com", "psswd");
-//        System.out.println(x);
+        //manager.getTransaction().begin();
 
         InMemoryOrderRepository inMemoryOrderRepository = new InMemoryOrderRepository();
         InMemoryProductRepository inMemoryProductRepository = new InMemoryProductRepository();
@@ -34,13 +25,14 @@ public class Main {
         Controller controller = new Controller(inMemoryOrderRepository, inMemoryProductRepository, inMemoryUserRepository);
         UserView userView = new UserView(controller);
 
-        //userView.useMainMenu();
-        AdminView aview = new AdminView(controller);
-        aview.showAllOrders();
 
-//        userView.showMenu();
+        System.out.println("");
+        userView.useMainMenu();
+        AdminView adminView = new AdminView(controller);
+        adminView.showAllOrders();
 
-        manager.getTransaction().commit();
+
+       // manager.getTransaction().commit();
 
     }
 

@@ -45,7 +45,7 @@ public class AdminView extends View {
                 1. Show all users
                 2. Show all orders
                 3. Modify products
-                4. Modify orders
+                4. Filter orders
                 """);
     }
     public void useExtendedMenu(){
