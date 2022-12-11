@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
+//exceptii: produse comandate>nr produse in stoc, alte cheztii
 public class Controller {
     IOrderRepository orderRepository;
     IProductRepository productRepository;

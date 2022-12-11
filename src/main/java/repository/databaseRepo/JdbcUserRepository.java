@@ -1,6 +1,5 @@
 package repository.databaseRepo;
 
-import model.Address;
 import model.Order;
 import model.User;
 import model.ShoppingCart;
@@ -9,7 +8,7 @@ import repository.IUserRepository;
 
 import java.util.List;
 
-public class JpaUserRepository implements IUserRepository {
+public class JdbcUserRepository implements IUserRepository {
     @Override
     public List<User> getUserList() {
         return null;
@@ -19,7 +18,7 @@ public class JpaUserRepository implements IUserRepository {
     public void setUserList(List<User> userList) {
 
     }
-
+    //will you rename yourself now plsssss
     @Override
     public void add(User user) {
 

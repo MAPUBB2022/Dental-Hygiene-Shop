@@ -5,12 +5,9 @@ import model.Order;
 import model.ProductOrder;
 import repository.IOrderRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.List;
 
-public class JpaOrderRepository implements IOrderRepository {
+public class JdbcOrderRepository implements IOrderRepository {
     @Override
     public List<Order> getOrderList() {
         return null;
@@ -41,4 +38,5 @@ public class JpaOrderRepository implements IOrderRepository {
     public void modifyDeliveryAddress(Integer ID, Address newDeliveryAddress) {
 
     }
+    //will you rename yourself now plsssss
 }

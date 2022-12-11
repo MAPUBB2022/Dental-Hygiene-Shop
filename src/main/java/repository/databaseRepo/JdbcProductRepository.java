@@ -7,7 +7,7 @@ import repository.IProductRepository;
 
 import java.util.List;
 
-public class JpaProductRepository implements IProductRepository {
+public class JdbcProductRepository implements IProductRepository {
     @Override
     public List<Product> getProductList() {
         return null;
@@ -17,7 +17,7 @@ public class JpaProductRepository implements IProductRepository {
     public void setProductList(List<Product> productList) {
 
     }
-
+    //will you rename yourself now plsssss
     @Override
     public void add(Product product) {
 
