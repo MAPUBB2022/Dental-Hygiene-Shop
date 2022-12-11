@@ -3,20 +3,16 @@ package model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
 public class Product {
 
     private static int idCounter = 0;
 
-    @Id
     private Integer id;
     private String name;
     private double basePrice;
     private String size;//no spaces, no commas (dots only), no capital letters
     private int stock;
-
     private ProductType type;//see enum
-
     private ProductUse use;//see enum
 
     public Product() {

@@ -77,12 +77,6 @@ public class InMemoryUserRepository implements IUserRepository {
     }
 
     @Override
-    public void modifyShoppingCart(Integer ID, ShoppingCart newShoppingCart) {
-        User user = this.findById(ID);
-        user.setCart(newShoppingCart);
-    }
-
-    @Override
     public void modifyName(Integer ID, String newName) {
         User user = this.findById(ID);
         user.setName(newName);
@@ -106,9 +100,4 @@ public class InMemoryUserRepository implements IUserRepository {
         user.setPassword(newPassword);
     }
 
-    @Override
-    public void modifyOrderHistory(Integer ID, List<Order> newOrderHistory) {
-        User user = this.findById(ID);
-        user.setOrderHistory(newOrderHistory);
-    }
 }

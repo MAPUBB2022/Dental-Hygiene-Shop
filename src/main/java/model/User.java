@@ -14,8 +14,7 @@ public class User {
     private Address address;
     private List<Order> orderHistory;
 
-    public User() {
-    }
+    public User() {}
 
     public Integer getId() {
         return id;

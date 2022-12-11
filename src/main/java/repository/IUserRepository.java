@@ -23,7 +23,6 @@ public interface IUserRepository extends ICrudRepository<Integer, User> {
 
     public User findByEmail(String email);
 
-    public void modifyShoppingCart(Integer ID, ShoppingCart newShoppingCart);
 
     public void modifyName(Integer ID, String newName);
 
@@ -33,5 +32,4 @@ public interface IUserRepository extends ICrudRepository<Integer, User> {
 
     public void modifyPassword(Integer ID, String newPassword);
 
-    public void modifyOrderHistory(Integer ID, List<Order> newOrderHistory);
 }
