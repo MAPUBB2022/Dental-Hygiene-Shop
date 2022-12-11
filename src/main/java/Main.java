@@ -1,8 +1,6 @@
 
 import controller.*;
-import model.Product;
-import model.ProductType;
-import model.ProductUse;
+import model.*;
 import repository.memoryRepo.*;
 import view.AdminView;
 import view.UserView;
@@ -13,7 +11,7 @@ import javax.persistence.Persistence;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UserNotFoundException, IncorrectPasswordException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("default");
         EntityManager manager = factory.createEntityManager();
 
@@ -26,14 +24,14 @@ public class Main {
         UserView userView = new UserView(controller);
 
         userView.useMainMenu();
-        AdminView aview = new AdminView(controller);
-        aview.showAllOrders();
-
-
-        System.out.println("");
-        userView.useMainMenu();
-        AdminView adminView = new AdminView(controller);
-        adminView.showAllOrders();
+//        AdminView aview = new AdminView(controller);
+//        aview.showAllOrders();
+//
+//
+//        System.out.println("");
+//        userView.useMainMenu();
+//        AdminView adminView = new AdminView(controller);
+//        adminView.showAllOrders();
 
 
        // manager.getTransaction().commit();
