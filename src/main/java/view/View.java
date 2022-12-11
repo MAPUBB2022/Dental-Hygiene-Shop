@@ -185,8 +185,7 @@ public abstract class View {
                 if (sortingMenuOption < 0 || sortingMenuOption > 4) {
                     throw new IllegalArgumentException();
                 }
-            }
-            catch (IllegalArgumentException exception) {
+            } catch (IllegalArgumentException exception) {
                 System.out.println("Invalid option");
             }
             switch (sortingMenuOption) {

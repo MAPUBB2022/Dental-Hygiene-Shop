@@ -11,6 +11,10 @@ public class ShoppingCart {
     Integer id;
     private List<ProductOrder> products;
 
+    public ShoppingCart() {
+        products = new ArrayList<>();
+    }
+
     public Integer getId() {
         return id;
     }
@@ -25,10 +29,6 @@ public class ShoppingCart {
 
     public void setProducts(List<ProductOrder> products) {
         this.products = products;
-    }
-
-    public ShoppingCart() {
-        products = new ArrayList<>();
     }
 
     public void addProduct(ProductOrder product) {

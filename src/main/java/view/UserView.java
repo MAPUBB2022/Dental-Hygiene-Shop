@@ -36,7 +36,7 @@ public class UserView extends View {
                 """);
     }
 
-    public void useMainMenu() {
+    public void useMainMenu() throws UserNotFoundException, IncorrectPasswordException {
         int mainMenuOption = -1;
         boolean mainMenuExit = false;
         Scanner scanner = new Scanner(System.in);
@@ -59,7 +59,7 @@ public class UserView extends View {
         }
     }
 
-    public void logIntoAccount(Scanner scanner) {
+    public void logIntoAccount(Scanner scanner) throws UserNotFoundException, IncorrectPasswordException {
         User user;
         String email, password;
         System.out.println("Enter your email:");
@@ -151,7 +151,11 @@ public class UserView extends View {
         if (productId != null) {
             Integer qtyToAdd = readProductQuantity();
             if (qtyToAdd != null) {
-                controller.addToCart(user, productId, qtyToAdd);
+                try {
+                    controller.addToCart(user, productId, qtyToAdd);
+                } catch (ProductNotInRepositoryException | NegativeQuantityException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 

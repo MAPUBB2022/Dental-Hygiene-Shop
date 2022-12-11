@@ -16,6 +16,33 @@ public class User {
 
     public User() {}
 
+    public User(String name, String email, String phoneNumber, String password,
+                Address address, List<Order> orderHistory) {
+        this.cart = new ShoppingCart();
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        idCounter++;
+        this.setId(idCounter);
+        this.password = password;
+        this.address = address;
+        this.orderHistory = orderHistory;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", cart=" + cart +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", defaultAddressId=" + address +
+                ", orderHistory=" + orderHistory +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }
@@ -81,41 +108,4 @@ public class User {
         this.orderHistory = orderHistory;
     }
 
-    /*
-    public RegisteredUser(String password) {
-        super();
-        idCounter ++;
-        this.setId(idCounter);
-        this.password = password;
-        this.addresses = new ArrayList<>();
-        this.orderHistory = new ArrayList<>();
-        this.defaultAddressId = null;
-    }*/
-
-    public User(String name, String email, String phoneNumber, String password,
-                Address address, List<Order> orderHistory) {
-        this.cart = new ShoppingCart();
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        idCounter++;
-        this.setId(idCounter);
-        this.password = password;
-        this.address = address;
-        this.orderHistory = orderHistory;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", cart=" + cart +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", password='" + password + '\'' +
-                ", defaultAddressId=" + address +
-                ", orderHistory=" + orderHistory +
-                '}';
-    }
 }

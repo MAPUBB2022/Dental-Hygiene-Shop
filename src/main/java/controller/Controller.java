@@ -58,14 +58,16 @@ public class Controller {
         user.getCart().getProducts().clear();
     }
 
-    public User login(String email, String password) {
+    public User login(String email, String password) throws IncorrectPasswordException, UserNotFoundException {
         User user = userRepository.findByEmail(email);
         if (user != null) {
             if (password.equals(user.getPassword())) {
                 return user;
             }
+            throw new IncorrectPasswordException("Incorrect password");
+        } else {
+            throw new UserNotFoundException("Incorrect username");
         }
-        return null;
     }
 
     public void addNewProductToCart(@NotNull User user, Integer productId, Integer quantity) {
@@ -73,11 +75,11 @@ public class Controller {
         user.getCart().addProduct(product);
     }
 
-    public ProductOrder addToCart(@NotNull User user, Integer productId, Integer qtyToAdd) {
+    public ProductOrder addToCart(@NotNull User user, Integer productId, Integer qtyToAdd) throws ProductNotInRepositoryException, NegativeQuantityException {
 
         Product searched = productRepository.findById(productId);
         if (searched == null) {
-            return null;
+            throw new ProductNotInRepositoryException("Product does not exist");
         }
         ProductOrder product = user.getCart().findById(productId);
         if (product != null) {
@@ -91,7 +93,7 @@ public class Controller {
             if (qtyToAdd >= 0) {
                 addNewProductToCart(user, productId, qtyToAdd);
             } else {
-                return null;
+                throw new NegativeQuantityException("Nothing added to cart");
             }
         }
         return product;
