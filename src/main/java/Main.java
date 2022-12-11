@@ -34,7 +34,7 @@ public class Main {
         Controller controller = new Controller(inMemoryOrderRepository, inMemoryProductRepository, inMemoryUserRepository);
         UserView userView = new UserView(controller);
 
-        //userView.useMainMenu();
+        userView.useMainMenu();
         AdminView aview = new AdminView(controller);
         aview.showAllOrders();
 
