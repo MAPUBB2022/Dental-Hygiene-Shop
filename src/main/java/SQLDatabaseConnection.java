@@ -15,9 +15,10 @@ public class SQLDatabaseConnection {
                         + "trustServerCertificate=true;";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
-            try (PreparedStatement statement = connection.prepareStatement("create table X(id int identity(1,1))")) {
-                //statement.setString(1, "ion");
-                statement.execute();
+            try (PreparedStatement statement = connection.prepareStatement("drop table TEST")) {
+                //statement.setString(1, "'Address'");
+                //statement.setString(1,"TEST");
+                statement.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

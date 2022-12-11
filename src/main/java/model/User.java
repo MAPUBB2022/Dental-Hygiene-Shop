@@ -3,29 +3,15 @@ package model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
 public class User {
     private static int idCounter = 0;
-
-    @Id
     private Integer id;
-
-    @OneToOne
     private ShoppingCart cart;
     private String name;
     private String email;
     private String phoneNumber;
     private String password;
-
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = Address.class)
-    @JoinColumn(name = "user_id")
-    private List<Address> addresses;
-    private Integer defaultAddressId;
-
-    @OneToOne
     private Address address;
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = Order.class)
-    @JoinColumn(name = "user_id")
     private List<Order> orderHistory;
 
     public User() {

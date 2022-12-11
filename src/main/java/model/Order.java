@@ -4,20 +4,15 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
 public class Order {
     public static int idCounter = 0;
 
-    @Id
     private Integer id;
     private LocalDateTime dateTime;
     private Integer userId;
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = ProductOrder.class)
-    @JoinColumn(name = "order_id")
     private List<ProductOrder> products;
 
-    @OneToOne
     private Address deliveryAddress;
 
     private double price;
