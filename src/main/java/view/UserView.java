@@ -139,10 +139,17 @@ public class UserView extends View {
             Integer qtyToAdd = readProductQuantity();
             if (qtyToAdd != null) {
                 try {
-                    controller.addToCart(user, productId, qtyToAdd);
-                } catch (ProductNotInRepositoryException | NegativeQuantityException e) {
-                    throw new RuntimeException(e);
+                    try {
+                        controller.addToCart(user, productId, qtyToAdd);
+                    } catch (ProductNotInRepositoryException e) {
+                        System.out.println("Product does not exist");
+                    } catch (NegativeQuantityException e) {
+                        System.out.println("Nothing added to cart");
+                    }
+                } catch (InsufficientStockException e) {
+                    System.out.println("Insufficient stock");
                 }
+
             }
         }
 
