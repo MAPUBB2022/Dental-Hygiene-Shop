@@ -75,7 +75,7 @@ public class Controller {
         user.getCart().addProduct(product);
     }
 
-    public ProductOrder addToCart(@NotNull User user, Integer productId, Integer qtyToAdd) throws ProductNotInRepositoryException, NegativeQuantityException {
+    public ProductOrder addToCart(@NotNull User user, Integer productId, Integer qtyToAdd) throws ProductNotInRepositoryException, NegativeQuantityException, InsufficientStockException {
 
         Product searched = productRepository.findById(productId);
         if (searched == null) {
@@ -86,11 +86,13 @@ public class Controller {
             int qtyInCart = product.getQuantity();
             if (qtyInCart + qtyToAdd <= 0) {
                 user.getCart().getProducts().remove(product);
+            } else if (qtyInCart + qtyToAdd > searched.getStock()) {
+                throw new InsufficientStockException("Insufficient stock");
             } else {
                 product.setQuantity(qtyInCart + qtyToAdd);
             }
         } else {
-            if (qtyToAdd >= 0) {
+            if (qtyToAdd >= 0 && qtyToAdd <= searched.getStock()) {
                 addNewProductToCart(user, productId, qtyToAdd);
             } else {
                 throw new NegativeQuantityException("Nothing added to cart");
@@ -151,7 +153,7 @@ public class Controller {
         productRepository.modify(productId, newProduct);
     }
 
-    public Product findProductById (int productId) throws ProductNotInRepositoryException {
+    public Product findProductById(int productId) throws ProductNotInRepositoryException {
         Product searched = productRepository.findById(productId);
         if (searched == null) {
             throw new ProductNotInRepositoryException("Product does not exist");

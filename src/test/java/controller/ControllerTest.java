@@ -96,20 +96,22 @@ class ControllerTest {
         try {
             assertEquals(controller.login("ana@yahoo.com", "psswd"), userRepository.findByEmail("ana@yahoo.com"));
         } catch (IncorrectPasswordException | UserNotFoundException e) {
-            assert true;
+            assert false;
         }
         try {
             controller.login("anasasa@yahoo.com", "asa");
-            assert false;
-        } catch (UserNotFoundException | IncorrectPasswordException u) {
+        } catch (UserNotFoundException e) {
             assert true;
+        } catch (IncorrectPasswordException e) {
+            assert false;
         }
 
         try {
             controller.login("ana@yahoo.com", "asa");
-            assert false;
-        } catch (IncorrectPasswordException | UserNotFoundException i) {
+        } catch (IncorrectPasswordException e) {
             assert true;
+        } catch (UserNotFoundException e) {
+            assert false;
         }
     }
 
@@ -133,8 +135,8 @@ class ControllerTest {
         ShoppingCart cart1 = user.getCart();
         try {
             controller.addToCart(user, product.getId(), 2);
-        } catch (ProductNotInRepositoryException | NegativeQuantityException e) {
-            assert true;
+        } catch (ProductNotInRepositoryException | NegativeQuantityException | InsufficientStockException e) {
+            assert false;
         }
         ShoppingCart cart2 = user.getCart();
         cart1.addProduct(productOrder);
