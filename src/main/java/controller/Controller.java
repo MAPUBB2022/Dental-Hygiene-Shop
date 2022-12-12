@@ -143,4 +143,28 @@ public class Controller {
     }
 
 
+    public void modifyProduct(int productId, Product newProduct) throws ProductNotInRepositoryException {
+        Product searched = productRepository.findById(productId);
+        if (searched == null) {
+            throw new ProductNotInRepositoryException("Product does not exist");
+        }
+        productRepository.modify(productId, newProduct);
+    }
+
+    public Product findProductById (int productId) throws ProductNotInRepositoryException {
+        Product searched = productRepository.findById(productId);
+        if (searched == null) {
+            throw new ProductNotInRepositoryException("Product does not exist");
+        }
+        return searched;
+    }
+
+    public void modifyOrderDeliveryAddress(Integer orderId, Address address) throws OrderNotInRepositoryException {
+        Product searched = productRepository.findById(orderId);
+        if (searched == null) {
+            throw new OrderNotInRepositoryException("Order does not exist");
+        }
+        orderRepository.modifyDeliveryAddress(orderId, address);
+    }
+
 }

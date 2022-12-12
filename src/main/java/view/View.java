@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import model.Address;
 import model.Product;
 import model.ProductType;
 import model.ProductUse;
@@ -31,6 +32,27 @@ public abstract class View {
                 2. Filter products
                 3. Sort products
                 """);
+    }
+
+    public Integer readId() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            return Integer.parseInt(scanner.next());
+        } catch (NumberFormatException exc) {
+            System.out.println("Input is not a number. Aborting");
+            return null;
+        }
+    }
+
+    public Integer readProductQuantity() {
+        System.out.println("Quantity to add to cart (adding negative quantity will remove pieces): ");
+        Scanner scanner = new Scanner(System.in);
+        try {
+            return Integer.parseInt(scanner.next());
+        } catch (NumberFormatException exc) {
+            System.out.println("Input is not a number. Aborting");
+            return null;
+        }
     }
 
     public abstract void useGuestMenu();
@@ -69,7 +91,7 @@ public abstract class View {
             try {
                 showFilteringMenuPrompt();
                 filteringMenuOption = Integer.parseInt(scanner.next());
-                if (filteringMenuOption < 0 || filteringMenuOption > 4) {
+                if (filteringMenuOption < 0 || filteringMenuOption > 3) {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException exception) {
@@ -80,7 +102,6 @@ public abstract class View {
                 case 1 -> filterProductsByName();
                 case 2 -> filterProductsByType();
                 case 3 -> filterProductsByUse();
-                case 4 -> filterProductsBySize();
             }
         }
     }
@@ -90,6 +111,26 @@ public abstract class View {
         System.out.println("Enter (part of) product name:");
         return scanner.nextLine();
     }
+
+    Address readAddress() {
+        String country, region, city, street, number, postalCode;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Address details:");
+        System.out.print("Country: ");
+        country = scanner.next();
+        System.out.print("Region: ");
+        region = scanner.next();
+        System.out.print("City: ");
+        city = scanner.next();
+        System.out.print("Street: ");
+        street = scanner.next();
+        System.out.print("Number: ");
+        number = scanner.next();
+        System.out.print("Postal code: ");
+        postalCode = scanner.next();
+        return new Address(country, region, city, street, number, postalCode);
+    }
+
 
     void printProductList(List<Product> list) {
         if (list.isEmpty()) {
@@ -152,9 +193,6 @@ public abstract class View {
         } catch (IllegalArgumentException exception) {
             System.out.println("Use does not exist");
         }
-    }
-
-    private void filterProductsBySize() {
     }
 
     public void sortProducts() {

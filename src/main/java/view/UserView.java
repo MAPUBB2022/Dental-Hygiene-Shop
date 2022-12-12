@@ -122,32 +122,11 @@ public class UserView extends View {
         }
     }
 
-    public Integer readProductId() {
-        System.out.println("ID of product to add to cart: ");
-        Scanner scanner = new Scanner(System.in);
-        try {
-            return Integer.parseInt(scanner.next());
-        } catch (NumberFormatException exc) {
-            System.out.println("Input is not a number. Aborting");
-            return null;
-        }
-    }
-
-    public Integer readProductQuantity() {
-        System.out.println("Quantity to add to cart (adding negative quantity will remove pieces): ");
-        Scanner scanner = new Scanner(System.in);
-        try {
-            return Integer.parseInt(scanner.next());
-        } catch (NumberFormatException exc) {
-            System.out.println("Input is not a number. Aborting");
-            return null;
-        }
-    }
-
     private void addProductsToCart() {
         //should be rewritten so that operations are handled by controller
         //check if product exists in productRepo
-        Integer productId = readProductId();
+        System.out.println("Product ID:");
+        Integer productId = readId();
         if (productId != null) {
             Integer qtyToAdd = readProductQuantity();
             if (qtyToAdd != null) {

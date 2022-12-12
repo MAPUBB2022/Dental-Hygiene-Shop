@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import model.*;
 
 import java.util.Scanner;
 
@@ -10,7 +11,7 @@ public class AdminView extends View {
         super(controller);
     }
 
-    @Override
+
     public void useGuestMenu() {
         int guestMenuOption = -1;
         boolean guestMenuExit = false;
@@ -113,15 +114,141 @@ public class AdminView extends View {
                 case 0 -> {
                     modifyProductsMenuExit = true;
                 }
-                case 1 -> showAllUsers();
-                case 2 -> showAllOrders();
-                case 3 -> modifyProducts();
-                case 4 -> modifyOrders();
-                case 5 -> modifyOrders();
-                case 6 -> modifyOrders();
+                case 1 -> modifyProductName();
+                case 2 -> modifyProductPrice();
+                case 3 -> modifyProductSize();
+                case 4 -> modifyProductStock();
+                case 5 -> modifyProductType();
+                case 6 -> modifyProductUse();
             }
         }
     }
+
+    String readString() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
+
+    public void modifyProductSize() {
+        System.out.println("Product ID:");
+        Integer productId = readId();
+        System.out.println("New product size:");
+        String newSize = readString();
+        try {
+            Product newProduct = new Product(controller.findProductById(productId));
+            newProduct.setSize(newSize);
+            controller.modifyProduct(productId, newProduct);
+        } catch (ProductNotInRepositoryException e) {
+            System.out.println("Product does not exist");
+        }
+
+    }
+
+    private void modifyProductUse() {
+        System.out.println("Product ID:");
+        Integer productId = readId();
+        System.out.println("Specify new use for product: ");
+        ProductUse use = readUse();
+        try {
+            Product newProduct = new Product(controller.findProductById(productId));
+            newProduct.setUse(use);
+            controller.modifyProduct(productId, newProduct);
+        } catch (ProductNotInRepositoryException e) {
+            System.out.println("Product does not exist");
+        }
+    }
+
+    String readNameAdmin() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter new product name:");
+        return scanner.nextLine();
+    }
+
+
+    public void modifyProductName() {
+        System.out.println("Product ID:");
+        Integer productId = readId();
+        String newName = readNameAdmin();
+        try {
+            Product newProduct = new Product(controller.findProductById(productId));
+            newProduct.setName(newName);
+            controller.modifyProduct(productId, newProduct);
+        } catch (ProductNotInRepositoryException e) {
+            System.out.println("Product does not exist");
+        }
+    }
+
+    Double readPrice() {
+        System.out.println("New price of product: ");
+        Scanner scanner = new Scanner(System.in);
+        try {
+            return Double.parseDouble(scanner.next());
+        } catch (NumberFormatException exc) {
+            System.out.println("Input is not a number. Aborting");
+            return null;
+        }
+    }
+
+    public void modifyProductPrice() {
+        System.out.println("Product ID:");
+        Integer productId = readId();
+        double newPrice = readPrice();
+        try {
+            Product newProduct = new Product(controller.findProductById(productId));
+            newProduct.setBasePrice(newPrice);
+            controller.modifyProduct(productId, newProduct);
+        } catch (ProductNotInRepositoryException e) {
+            System.out.println("Product does not exist");
+        }
+    }
+
+    Integer readStock() {
+        System.out.println("New stock of product: ");
+        int stock = 0;
+        Scanner scanner = new Scanner(System.in);
+        try {
+            stock = Integer.parseInt(scanner.next());
+            if (stock < 0) {
+                throw new IllegalArgumentException();
+            }
+        } catch (NumberFormatException exc) {
+            System.out.println("Input is not a number. Aborting");
+            return null;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Stock can't be negative");
+        }
+        return stock;
+    }
+
+    public void modifyProductStock() {
+        Integer id = readId();
+        int newStock = readStock();
+        Product product;
+        try {
+            product = controller.findProductById(id);
+            product.setStock(newStock);
+            controller.modifyProduct(id, product);
+        } catch (ProductNotInRepositoryException e) {
+            System.out.println("Product does not exist");
+        }
+
+    }
+
+
+    public void modifyProductType() {
+        System.out.println("Specify new type for product: ");
+        ProductType newType = readType();
+        System.out.println("Product ID:");
+        Integer productId = readId();
+        try {
+            Product newProduct = new Product(controller.findProductById(productId));
+            newProduct.setType(newType);
+            controller.modifyProduct(productId, newProduct);
+        } catch (ProductNotInRepositoryException e) {
+            System.out.println("Product does not exist");
+        }
+    }
+
 
     public void modifyOrders() {
         showModifyOrdersMenuPrompt();
@@ -135,7 +262,7 @@ public class AdminView extends View {
                 Options:
                 0. Exit
                 1. Modify product list
-                2. Modify delivery adress
+                2. Modify delivery address
                 """);
     }//modifica pretul comenzii dupa ce modifici lista de produse comandate
 
@@ -157,10 +284,25 @@ public class AdminView extends View {
                 case 0 -> {
                     modifyOrdersMenuExit = true;
                 }
-                case 1 -> showAllUsers();
-                case 2 -> showAllOrders();
+                case 1 -> modifyProductList();
+                case 2 -> modifyDeliveryAddress();
             }
         }
+    }
+
+
+    private void modifyDeliveryAddress() {
+        System.out.println("Order ID:");
+        Integer orderId = readId();
+        Address newAddress = readAddress();
+        try {
+            controller.modifyOrderDeliveryAddress(orderId, newAddress);
+        } catch (OrderNotInRepositoryException e) {
+            System.out.println("Order doesn't exist");
+        }
+    }
+
+    private void modifyProductList() {
     }
 
     public void showAllOrders() {

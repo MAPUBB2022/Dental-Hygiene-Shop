@@ -18,14 +18,6 @@ public interface IProductRepository extends ICrudRepository<Integer, Product> {
 
     public Product findById(Integer ID);
 
-    public void modifyName(Integer ID, String newName);
-
-    public void modifyBasePrice(Integer ID, float newBasePrice);
-
-    public void modifyStock(Integer ID, int newStock);
-
-    public void modifyType(Integer ID, ProductType newType);
-
-    public void modifyUse(Integer ID, ProductUse newUse);
+    public void modify(Integer id, Product newProduct);
 
 }

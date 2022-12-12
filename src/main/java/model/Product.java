@@ -15,7 +15,14 @@ public class Product {
     private ProductType type;//see enum
     private ProductUse use;//see enum
 
-    public Product() {
+    public Product(Product other) {
+        this.id = other.id;
+        this.name = other.name;
+        this.basePrice = other.basePrice;
+        this.size = other.size;
+        this.stock = other.stock;
+        this.type = other.type;
+        this.use = other.use;
     }
 
     public ProductType getType() {

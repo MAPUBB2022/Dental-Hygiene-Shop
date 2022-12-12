@@ -69,33 +69,10 @@ public class    InMemoryProductRepository implements IProductRepository {
         return null;
     }
 
-    @Override
-    public void modifyName(Integer ID, String newName) {
-        Product product = this.findById(ID);
-        product.setName(newName);
-    }
 
-    @Override
-    public void modifyBasePrice(Integer ID, float newBasePrice) {
+    public void modify(Integer ID, Product newProduct){
         Product product = this.findById(ID);
-        product.setBasePrice(newBasePrice);
-    }
-
-    @Override
-    public void modifyStock(Integer ID, int newStock) {
-        Product product = this.findById(ID);
-        product.setStock(newStock);
-    }
-
-    @Override
-    public void modifyType(Integer ID, ProductType newType) {
-        Product product = this.findById(ID);
-        product.setType(newType);
-    }
-
-    @Override
-    public void modifyUse(Integer ID, ProductUse newUse) {
-        Product product = this.findById(ID);
-        product.setUse(newUse);
+        newProduct.setId(product.getId());
+        product = newProduct;
     }
 }
