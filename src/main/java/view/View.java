@@ -10,12 +10,38 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+
+
+
 public abstract class View {
 
     protected final Controller controller;
 
     public View(Controller controller) {
         this.controller = controller;
+    }
+
+    static boolean checkAdminLogin(String username, String password) {
+        return (username.equals("admin") && password.equals("admin"));
+    }
+
+    static public int askAdminLogin() {
+        System.out.println("Login as admin? y/n");
+        Scanner scanner = new Scanner(System.in);
+        String answer = scanner.next();
+        if (answer.equalsIgnoreCase("y")) {
+            System.out.println("username: ");
+            String username = scanner.next();
+            System.out.println("password: ");
+            String password = scanner.next();
+            if (checkAdminLogin(username, password)) {
+                 return 1;
+            }
+        }
+        else {
+            return 0;
+        }
+        return -1;
     }
 
     public void continueAsGuest() {

@@ -36,7 +36,7 @@ public class UserView extends View {
                 """);
     }
 
-    public void useMainMenu() throws UserNotFoundException, IncorrectPasswordException {
+    public void useMainMenu()  {
         int mainMenuOption = -1;
         boolean mainMenuExit = false;
         Scanner scanner = new Scanner(System.in);
@@ -52,7 +52,15 @@ public class UserView extends View {
             }
             switch (mainMenuOption) {
                 case 0 -> mainMenuExit = true;
-                case 1 -> logIntoAccount(scanner);
+                case 1 -> {
+                    try {
+                        logIntoAccount(scanner);
+                    } catch (UserNotFoundException e) {
+                        System.out.println("User not found");
+                    } catch (IncorrectPasswordException e) {
+                        System.out.println("Incorrect password");
+                    }
+                }
                 case 2 -> finishSignUp();
                 case 3 -> continueAsGuest();
             }

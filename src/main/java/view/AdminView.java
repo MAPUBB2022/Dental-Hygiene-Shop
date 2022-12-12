@@ -11,6 +11,37 @@ public class AdminView extends View {
         super(controller);
     }
 
+    void showMainMenuPrompt() {
+        System.out.println("""
+                0. Exit
+                1. Use guest menu
+                2. Use extended menu""");
+    }
+
+    public void useMainMenu() {
+        int option = -1;
+        boolean exit = false;
+        Scanner scanner = new Scanner(System.in);
+        while (!exit) {
+            try {
+                showMainMenuPrompt();
+                option = Integer.parseInt(scanner.next());
+                if (option < 0 || option > 2) {
+                    throw new IllegalArgumentException();
+                }
+            } catch (IllegalArgumentException exception) {
+                System.out.println("Invalid input");
+            }
+            switch (option) {
+                case 0 -> {
+                    exit = true;
+                }
+                case 1 -> useGuestMenu();
+                case 2 -> useExtendedMenu();
+            }
+        }
+
+    }
 
     public void useGuestMenu() {
         int guestMenuOption = -1;
@@ -46,7 +77,7 @@ public class AdminView extends View {
                 1. Show all users
                 2. Show all orders
                 3. Modify products
-                4. Filter orders
+                4. Modify orders
                 """);
     }
 
@@ -303,6 +334,17 @@ public class AdminView extends View {
     }
 
     private void modifyProductList() {
+        System.out.println("Order ID:");
+        Integer orderId = readId();
+        System.out.println("ID of product to remove from list:");
+        Integer productId = readId();
+        try {
+            controller.modifyOrderProductList(orderId, productId);
+        } catch (OrderNotInRepositoryException e) {
+            System.out.println("Order doesn't exist");
+        } catch (ProductNotInRepositoryException e) {
+            System.out.println("Product doesn't exist");
+        }
     }
 
     public void showAllOrders() {

@@ -160,11 +160,23 @@ public class Controller {
     }
 
     public void modifyOrderDeliveryAddress(Integer orderId, Address address) throws OrderNotInRepositoryException {
-        Product searched = productRepository.findById(orderId);
+        Order searched = orderRepository.findById(orderId);
         if (searched == null) {
             throw new OrderNotInRepositoryException("Order does not exist");
         }
         orderRepository.modifyDeliveryAddress(orderId, address);
     }
 
+    public void modifyOrderProductList(Integer orderId, Integer productId) throws OrderNotInRepositoryException, ProductNotInRepositoryException {
+        Order searchedOrder = orderRepository.findById(orderId);
+        if (searchedOrder == null) {
+            throw new OrderNotInRepositoryException("Order does not exist");
+        }
+        Product searchedProduct = productRepository.findById(productId);
+        if (searchedProduct == null) {
+            throw new ProductNotInRepositoryException("Product does not exist");
+        }
+        searchedOrder.deleteProduct(productId);
+        searchedOrder.setPrice(searchedOrder.calculatePrice());
+    }
 }
