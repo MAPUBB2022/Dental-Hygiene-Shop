@@ -40,7 +40,8 @@ public class Controller {
         this.userRepository = userRepository;
     }
 
-    public Controller(IOrderRepository orderRepository, IProductRepository productRepository, IUserRepository userRepository) {
+    public Controller(IOrderRepository orderRepository, IProductRepository productRepository,
+                      IUserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
@@ -54,8 +55,7 @@ public class Controller {
 
     public void placeOrderWithUser(@NotNull User user, Order order) {
         orderRepository.add(order);
-        user.getOrderHistory().add(order);
-        user.getCart().getProducts().clear();
+        userRepository.placeOrder(user, order);
     }
 
     public User login(String email, String password) throws IncorrectPasswordException, UserNotFoundException {
@@ -71,25 +71,27 @@ public class Controller {
     }
 
     public void addNewProductToCart(@NotNull User user, Integer productId, Integer quantity) {
-        ProductOrder product = new ProductOrder(productId, quantity, productRepository.findById(productId).getBasePrice());
-        user.getCart().addProduct(product);
+        ProductOrder product = new ProductOrder(productId, quantity,
+                productRepository.findById(productId).getBasePrice());
+        userRepository.addProductToCart(user, product);
     }
 
-    public ProductOrder addToCart(@NotNull User user, Integer productId, Integer qtyToAdd) throws ProductNotInRepositoryException, NegativeQuantityException, InsufficientStockException {
+    public void addToCart(@NotNull User user, Integer productId, Integer qtyToAdd)
+            throws ProductNotInRepositoryException, NegativeQuantityException, InsufficientStockException {
 
         Product searched = productRepository.findById(productId);
         if (searched == null) {
             throw new ProductNotInRepositoryException("Product does not exist");
         }
-        ProductOrder product = user.getCart().findById(productId);
+        ProductOrder product = userRepository.findProductInCartById(user, productId);
         if (product != null) {
             int qtyInCart = product.getQuantity();
             if (qtyInCart + qtyToAdd <= 0) {
-                user.getCart().getProducts().remove(product);
+                userRepository.removeProductFromCart(user, product);
             } else if (qtyInCart + qtyToAdd > searched.getStock()) {
                 throw new InsufficientStockException("Insufficient stock");
             } else {
-                product.setQuantity(qtyInCart + qtyToAdd);
+                userRepository.setCartProductQuantity(product, qtyInCart + qtyToAdd, user);
             }
         } else {
             if (qtyToAdd >= 0 && qtyToAdd <= searched.getStock()) {
@@ -98,15 +100,11 @@ public class Controller {
                 throw new NegativeQuantityException("Nothing added to cart");
             }
         }
-        return product;
     }
 
     public void createAccount(User user) {
         userRepository.add(user);
     }
-
-    //sort by: name, price
-    //filter by: hasInName, type, use, hasInSize
 
     public List<Product> sortByName(boolean ascending) {
 
@@ -161,7 +159,8 @@ public class Controller {
         return searched;
     }
 
-    public void modifyOrderDeliveryAddress(Integer orderId, Address address) throws OrderNotInRepositoryException {
+    public void modifyOrderDeliveryAddress(Integer orderId, Address address)
+            throws OrderNotInRepositoryException {
         Order searched = orderRepository.findById(orderId);
         if (searched == null) {
             throw new OrderNotInRepositoryException("Order does not exist");
@@ -169,7 +168,8 @@ public class Controller {
         orderRepository.modifyDeliveryAddress(orderId, address);
     }
 
-    public void modifyOrderProductList(Integer orderId, Integer productId) throws OrderNotInRepositoryException, ProductNotInRepositoryException {
+    public void modifyOrderProductList(Integer orderId, Integer productId)
+            throws OrderNotInRepositoryException, ProductNotInRepositoryException {
         Order searchedOrder = orderRepository.findById(orderId);
         if (searchedOrder == null) {
             throw new OrderNotInRepositoryException("Order does not exist");
@@ -178,7 +178,6 @@ public class Controller {
         if (searchedProduct == null) {
             throw new ProductNotInRepositoryException("Product does not exist");
         }
-        searchedOrder.deleteProduct(productId);
-        searchedOrder.setPrice(searchedOrder.calculatePrice());
+        orderRepository.modifyProducts(orderId, productId);
     }
 }

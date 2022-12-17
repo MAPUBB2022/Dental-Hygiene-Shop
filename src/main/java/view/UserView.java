@@ -191,8 +191,8 @@ public class UserView extends View {
     }
 
     private void placeOrder() {
-        Order newOrder = controller.createOrderWithUser((User) user);
-        controller.placeOrderWithUser((User) user, newOrder);
+        Order newOrder = controller.createOrderWithUser(user);
+        controller.placeOrderWithUser(user, newOrder);
         System.out.println("\nOrder placed. Cart emptied");
     }
 

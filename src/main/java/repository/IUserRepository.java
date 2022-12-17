@@ -1,13 +1,12 @@
 package repository;
 
-import model.Address;
-import model.Order;
-import model.User;
-import model.ShoppingCart;
+import model.*;
 
 import java.util.List;
 
 public interface IUserRepository extends ICrudRepository<Integer, User> {
+
+    void placeOrder(User user, Order order);
 
     public List<User> getUserList();
 
@@ -32,4 +31,11 @@ public interface IUserRepository extends ICrudRepository<Integer, User> {
 
     public void modifyPassword(Integer ID, String newPassword);
 
+    ProductOrder findProductInCartById(User user, Integer productId);
+
+    void removeProductFromCart(User user, ProductOrder product);
+
+    void setCartProductQuantity(ProductOrder product, Integer quantity, User user);
+
+    void addProductToCart(User user, ProductOrder product);
 }

@@ -17,6 +17,7 @@ public class JdbcProductRepository implements IProductRepository {
     public void setProductList(List<Product> productList) {
 
     }
+
     //will you rename yourself now plsssss
     @Override
     public void add(Product product) {
@@ -27,6 +28,7 @@ public class JdbcProductRepository implements IProductRepository {
     public void delete(Integer ID) {
 
     }
+
     @Override
     public Product findById(Integer ID) {
         return null;

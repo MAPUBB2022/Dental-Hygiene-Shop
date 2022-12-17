@@ -5,12 +5,8 @@ import model.Order;
 import model.ProductOrder;
 import repository.IOrderRepository;
 
-import java.time.DateTimeException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,9 +61,10 @@ public class InMemoryOrderRepository implements IOrderRepository {
     }
 
     @Override
-    public void modifyProducts(Integer ID, List<ProductOrder> products) {
-        Order order = this.findById(ID);
-        order.setProducts(products);
+    public void modifyProducts(Integer orderId, Integer productId) {
+        Order order = this.findById(orderId);
+        order.deleteProduct(productId);
+        order.setPrice(order.calculatePrice());
     }
 
     @Override
@@ -75,5 +72,6 @@ public class InMemoryOrderRepository implements IOrderRepository {
         Order order = this.findById(ID);
         order.setDeliveryAddress(newDeliveryAddress);
     }
+
 
 }

@@ -1,10 +1,7 @@
 package repository.memoryRepo;
 
-import model.Address;
-import model.Order;
-import model.User;
-import repository.IUserRepository;
 import model.*;
+import repository.IUserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +23,10 @@ public class InMemoryUserRepository implements IUserRepository {
         this.userList.add(user1);
     }
 
-    public InMemoryUserRepository(List<User> userList) {
-        this.userList = userList;
+    @Override
+    public void placeOrder(User user, Order order) {
+        user.getOrderHistory().add(order);
+        user.getCart().getProducts().clear();
     }
 
     public List<User> getUserList() {
@@ -100,4 +99,24 @@ public class InMemoryUserRepository implements IUserRepository {
         user.setPassword(newPassword);
     }
 
+    @Override
+    public ProductOrder findProductInCartById(User user, Integer productId) {
+        return user.getCart().findById(productId);
+    }
+
+    @Override
+    public void removeProductFromCart(User user, ProductOrder product) {
+
+        user.getCart().getProducts().remove(product);
+    }
+
+    @Override
+    public void setCartProductQuantity(ProductOrder product, Integer quantity, User user) {
+        product.setQuantity(quantity);
+    }
+
+    @Override
+    public void addProductToCart(User user, ProductOrder product) {
+        user.getCart().addProduct(product);
+    }
 }

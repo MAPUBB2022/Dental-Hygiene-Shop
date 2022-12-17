@@ -12,7 +12,7 @@ import java.util.Objects;
 import static model.ProductType.*;
 import static model.ProductUse.*;
 
-public class    InMemoryProductRepository implements IProductRepository {
+public class InMemoryProductRepository implements IProductRepository {
 
     private List<Product> productList;
 
@@ -70,7 +70,7 @@ public class    InMemoryProductRepository implements IProductRepository {
     }
 
 
-    public void modify(Integer ID, Product newProduct){
+    public void modify(Integer ID, Product newProduct) {
         Product product = this.findById(ID);
         newProduct.setId(product.getId());
         product = newProduct;

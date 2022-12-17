@@ -8,10 +8,13 @@ import java.util.Objects;
 
 public class ShoppingCart {
 
+    static int idCounter = 0;
     Integer id;
     private List<ProductOrder> products;
 
     public ShoppingCart() {
+        idCounter++;
+        this.id = idCounter;
         products = new ArrayList<>();
     }
 

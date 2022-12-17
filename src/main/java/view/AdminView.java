@@ -295,7 +295,7 @@ public class AdminView extends View {
                 1. Modify product list
                 2. Modify delivery address
                 """);
-    }//modifica pretul comenzii dupa ce modifici lista de produse comandate
+    }
 
     private void useModifyOrdersMenu() {
         int modifyOrdersMenuOption = -1;

@@ -21,6 +21,7 @@ public class SQLDatabaseConnection {
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             System.out.println("Connected to database");
+
             return connection;
         } catch (SQLException e) {
             System.out.println("Can't connect to database");
@@ -33,4 +34,4 @@ public class SQLDatabaseConnection {
         getConnection();
     }
 }
-        // Handle any errors that may have occurred
+// Handle any errors that may have occurred

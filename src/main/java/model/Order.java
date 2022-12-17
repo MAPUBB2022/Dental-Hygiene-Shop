@@ -98,6 +98,7 @@ public class Order {
     public String toString() {
         return "\nOrder " +
                 "id: " + id +
+                "userId: " + userId +
                 "\ndate, time: " + dateTime.toString() +
                 "\ntotal price: " + price +
                 "\ndelivery address: " + deliveryAddress +

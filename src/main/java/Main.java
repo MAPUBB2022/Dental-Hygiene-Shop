@@ -1,6 +1,7 @@
 
 import controller.*;
 import model.*;
+import repository.databaseRepo.JdbcUserRepository;
 import repository.memoryRepo.*;
 import view.AdminView;
 import view.UserView;
@@ -9,6 +10,7 @@ import view.View;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -18,29 +20,23 @@ public class Main {
         InMemoryProductRepository inMemoryProductRepository = new InMemoryProductRepository();
         InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
         Controller controller = new Controller(inMemoryOrderRepository, inMemoryProductRepository, inMemoryUserRepository);
-
-        int type = View.askAdminLogin();
-        if (type == 1){
-            AdminView session = new AdminView(controller);
-            session.useMainMenu();
-        } else if (type==0) {
-            UserView session = new UserView(controller);
-            session.useMainMenu();
-        }
-        //UserView userView = new UserView(controller);
-
-        //userView.useMainMenu();
-//        AdminView aview = new AdminView(controller);
-//        aview.showAllOrders();
-//
-//
-//        System.out.println("");
-//        userView.useMainMenu();
-//        AdminView adminView = new AdminView(controller);
-//        adminView.showAllOrders();
+        JdbcUserRepository ur = new JdbcUserRepository();
 
 
-       // manager.getTransaction().commit();
+//        Address address = new Address("USA", "NY", "NY", "5h Ave", "12", "12345");
+//        address.setId(1);
+//        User user1 = new User("Ana", "ana@yahoo.com", "01234",
+//                "psswd", address, new ArrayList<Order>());
+        ur.modifyName(2, "Ana Banana");
+
+//        int type = View.askAdminLogin();
+//        if (type == 1){
+//            AdminView session = new AdminView(controller);
+//            session.useMainMenu();
+//        } else if (type==0) {
+//            UserView session = new UserView(controller);
+//            session.useMainMenu();
+//        }
 
     }
 
