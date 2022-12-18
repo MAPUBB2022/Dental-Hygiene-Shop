@@ -190,15 +190,14 @@ public class AdminView extends View {
 
             try {
                 use = readUse();
+                Product product = new Product(name, size, type, basePrice, use, stock );
+                controller.addProduct(product);
+                return;
             } catch (IllegalArgumentException e) {
                 System.out.println("reenter use");
             }
-            Product product = new Product(name, size, type, basePrice, use, stock );
-            controller.addProduct(product);
-            return;
+
         }
-
-
     }
 
     String readString() {
