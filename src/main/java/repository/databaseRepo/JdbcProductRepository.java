@@ -44,19 +44,19 @@ public class JdbcProductRepository implements IProductRepository {
 
     @Override
     public void add(Product product) {
-        String query = "insert into Products(ID, name, basePrice, size, stock, type, [use])" +
-                " values  (?,?,?,?,?,?,?)";
+        String query = "insert into Products(name, basePrice, size, stock, type, [use])" +
+                " values  (?,?,?,?,?,?)";
 
         try (Connection connection = DriverManager.getConnection(JdbcUserRepository.connectionUrl)) {
 
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, product.getId());
-            statement.setString(2, product.getName());
-            statement.setBigDecimal(3, BigDecimal.valueOf(product.getBasePrice()));
-            statement.setString(4, product.getSize());
-            statement.setInt(5, product.getStock());
-            statement.setString(6, product.getType().name());
-            statement.setString(7, product.getUse().name());
+            //statement.setInt(1, product.getId());
+            statement.setString(1, product.getName());
+            statement.setBigDecimal(2, BigDecimal.valueOf(product.getBasePrice()));
+            statement.setString(3, product.getSize());
+            statement.setInt(4, product.getStock());
+            statement.setString(5, product.getType().name());
+            statement.setString(6, product.getUse().name());
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -73,7 +73,7 @@ public class JdbcProductRepository implements IProductRepository {
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, ID);
-            statement.executeQuery();
+            statement.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println("problems deleting product from repository");
@@ -89,6 +89,7 @@ public class JdbcProductRepository implements IProductRepository {
         try (Connection connection = DriverManager.getConnection(JdbcUserRepository.connectionUrl)) {
 
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, ID);
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
@@ -122,7 +123,7 @@ public class JdbcProductRepository implements IProductRepository {
             statement.setString(5, newProduct.getType().name());
             statement.setString(6, newProduct.getUse().name());
             statement.setInt(7, newProduct.getId());
-            statement.executeQuery();
+            statement.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println("Repo: problems modifying product");

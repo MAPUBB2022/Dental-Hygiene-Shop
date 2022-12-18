@@ -125,6 +125,7 @@ public class AdminView extends View {
                 5. Modify product type
                 6. Modify product use
                 7. Add product
+                8. Delete product
                 """);
     }
 
@@ -136,7 +137,7 @@ public class AdminView extends View {
             try {
                 showModifyProductsMenuPrompt();
                 modifyProductsMenuOption = Integer.parseInt(scanner.next());
-                if (modifyProductsMenuOption < 0 || modifyProductsMenuOption > 7) {
+                if (modifyProductsMenuOption < 0 || modifyProductsMenuOption > 8) {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException exception) {
@@ -153,8 +154,19 @@ public class AdminView extends View {
                 case 5 -> modifyProductType();
                 case 6 -> modifyProductUse();
                 case 7 -> addProduct();
+                case 8 -> deleteProduct();
             }
         }
+    }
+
+    void deleteProduct() {
+        Integer id = null;
+        while (id == null) {
+            System.out.println("ID of product to delete:");
+            id = readId();
+        }
+        controller.deleteProduct(id);
+
     }
 
     void addProduct() {
@@ -190,13 +202,12 @@ public class AdminView extends View {
 
             try {
                 use = readUse();
-                Product product = new Product(name, size, type, basePrice, use, stock );
+                Product product = new Product(name, size, type, basePrice, use, stock);
                 controller.addProduct(product);
                 return;
             } catch (IllegalArgumentException e) {
                 System.out.println("reenter use");
             }
-
         }
     }
 
@@ -255,7 +266,6 @@ public class AdminView extends View {
     }
 
     Double readPrice() {
-        System.out.println("New price of product: ");
         Scanner scanner = new Scanner(System.in);
         try {
             return Double.parseDouble(scanner.next());
@@ -268,6 +278,7 @@ public class AdminView extends View {
     public void modifyProductPrice() {
         System.out.println("Product ID:");
         Integer productId = readId();
+        System.out.println("New price of product: ");
         double newPrice = readPrice();
         try {
             Product newProduct = new Product(controller.findProductById(productId));
@@ -400,5 +411,5 @@ public class AdminView extends View {
         System.out.println(controller.getUserRepository().getUserList());
     }
 
-
+//filter orders by date... someday
 }

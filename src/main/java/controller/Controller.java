@@ -300,4 +300,8 @@ public class Controller {
     public void addProduct(Product product){
         productRepository.add(product);
     }
+
+    public void deleteProduct(Integer id) {
+        productRepository.delete(id);
+    }
 }
