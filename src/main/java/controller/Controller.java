@@ -296,4 +296,8 @@ public class Controller {
         }
         orderRepository.modifyProducts(orderId, productId);
     }
+
+    public void addProduct(Product product){
+        productRepository.add(product);
+    }
 }

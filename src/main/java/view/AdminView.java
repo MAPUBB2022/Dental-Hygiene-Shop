@@ -194,7 +194,7 @@ public class AdminView extends View {
                 System.out.println("reenter use");
             }
             Product product = new Product(name, size, type, basePrice, use, stock );
-            //controller.addProduct(product);
+            controller.addProduct(product);
             return;
         }
 
