@@ -124,6 +124,7 @@ public class AdminView extends View {
                 4. Modify product stock
                 5. Modify product type
                 6. Modify product use
+                7. Add product
                 """);
     }
 
@@ -135,7 +136,7 @@ public class AdminView extends View {
             try {
                 showModifyProductsMenuPrompt();
                 modifyProductsMenuOption = Integer.parseInt(scanner.next());
-                if (modifyProductsMenuOption < 0 || modifyProductsMenuOption > 6) {
+                if (modifyProductsMenuOption < 0 || modifyProductsMenuOption > 7) {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException exception) {
@@ -151,7 +152,51 @@ public class AdminView extends View {
                 case 4 -> modifyProductStock();
                 case 5 -> modifyProductType();
                 case 6 -> modifyProductUse();
+                case 7 -> addProduct();
             }
+        }
+    }
+
+    void addProduct() {
+        String name, size;
+        ProductType type = null;
+        ProductUse use = null;
+        Integer stock = null;
+        Double basePrice = null;
+
+        System.out.println("Enter product details: ");
+        System.out.println("name: ");
+        name = readString();
+
+        while (basePrice == null) {
+            System.out.println("base price: ");
+            basePrice = readPrice();
+        }
+
+        System.out.println("size: ");
+        size = readString();
+
+        while (stock == null) {
+            System.out.println("stock: ");
+            stock = readStock();
+        }
+
+        while (true) {
+            try {
+                type = readType();
+            } catch (IllegalArgumentException e) {
+                System.out.println("reenter type");
+            }
+
+            try {
+                use = readUse();
+                Product product = new Product(name, size, type, basePrice, use, stock );
+                controller.addProduct(product);
+                return;
+            } catch (IllegalArgumentException e) {
+                System.out.println("reenter use");
+            }
+
         }
     }
 
@@ -234,7 +279,6 @@ public class AdminView extends View {
     }
 
     Integer readStock() {
-        System.out.println("New stock of product: ");
         int stock = 0;
         Scanner scanner = new Scanner(System.in);
         try {
@@ -253,6 +297,7 @@ public class AdminView extends View {
 
     public void modifyProductStock() {
         Integer id = readId();
+        System.out.println("New stock: ");
         int newStock = readStock();
         Product product;
         try {

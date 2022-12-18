@@ -56,7 +56,7 @@ public class JdbcUserRepository implements IUserRepository {
     }
 
     static Address getAddress(int id) {
-        String query = "select id, country, region, city" +
+        String query = "select id, country, region, city, " +
                 " street, number, postalCode from Addresses where ID = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
@@ -64,13 +64,17 @@ public class JdbcUserRepository implements IUserRepository {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
-            Address address = new Address(rs.getString("country"),
-                    rs.getString("region"),
-                    rs.getString("city"),
-                    rs.getString("street"),
-                    rs.getString("number"),
-                    rs.getString("postalCode"));
-            address.setId(rs.getInt("ID"));
+            while (rs.next()) {
+                Address address = new Address(rs.getString("country"),
+                        rs.getString("region"),
+                        rs.getString("city"),
+                        rs.getString("street"),
+                        rs.getString("number"),
+                        rs.getString("postalCode"));
+                address.setId(rs.getInt("ID"));
+
+                return address;
+            }
         } catch (SQLException e) {
             System.out.println("problems retrieving address");
             e.printStackTrace();
@@ -97,6 +101,18 @@ public class JdbcUserRepository implements IUserRepository {
             statement.executeQuery();
         } catch (SQLException e) {
             System.out.println("problems placing order");
+            e.printStackTrace();
+        }
+
+        query = "delete from ProductOrder where cartId = ?";
+
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, user.getCart().getId());
+            statement.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("problems emptying cart");
             e.printStackTrace();
         }
 
@@ -245,8 +261,21 @@ public class JdbcUserRepository implements IUserRepository {
 
     @Override
     public String findPasswordByEmail(String email) {
+        String query = "select password from Users where email = ?";
 
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getString("password");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("problems finding password by email");
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -260,14 +289,16 @@ public class JdbcUserRepository implements IUserRepository {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, email);
             ResultSet rs = statement.executeQuery();
-            //Display values
-            User user = new User(rs.getString("name"),
-                    rs.getString("email"),
-                    rs.getString("phoneNumber"),
-                    rs.getString("password"),
-                    getAddress(rs.getInt("addressId")), new ArrayList<>());
-            user.setId(rs.getInt("id"));
-            user.setOrderHistory(getOrderHistory(rs.getInt("id")));
+            while (rs.next()) {
+                User user = new User(rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phoneNumber"),
+                        rs.getString("password"),
+                        getAddress(rs.getInt("addressId")), new ArrayList<>());
+                user.setId(rs.getInt("id"));
+                user.setOrderHistory(getOrderHistory(rs.getInt("id")));
+                return user;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
