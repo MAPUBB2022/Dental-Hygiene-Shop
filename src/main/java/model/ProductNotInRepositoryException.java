@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Is thrown when the product used in a certain operation is not in the product repository.
+ */
 public class ProductNotInRepositoryException extends Exception{
     public ProductNotInRepositoryException() {
     }

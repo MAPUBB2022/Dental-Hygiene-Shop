@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Is thrown when the order used in a certain operation is not in the order repository.
+ */
 public class OrderNotInRepositoryException extends Exception{
     public OrderNotInRepositoryException() {
     }

@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Incorrect password input.
+ * Is thrown on incorrect password input.
  */
 public class IncorrectPasswordException extends Exception{
     public IncorrectPasswordException() {
