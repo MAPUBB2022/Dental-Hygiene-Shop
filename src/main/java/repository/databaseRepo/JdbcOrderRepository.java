@@ -5,6 +5,7 @@ import model.Order;
 import model.ProductOrder;
 import repository.IOrderRepository;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -75,28 +76,46 @@ public class JdbcOrderRepository implements IOrderRepository {
     }
 
 
+    public static void addAddress(Address address){
+
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+
+            String insert = "insert into Addresses (id, country, region, " +
+                    "city, street, number, postalCode) values (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(insert);
+            statement.setInt(1, address.getId());
+            statement.setString(2, address.getCountry());
+            statement.setString(3, address.getRegion());
+            statement.setString(4, address.getCity());
+            statement.setString(5, address.getStreet());
+            statement.setString(6, address.getNumber());
+            statement.setString(7, address.getPostalCode());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Can't connect to database");
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void add(Order order) {
 
-//        addAddressOfUser(user);
-//        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
-//            System.out.println("Connected to database");
-//            String insert = "insert into Users (id, cartId, name, " +
-//                    "email, phoneNumber, password, addressId) values (?, ?, ?, ?, ?, ?, ?)";
-//            PreparedStatement statement = connection.prepareStatement(insert);
-//            statement.setInt(1, user.getId());
-//            statement.setInt(2, user.getCart().getId());
-//            statement.setString(3, user.getName());
-//            statement.setString(4, user.getEmail());
-//            statement.setString(5, user.getPhoneNumber());
-//            statement.setString(6, user.getPassword());
-//            statement.setInt(7, user.getAddress().getId());
-//            statement.executeUpdate();
-//        } catch (SQLException e) {
-//            System.out.println("Can't connect to database");
-//            e.printStackTrace();
-//        }
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+            System.out.println("Connected to database");
+            String insert = "insert into Orders (ID, dateTime, userId, deliveryAddressID, price)" +
+                    " values (?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(insert);
+            statement.setInt(1, order.getId());
+            statement.setTimestamp(2, Timestamp.valueOf(order.getDateTime()));
+            statement.setInt(3, order.getUserId());
+            statement.setInt(4, order.getDeliveryAddress().getId());
+            statement.setBigDecimal(5, BigDecimal.valueOf(order.getPrice()));
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Problem inserting order");
+            e.printStackTrace();
+        }
 
     }
 
@@ -141,11 +160,51 @@ public class JdbcOrderRepository implements IOrderRepository {
 
     @Override
     public void modifyProducts(Integer orderId, Integer productId) {
+        //delete product from order; recalculate price
+        String query = "delete from ProductOrder where productId = ? and orderId = ?";
 
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, productId);
+            statement.setInt(2, orderId);
+            statement.executeQuery();
+
+        } catch (SQLException e) {
+            System.out.println("problems removing product from order");
+            e.printStackTrace();
+        }
+
+        query = "update Orders set price = ? where ID = ?";
+
+        Order newOrder = findById(orderId);
+        double price = newOrder.getPrice();
+
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setBigDecimal(1, BigDecimal.valueOf(price));
+            statement.setInt(2, orderId);
+            statement.executeQuery();
+
+        } catch (SQLException e) {
+            System.out.println("problems retrieving order");
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void modifyDeliveryAddress(Integer ID, Address newDeliveryAddress) {
 
+        addAddress(newDeliveryAddress);
+
+        String query = "update Orders set deliveryAddressId = ? where ID = ?";
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, newDeliveryAddress.getId());
+            statement.setInt(2, ID);
+            statement.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("problems modifying delivery address");
+            e.printStackTrace();
+        }
     }
 }
