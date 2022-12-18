@@ -1,8 +1,5 @@
 package model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 public class Product {
 
     private static int idCounter = 0;
