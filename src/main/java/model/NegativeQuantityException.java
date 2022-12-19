@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Is thrown when an operation would cause a quantity to become a negative number.
+ */
 public class NegativeQuantityException extends Exception{
     public NegativeQuantityException() {
     }
