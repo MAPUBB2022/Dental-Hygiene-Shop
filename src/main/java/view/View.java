@@ -11,20 +11,35 @@ import java.util.List;
 import java.util.Scanner;
 
 
-
-
+/**
+ * The view is the part of the program that interacts with the user. It receives input and calls the controller to
+ * do needed operations.
+ */
 public abstract class View {
 
     protected final Controller controller;
 
+    /**
+     * View constructor.
+     */
     public View(Controller controller) {
         this.controller = controller;
     }
 
+    /**
+     * This function verifies that the credentials used to log in as an admin are correct.
+     * @param username This is the username that we will check to see if it is the admin username.
+     * @param password This is the password that we will check to see if it is the admin password.
+     * @return Boolean value. True if the admin username and password are correct, false otherwise.
+     */
     static boolean checkAdminLogin(String username, String password) {
         return (username.equals("admin") && password.equals("admin"));
     }
 
+    /**
+     *
+     * @return
+     */
     static public int askAdminLogin() {
         System.out.println("Login as admin? y/n");
         Scanner scanner = new Scanner(System.in);
