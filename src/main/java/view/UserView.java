@@ -149,14 +149,13 @@ public class UserView extends View {
                 } catch (InsufficientStockException e) {
                     System.out.println("Insufficient stock");
                 }
-
             }
         }
 
     }
 
     private void viewCart() {
-        List<ProductOrder> productOrders = this.user.getCart().getProducts();
+        List<ProductOrder> productOrders = controller.getUserCart(user);
         if (productOrders.isEmpty()) {
             System.out.println("Cart is empty");
         } else {
@@ -181,7 +180,7 @@ public class UserView extends View {
             System.out.println("\ninvalid option");
         } else {
             if (option.equals("y")) {
-                user.getCart().getProducts().clear();
+                controller.emptyCart(user);
                 System.out.println("\nCart emptied");
             } else {
                 System.out.println("\nCart not emptied");
@@ -197,7 +196,7 @@ public class UserView extends View {
     }
 
     private void viewOrders() {
-        System.out.println(user.getOrderHistory());
+        System.out.println(controller.getOrderHistoryOfUser(user));
     }
 
     public void finishSignUp() {

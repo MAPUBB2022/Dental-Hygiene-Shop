@@ -10,39 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/*
-String query = "select country, region, city" +
-                " street, number, postalCode from Addresses where ID = ?";
-       
-        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
-            
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, id);
-            ResultSet rs = statement.executeQuery();
-        } catch (SQLException e) {
-            System.out.println("problems retrieving user address");
-            e.printStackTrace();
-        }
-        return null;
- */
-
-/*String connectionUrl =
-                "jdbc:sqlserver://localhost\\SQLEXPRESS;database=Dental-Hygiene-Shop;"
-                        + "user=guest;"
-                        + "password=1234;"
-                        + "encrypt=true;"
-                        + "trustServerCertificate=true;";
-
-        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
-            System.out.println("Connected to database");
-            return connection;
-        } catch (SQLException e) {
-            System.out.println("Can't connect to database");
-            e.printStackTrace();
-        }
-        return null;*/
-
-
 public class JdbcUserRepository implements IUserRepository {
     static String connectionUrl;
 
@@ -53,6 +20,8 @@ public class JdbcUserRepository implements IUserRepository {
                         + "password=1234;"
                         + "encrypt=true;"
                         + "trustServerCertificate=true;";
+
+        emptyAllCarts();
     }
 
     static Address getAddress(int id) {
@@ -64,7 +33,7 @@ public class JdbcUserRepository implements IUserRepository {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 Address address = new Address(rs.getString("country"),
                         rs.getString("region"),
                         rs.getString("city"),
@@ -86,36 +55,28 @@ public class JdbcUserRepository implements IUserRepository {
     public void placeOrder(User user, Order order) {
         //        insert order into orders table
         //        empty cart <=> delete all products from ProductOrder with that cartId
+        //insert products of order in ProductOrder table
 
-        String query = "insert into Orders (ID, dateTime, userId, deliveryAddressId, price) " +
-                "values (?,?,?,?,?)";
+        for (ProductOrder p: order.getProducts()){
+            String query = "insert into ProductOrder (productId, price, quantity, orderId) " +
+                    "values (?,?,?,?)";
 
-        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+            try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, order.getId());
-            statement.setTimestamp(2, Timestamp.valueOf(order.getDateTime()));
-            statement.setInt(3, order.getUserId());
-            statement.setInt(4, order.getDeliveryAddress().getId());
-            statement.setBigDecimal(5, BigDecimal.valueOf(order.getPrice()));
-            statement.executeQuery();
-        } catch (SQLException e) {
-            System.out.println("problems placing order");
-            e.printStackTrace();
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setInt(1, p.getProductId());
+                statement.setBigDecimal(2, BigDecimal.valueOf(p.getPrice()));
+                statement.setInt(3, p.getQuantity());
+                statement.setInt(4, order.getId());
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("problems placing products in productOrder");
+                e.printStackTrace();
+            }
         }
 
-        query = "delete from ProductOrder where cartId = ?";
 
-        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
-
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, user.getCart().getId());
-            statement.executeQuery();
-        } catch (SQLException e) {
-            System.out.println("problems emptying cart");
-            e.printStackTrace();
-        }
-
+        emptyCart(user);
     }
 
     @Override
@@ -133,6 +94,7 @@ public class JdbcUserRepository implements IUserRepository {
                 //Display values
                 user.setId(rs.getInt("id"));
                 user.setAddress(getAddress(rs.getInt("addressId")));
+                user.setOrderHistory(getOrderHistoryOfUser(user));
                 rs.getInt("cartId");
                 rs.getString("name");
                 rs.getString("email");
@@ -147,26 +109,27 @@ public class JdbcUserRepository implements IUserRepository {
         return null;
     }
 
-    List<Order> getOrderHistory(int userId) {
+    @Override
+    public List<Order> getOrderHistoryOfUser(User user) {
         String query = "select ID, dateTime, deliveryAddressID, price" +
                 " from Orders where userId = ?";
         List<Order> orderList = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, userId);
+            statement.setInt(1, user.getId());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Address address = getAddress(rs.getInt("deliveryAddressID"));
                 List<ProductOrder> productList = JdbcOrderRepository.getProductListByOrder(rs.getInt("ID"));
-                Order order = new Order((LocalDateTime) rs.getObject("dateTime"), userId, address,
+                Order order = new Order(rs.getTimestamp("dateTime").toLocalDateTime(), user.getId(), address,
                         productList);
                 order.setId(rs.getInt("ID"));
                 orderList.add(order);
             }
             return orderList;
         } catch (SQLException e) {
-            System.out.println("problems retrieving user address");
+            System.out.println("problems retrieving user order history");
             e.printStackTrace();
         }
         return null;
@@ -177,24 +140,45 @@ public class JdbcUserRepository implements IUserRepository {
     }
 
     public void addAddressOfUser(User user) {
+
+        Address address = user.getAddress();
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
-            System.out.println("Connected to database");
-            Address address = user.getAddress();
-            String insert = "insert into Addresses (id, country, region, " +
-                    "city, street, number, postalCode) values (?, ?, ?, ?, ?, ?, ?)";
+
+            String insert = "insert into Addresses ( country, region, " +
+                    "city, street, number, postalCode) values ( ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(insert);
-            statement.setInt(1, address.getId());
-            statement.setString(2, address.getCountry());
-            statement.setString(3, address.getRegion());
-            statement.setString(4, address.getCity());
-            statement.setString(5, address.getStreet());
-            statement.setString(6, address.getNumber());
-            statement.setString(7, address.getPostalCode());
+            statement.setString(1, address.getCountry());
+            statement.setString(2, address.getRegion());
+            statement.setString(3, address.getCity());
+            statement.setString(4, address.getStreet());
+            statement.setString(5, address.getNumber());
+            statement.setString(6, address.getPostalCode());
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Can't connect to database");
             e.printStackTrace();
         }
+
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+            String insert = "select ID from Addresses where country=? and region=? and " +
+                    "city=? and street=? and number=? and postalCode=? ";
+            PreparedStatement statement = connection.prepareStatement(insert);
+            statement.setString(1, address.getCountry());
+            statement.setString(2, address.getRegion());
+            statement.setString(3, address.getCity());
+            statement.setString(4, address.getStreet());
+            statement.setString(5, address.getNumber());
+            statement.setString(6, address.getPostalCode());
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                address.setId(rs.getInt("ID"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Can't connect to database");
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override
@@ -203,16 +187,16 @@ public class JdbcUserRepository implements IUserRepository {
         addAddressOfUser(user);
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             System.out.println("Connected to database");
-            String insert = "insert into Users (id, cartId, name, " +
-                    "email, phoneNumber, password, addressId) values (?, ?, ?, ?, ?, ?, ?)";
+            String insert = "insert into Users (cartId, name, " +
+                    "email, phoneNumber, password, addressId) values ( ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(insert);
-            statement.setInt(1, user.getId());
-            statement.setInt(2, user.getCart().getId());
-            statement.setString(3, user.getName());
-            statement.setString(4, user.getEmail());
-            statement.setString(5, user.getPhoneNumber());
-            statement.setString(6, user.getPassword());
-            statement.setInt(7, user.getAddress().getId());
+            //statement.setInt(1, user.getId());
+            statement.setInt(1, user.getCart().getId());
+            statement.setString(2, user.getName());
+            statement.setString(3, user.getEmail());
+            statement.setString(4, user.getPhoneNumber());
+            statement.setString(5, user.getPassword());
+            statement.setInt(6, user.getAddress().getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Can't connect to database");
@@ -225,10 +209,10 @@ public class JdbcUserRepository implements IUserRepository {
     public void delete(Integer ID) {
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
-            String insert = "delete from Users where ID = ?";
-            PreparedStatement statement = connection.prepareStatement(insert);
+            String delete = "delete from Users where id = ?";
+            PreparedStatement statement = connection.prepareStatement(delete);
             statement.setInt(1, ID);
-            statement.executeUpdate(insert);
+            statement.executeUpdate(delete);
         } catch (SQLException e) {
             System.out.println("error deleting user");
         }
@@ -252,7 +236,7 @@ public class JdbcUserRepository implements IUserRepository {
                     rs.getString("password"),
                     getAddress(rs.getInt("addressId")), new ArrayList<>());
             user.setId(id);
-            user.setOrderHistory(getOrderHistory(id));
+            user.setOrderHistory(getOrderHistoryOfUser(user));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -289,14 +273,14 @@ public class JdbcUserRepository implements IUserRepository {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, email);
             ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 User user = new User(rs.getString("name"),
                         rs.getString("email"),
                         rs.getString("phoneNumber"),
                         rs.getString("password"),
                         getAddress(rs.getInt("addressId")), new ArrayList<>());
                 user.setId(rs.getInt("id"));
-                user.setOrderHistory(getOrderHistory(rs.getInt("id")));
+                user.setOrderHistory(getOrderHistoryOfUser(user));
                 return user;
             }
         } catch (SQLException e) {
@@ -325,7 +309,7 @@ public class JdbcUserRepository implements IUserRepository {
 
     @Override
     public void modifyEmail(Integer ID, String newEmail) {
-        String query = "update Users set email = ? where ID = ?";
+        String query = "update Users set email = ? where id = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
@@ -341,7 +325,7 @@ public class JdbcUserRepository implements IUserRepository {
 
     @Override
     public void modifyPhoneNumber(Integer ID, String newPhoneNumber) {
-        String query = "update Users set phoneNumber = ? where ID = ?";
+        String query = "update Users set phoneNumber = ? where id = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
@@ -358,7 +342,7 @@ public class JdbcUserRepository implements IUserRepository {
 
     @Override
     public void modifyPassword(Integer ID, String newPassword) {
-        String query = "update Users set password = ? where ID = ?";
+        String query = "update Users set password = ? where id = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
@@ -405,7 +389,7 @@ public class JdbcUserRepository implements IUserRepository {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, product.getProductId());
             statement.setInt(2, user.getCart().getId());
-            statement.executeQuery();
+            statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("problems deleting product from cart");
             e.printStackTrace();
@@ -422,7 +406,7 @@ public class JdbcUserRepository implements IUserRepository {
             statement.setInt(1, quantity);
             statement.setInt(2, product.getProductId());
             statement.setInt(3, user.getCart().getId());
-            statement.executeQuery();
+            statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("problems setting product quantity in cart");
             e.printStackTrace();
@@ -441,10 +425,62 @@ public class JdbcUserRepository implements IUserRepository {
             statement.setBigDecimal(2, BigDecimal.valueOf(product.getPrice()));
             statement.setInt(3, product.getQuantity());
             statement.setInt(4, user.getCart().getId());
-            statement.executeQuery();
+            statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("problems adding new product to cart");
             e.printStackTrace();
         }
     }
+
+    void emptyAllCarts(){
+        String query = "delete from ProductOrder where cartId IS NOT NULL";
+
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("problems emptying all carts");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void emptyCart(User user) {
+        String query = "delete from ProductOrder where cartId = ?";
+
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, user.getCart().getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("problems emptying cart");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<ProductOrder> getCartOfUser(User user) {
+        String query = "select productId, price, " +
+                " quantity from ProductOrder where cartId = ?";
+        try (Connection connection = DriverManager.getConnection(JdbcUserRepository.connectionUrl)) {
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, user.getCart().getId());
+            ResultSet rs = statement.executeQuery();
+            List<ProductOrder> productList = new ArrayList<>();
+            while (rs.next()) {
+                ProductOrder product = new ProductOrder(rs.getInt("productId"),
+                        rs.getInt("quantity"), rs.getDouble("price"));
+                productList.add(product);
+            }
+            return productList;
+
+        } catch (SQLException e) {
+            System.out.println("problems retrieving product list");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

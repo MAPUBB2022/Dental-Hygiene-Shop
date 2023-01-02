@@ -78,7 +78,7 @@ public class Controller {
      * @return Order This returns the order we just created.
      */
     public Order createOrderWithUser(@NotNull User user) {
-        List<ProductOrder> products = List.copyOf(user.getCart().getProducts());
+        List<ProductOrder> products = List.copyOf(userRepository.getCartOfUser(user));
         return new Order(LocalDateTime.now(), user.getId(), user.getAddress(), products);
     }
 
@@ -299,5 +299,21 @@ public class Controller {
 
     public void addProduct(Product product){
         productRepository.add(product);
+    }
+
+    public void deleteProduct(Integer id) {
+        productRepository.delete(id);
+    }
+
+    public void emptyCart(User user) {
+        userRepository.emptyCart(user);
+    }
+
+    public List<ProductOrder> getUserCart(User user) {
+        return userRepository.getCartOfUser(user);
+    }
+
+    public List<Order> getOrderHistoryOfUser(User user){
+        return userRepository.getOrderHistoryOfUser(user);
     }
 }
