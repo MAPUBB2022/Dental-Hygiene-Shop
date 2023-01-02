@@ -26,7 +26,7 @@ public class InMemoryUserRepository implements IUserRepository {
     @Override
     public void placeOrder(User user, Order order) {
         user.getOrderHistory().add(order);
-        user.getCart().getProducts().clear();
+        emptyCart(user);
     }
 
     public List<User> getUserList() {
@@ -118,5 +118,20 @@ public class InMemoryUserRepository implements IUserRepository {
     @Override
     public void addProductToCart(User user, ProductOrder product) {
         user.getCart().addProduct(product);
+    }
+
+    @Override
+    public void emptyCart(User user) {
+        user.getCart().getProducts().clear();
+    }
+
+    @Override
+    public List<ProductOrder> getCartOfUser(User user) {
+        return user.getCart().getProducts();
+    }
+
+    @Override
+    public List<Order> getOrderHistoryOfUser(User user) {
+        return user.getOrderHistory();
     }
 }

@@ -38,4 +38,10 @@ public interface IUserRepository extends ICrudRepository<Integer, User> {
     void setCartProductQuantity(ProductOrder product, Integer quantity, User user);
 
     void addProductToCart(User user, ProductOrder product);
+
+    void emptyCart(User user);
+
+    List<ProductOrder> getCartOfUser(User user);
+
+    List<Order> getOrderHistoryOfUser(User user);
 }

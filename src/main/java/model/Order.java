@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Users can place orders. Orders have an ID, a timestamp, a list of products, a delivery address and store the ID of
+ * Users can place orders. Orders have an ID, a date and time, a list of products, a delivery address and the ID of
  * the user who placed them.
  */
 public class Order {
@@ -152,12 +152,13 @@ public class Order {
     public String toString() {
         return "\nOrder " +
                 "id: " + id +
-                "userId: " + userId +
+                "\nuserId: " + userId +
                 "\ndate, time: " + dateTime.toString() +
                 "\ntotal price: " + price +
                 "\ndelivery address: " + deliveryAddress +
                 "\nproducts: " +
-                productsToString();
+                productsToString()
+                + '\n';
     }
 
     /**

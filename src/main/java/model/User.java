@@ -51,7 +51,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", password='" + password + '\'' +
-                ", defaultAddressId=" + address +
+                ", address=" + address +
                 ", orderHistory=" + orderHistory +
                 '}';
     }

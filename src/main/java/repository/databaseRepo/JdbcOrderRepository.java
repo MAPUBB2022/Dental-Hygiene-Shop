@@ -27,7 +27,7 @@ public class JdbcOrderRepository implements IOrderRepository {
 
     static List<ProductOrder> getProductListByOrder(int orderId) {
         String query = "select productId, price, " +
-                " quantity, from ProductOrder where order_id = ?";
+                " quantity from ProductOrder where orderId = ?";
         try (Connection connection = DriverManager.getConnection(JdbcUserRepository.connectionUrl)) {
 
             PreparedStatement statement = connection.prepareStatement(query);

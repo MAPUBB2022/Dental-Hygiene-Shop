@@ -23,15 +23,19 @@ public class Main {
     /**
      *
      * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     * Implement get cart products and empty cart methods in userRepo, 'cause they're implemented in View :"")
+     * 1. Implement empty all carts method for jdbc and call it in repo constructor
+     * 2. When an order is placed, the quantity of bought products must be deducted from productRepo
+     * 3. Order id: 3userId: 1
+     * date, time: 2022-12-19T15:32:42.571498700
+     * make this prettier :))
      * */
 
     public static void main(String[] args) {
 
         InMemoryOrderRepository inMemoryOrderRepository = new InMemoryOrderRepository();
-       // InMemoryProductRepository inMemoryProductRepository = new InMemoryProductRepository();
-//        InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
-//        Controller controller = new Controller(inMemoryOrderRepository, inMemoryProductRepository, inMemoryUserRepository);
+        InMemoryProductRepository inMemoryProductRepository = new InMemoryProductRepository();
+        InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
+        Controller controller = new Controller(inMemoryOrderRepository, inMemoryProductRepository, inMemoryUserRepository);
        JdbcUserRepository ur = new JdbcUserRepository();
         JdbcOrderRepository or = new JdbcOrderRepository();
         JdbcProductRepository pr = new JdbcProductRepository();
