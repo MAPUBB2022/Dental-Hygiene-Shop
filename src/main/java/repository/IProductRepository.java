@@ -1,8 +1,6 @@
 package repository;
 
 import model.Product;
-import model.ProductType;
-import model.ProductUse;
 
 import java.util.List;
 
@@ -19,5 +17,7 @@ public interface IProductRepository extends ICrudRepository<Integer, Product> {
     public Product findById(Integer ID);
 
     public void modify(Integer id, Product newProduct);
+
+    public void setStockOfProduct(Product product, Integer stock);
 
 }

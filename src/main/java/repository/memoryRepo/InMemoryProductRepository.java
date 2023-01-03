@@ -75,4 +75,9 @@ public class InMemoryProductRepository implements IProductRepository {
         newProduct.setId(product.getId());
         product = newProduct;
     }
+
+    @Override
+    public void setStockOfProduct(Product product, Integer stock) {
+        product.setStock(stock);
+    }
 }

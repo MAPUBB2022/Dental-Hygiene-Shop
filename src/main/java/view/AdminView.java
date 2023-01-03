@@ -108,7 +108,6 @@ public class AdminView extends View {
     }
 
     public void modifyProducts() {
-        showModifyProductsMenuPrompt();
         useModifyProductsMenu();
     }
 
@@ -411,5 +410,5 @@ public class AdminView extends View {
         System.out.println(controller.getUserRepository().getUserList());
     }
 
-//filter orders by date... someday
+
 }

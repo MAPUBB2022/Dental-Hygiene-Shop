@@ -120,7 +120,7 @@ public abstract class View {
                 1. Filter by name
                 2. Filter by type
                 3. Filter by use
-                4. Filter by size
+                4. Filter by size - unavailable
                 """);
     }
 

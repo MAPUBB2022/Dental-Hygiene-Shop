@@ -132,4 +132,21 @@ public class JdbcProductRepository implements IProductRepository {
 
     }
 
+    @Override
+    public void setStockOfProduct(Product product, Integer stock) {
+        String query = "update Products set stock = ? " +
+                " where ID = ?";
+
+        try (Connection connection = DriverManager.getConnection(JdbcUserRepository.connectionUrl)) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, stock);
+            statement.setInt(2, product.getId());
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Repo: problems setting stock of product");
+            e.printStackTrace();
+        }
+    }
+
 }
