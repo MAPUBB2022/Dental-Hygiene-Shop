@@ -172,4 +172,46 @@ class ControllerTest {
     @org.junit.jupiter.api.Test
     void filterByUse() {
     }
+
+
+    @Test
+    void modifyProduct() {
+    }
+
+    @Test
+    void findProductById() {
+    }
+
+    @Test
+    void modifyOrderDeliveryAddress() {
+    }
+
+    @Test
+    void modifyOrderProductList() {
+    }
+
+    @Test
+    void addProduct() {
+    }
+
+    @Test
+    void deleteProduct() {
+    }
+
+    @Test
+    void emptyCart() {
+    }
+
+    @Test
+    void getUserCart() {
+    }
+
+    @Test
+    void getOrderHistoryOfUser() {
+    }
+
+    @Test
+    void filterByHasInSize() {
+    }
+
 }
