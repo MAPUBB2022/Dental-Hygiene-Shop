@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-//exceptii: produse comandate>nr produse in stoc, alte cheztii
-
 /**
  * The controller intermediates between the model and the view.
  */
@@ -162,10 +160,14 @@ public class Controller {
                 userRepository.setCartProductQuantity(product, qtyInCart + qtyToAdd, user);
             }
         } else {
-            if (qtyToAdd >= 0 && qtyToAdd <= searched.getStock()) {
-                addNewProductToCart(user, productId, qtyToAdd);
+            if (qtyToAdd >= 0) {
+                if (qtyToAdd <= searched.getStock()) {
+                    addNewProductToCart(user, productId, qtyToAdd);
+                } else {
+                    throw new InsufficientStockException("Insufficient stock");
+                }
             } else {
-                throw new NegativeQuantityException("Nothing added to cart");
+                throw new NegativeQuantityException("New product with negative quantity will not be added");
             }
         }
     }
@@ -224,6 +226,11 @@ public class Controller {
     public List<Product> filterByHasInName(String text) {
         return new java.util.ArrayList<>(List.copyOf(productRepository.getProductList())).
                 stream().filter((Product a) -> a.getName().toLowerCase().contains(text.toLowerCase())).toList();
+    }
+
+    public List<Product> filterByHasInSize(String text) {
+        return new java.util.ArrayList<>(List.copyOf(productRepository.getProductList())).
+                stream().filter((Product a) -> a.getSize().toLowerCase().contains(text.toLowerCase())).toList();
     }
 
     /**

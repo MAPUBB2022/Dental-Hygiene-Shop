@@ -28,6 +28,7 @@ public abstract class View {
 
     /**
      * This function verifies that the credentials used to log in as an admin are correct.
+     *
      * @param username This is the username that we will check to see if it is the admin username.
      * @param password This is the password that we will check to see if it is the admin password.
      * @return Boolean value. True if the admin username and password are correct, false otherwise.
@@ -37,7 +38,6 @@ public abstract class View {
     }
 
     /**
-     *
      * @return
      */
     static public int askAdminLogin() {
@@ -50,10 +50,9 @@ public abstract class View {
             System.out.println("password: ");
             String password = scanner.next();
             if (checkAdminLogin(username, password)) {
-                 return 1;
+                return 1;
             }
-        }
-        else {
+        } else {
             return 0;
         }
         return -1;
@@ -100,10 +99,10 @@ public abstract class View {
 
     public void showAllProducts() {
         for (Product p : controller.getProductRepository().getProductList()) {
-            if (p.getStock() == 0) {
-                System.out.println("\nout of stock");
-            }
             System.out.println(p);
+            if (p.getStock() == 0) {
+                System.out.println("OUT OF STOCK");
+            }
         }
     }
 
@@ -120,7 +119,7 @@ public abstract class View {
                 1. Filter by name
                 2. Filter by type
                 3. Filter by use
-                4. Filter by size - unavailable
+                4. Filter by size
                 """);
     }
 
@@ -132,7 +131,7 @@ public abstract class View {
             try {
                 showFilteringMenuPrompt();
                 filteringMenuOption = Integer.parseInt(scanner.next());
-                if (filteringMenuOption < 0 || filteringMenuOption > 3) {
+                if (filteringMenuOption < 0 || filteringMenuOption > 4) {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException exception) {
@@ -143,8 +142,16 @@ public abstract class View {
                 case 1 -> filterProductsByName();
                 case 2 -> filterProductsByType();
                 case 3 -> filterProductsByUse();
+                case 4 -> filterProductsBySize();
             }
         }
+    }
+
+    private void filterProductsBySize() {
+        System.out.println("Enter (part of) product size: ");
+        String size = readString();
+        List<Product> filtered = controller.filterByHasInSize(size);
+        printProductList(filtered);
     }
 
     String readName() {
@@ -295,5 +302,10 @@ public abstract class View {
     private void sortByNameDescending() {
         List<Product> sorted = controller.sortByName(false);
         printProductList(sorted);
+    }
+
+    String readString() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
     }
 }

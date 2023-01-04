@@ -103,12 +103,9 @@ public class JdbcOrderRepository implements IOrderRepository {
     public void add(Order order) {
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
-            System.out.println("Connected to database");
             String insert = "insert into Orders (dateTime, userId, deliveryAddressID, price)" +
                     " values (?, ?, ?, ?)";
-            System.out.println("Order price: " + order.getPrice());
             BigDecimal price = BigDecimal.valueOf(order.getPrice());
-            System.out.println("Order price Big Decimal: " + price);
 
             PreparedStatement statement = connection.prepareStatement(insert);
             //statement.setInt(1, order.getId());

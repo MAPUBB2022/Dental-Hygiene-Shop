@@ -210,11 +210,6 @@ public class AdminView extends View {
         }
     }
 
-    String readString() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
-    }
-
     public void modifyProductSize() {
         System.out.println("Product ID:");
         Integer productId = readId();

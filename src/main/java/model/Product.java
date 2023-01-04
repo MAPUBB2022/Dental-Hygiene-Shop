@@ -170,6 +170,7 @@ public class Product {
                 "\nbase price: " + basePrice +
                 "\nsize: " + size +
                 "\ntype: " + type +
-                "\nuse: " + use;
+                "\nuse: " + use +
+                "\nstock: " + stock;
     }
 }
