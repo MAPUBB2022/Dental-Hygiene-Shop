@@ -44,16 +44,14 @@ public class User {
      */
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", cart=" + cart +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", password='" + password + '\'' +
-                ", address=" + address +
-                ", orderHistory=" + orderHistory +
-                '}';
+        return
+                "id: " + id +
+                "\ncart: " + cart +
+                "\nname: " + name  +
+                "\nemail: " + email  +
+                "\nphone number: " + phoneNumber  +
+                "\npassword: " + password +
+                "\naddress: " + address;
     }
 
     /**

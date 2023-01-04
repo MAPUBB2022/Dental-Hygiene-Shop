@@ -71,26 +71,26 @@ public class InMemoryUserRepository implements IUserRepository {
     }
 
     @Override
-    public void modifyName(Integer ID, String newName) {
-        User user = this.findById(ID);
+    public void modifyName(Integer id, String newName) {
+        User user = this.findById(id);
         user.setName(newName);
     }
 
     @Override
-    public void modifyEmail(Integer ID, String newEmail) {
-        User user = this.findById(ID);
+    public void modifyEmail(Integer id, String newEmail) {
+        User user = this.findById(id);
         user.setEmail(newEmail);
     }
 
     @Override
-    public void modifyPhoneNumber(Integer ID, String newPhoneNumber) {
-        User user = this.findById(ID);
+    public void modifyPhoneNumber(Integer id, String newPhoneNumber) {
+        User user = this.findById(id);
         user.setPhoneNumber(newPhoneNumber);
     }
 
     @Override
-    public void modifyPassword(Integer ID, String newPassword) {
-        User user = this.findById(ID);
+    public void modifyPassword(Integer id, String newPassword) {
+        User user = this.findById(id);
         user.setPassword(newPassword);
     }
 
@@ -128,5 +128,10 @@ public class InMemoryUserRepository implements IUserRepository {
     @Override
     public List<Order> getOrderHistoryOfUser(User user) {
         return user.getOrderHistory();
+    }
+
+    @Override
+    public void modifyDeliveryAddress(User user, Address newDeliveryAddress) {
+        user.setAddress(newDeliveryAddress);
     }
 }

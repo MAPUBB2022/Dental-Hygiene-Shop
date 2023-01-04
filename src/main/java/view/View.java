@@ -154,7 +154,7 @@ public abstract class View {
         printProductList(filtered);
     }
 
-    String readName() {
+    String readProductName() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter (part of) product name:");
         return scanner.nextLine();
@@ -191,7 +191,7 @@ public abstract class View {
     }
 
     private void filterProductsByName() {
-        String name = readName();
+        String name = readProductName();
         List<Product> filtered = controller.filterByHasInName(name);
         printProductList(filtered);
 

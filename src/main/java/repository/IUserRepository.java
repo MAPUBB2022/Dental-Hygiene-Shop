@@ -21,13 +21,13 @@ public interface IUserRepository extends ICrudRepository<Integer, User> {
     public User findByEmail(String email);
 
 
-    public void modifyName(Integer ID, String newName);
+    public void modifyName(Integer id, String newName);
 
-    public void modifyEmail(Integer ID, String newEmail);
+    public void modifyEmail(Integer id, String newEmail);
 
-    public void modifyPhoneNumber(Integer ID, String newPhoneNumber);
+    public void modifyPhoneNumber(Integer id, String newPhoneNumber);
 
-    public void modifyPassword(Integer ID, String newPassword);
+    public void modifyPassword(Integer id, String newPassword);
 
     ProductOrder findProductInCartById(User user, Integer productId);
 
@@ -42,4 +42,6 @@ public interface IUserRepository extends ICrudRepository<Integer, User> {
     List<ProductOrder> getCartOfUser(User user);
 
     List<Order> getOrderHistoryOfUser(User user);
+
+    void modifyDeliveryAddress(User user, Address newDeliveryAddress);
 }

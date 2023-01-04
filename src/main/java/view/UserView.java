@@ -95,9 +95,9 @@ public class UserView extends View {
                 4. Add to cart
                 5. View cart
                 6. Place order
-                7. View orders
+                7. View order history
+                8. Modify account information
                 """);
-        //modify address!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     private void useUserMenu() {
@@ -108,7 +108,7 @@ public class UserView extends View {
             try {
                 showUserMenuPrompt();
                 userMenuOption = Integer.parseInt(scanner.next());
-                if (userMenuOption < 0 || userMenuOption > 7) {
+                if (userMenuOption < 0 || userMenuOption > 8) {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException exception) {
@@ -126,8 +126,108 @@ public class UserView extends View {
                 case 5 -> viewCart();
                 case 6 -> placeOrder();
                 case 7 -> viewOrders();
+                case 8 -> modifyAccountInfo();
             }
         }
+    }
+
+    private void showModifyAccountMenuPrompt() {
+        showAccountInformation();
+        System.out.println("""
+
+                ACCOUNT INFORMATION MENU
+                Options:
+                0. Exit
+                1. Modify name
+                2. Modify delivery address
+                3. Modify phone number
+                4. Modify email
+                5. Modify password
+                6. Delete account
+                """);
+
+    }
+
+    private void showAccountInformation(){
+        System.out.println("Current account details: ");
+        System.out.println(this.user);
+    }
+
+    private void modifyAccountInfo() {
+        int option = -1;
+        boolean exit = false;
+        Scanner scanner = new Scanner(System.in);
+        while (!exit) {
+            try {
+                showModifyAccountMenuPrompt();
+                option = Integer.parseInt(scanner.next());
+                if (option < 0 || option > 6) {
+                    throw new IllegalArgumentException();
+                }
+            } catch (IllegalArgumentException exception) {
+                System.out.println("Invalid input");
+            }
+            switch (option) {
+                case 0 -> exit = true;
+                case 1 -> modifyName();
+                case 2 -> modifyDeliveryAddress();
+                case 3 -> modifyPhoneNumber();
+                case 4 -> modifyEmail();
+                case 5 -> modifyPassword();
+                case 6 -> deleteAccount();
+            }
+        }
+
+    }
+
+    private void deleteAccount() {
+        System.out.println("Are you sure? You will lose all data and have no way of undoing the deletion.");
+        System.out.println("yes/no");
+        String option = readString();
+        if (option.equals("yes")){
+            System.out.println("Your account will be deleted. The application will close.");
+            Integer id = this.user.getId();
+            this.user = null;
+            controller.deleteAccountById(id);
+            System.exit(0);
+        }
+        else {
+            System.out.println("Your account will not be deleted. Returning to previous menu");
+        }
+    }
+
+    private void modifyEmail() {
+        System.out.println("new email: ");
+        String email = readString();
+        controller.modifyUserEmail(this.user, email);
+        this.user = controller.getUserRepository().findById(user.getId());
+    }
+
+    private void modifyPassword() {
+        System.out.println("new password: ");
+        String password = readString();
+        controller.modifyUserPassword(this.user, password);
+        this.user = controller.getUserRepository().findById(user.getId());
+    }
+
+    private void modifyPhoneNumber() {
+        System.out.println("new phone number: ");
+        String phoneNumber = readString();
+        controller.modifyUserPhoneNumber(this.user, phoneNumber);
+        this.user = controller.getUserRepository().findById(user.getId());
+    }
+
+    private void modifyName() {
+        System.out.println("new name: ");
+        String name = readString();
+        controller.modifyUserName(this.user, name);
+        this.user = controller.getUserRepository().findById(user.getId());
+    }
+
+    private void modifyDeliveryAddress() {
+        Address newAddress = readAddress();
+        controller.modifyUserDeliveryAddress(this.user, newAddress);
+        this.user = controller.getUserRepository().findById(user.getId());
     }
 
     private void addProductsToCart() {

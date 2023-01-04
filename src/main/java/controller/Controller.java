@@ -5,6 +5,7 @@ import repository.IOrderRepository;
 import repository.IProductRepository;
 import repository.IUserRepository;
 import org.jetbrains.annotations.NotNull;
+import view.UserView;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -341,5 +342,29 @@ public class Controller {
 
     public List<Order> getOrderHistoryOfUser(User user) {
         return userRepository.getOrderHistoryOfUser(user);
+    }
+
+    public void deleteAccountById(Integer id){
+        userRepository.delete(id);
+    }
+
+    public void modifyUserDeliveryAddress(User user, Address newAddress) {
+        userRepository.modifyDeliveryAddress(user, newAddress);
+    }
+
+    public void modifyUserName(User user, String name) {
+        userRepository.modifyName(user.getId(), name);
+    }
+
+    public void modifyUserEmail(User user, String email) {
+        userRepository.modifyEmail(user.getId(), email);
+    }
+
+    public void modifyUserPassword(User user, String password) {
+        userRepository.modifyPassword(user.getId(), password);
+    }
+
+    public void modifyUserPhoneNumber(User user, String phoneNumber) {
+        userRepository.modifyPhoneNumber(user.getId(), phoneNumber);
     }
 }

@@ -5,9 +5,11 @@ import repository.IUserRepository;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static repository.databaseRepo.JdbcOrderRepository.addAddress;
+import static repository.databaseRepo.JdbcOrderRepository.getAddressId;
 
 
 public class JdbcUserRepository implements IUserRepository {
@@ -143,7 +145,7 @@ public class JdbcUserRepository implements IUserRepository {
             statement.setString(5, address.getNumber());
             statement.setString(6, address.getPostalCode());
             ResultSet rs = statement.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 address.setId(rs.getInt("ID"));
             }
         } catch (SQLException e) {
@@ -185,9 +187,10 @@ public class JdbcUserRepository implements IUserRepository {
             String delete = "delete from Users where id = ?";
             PreparedStatement statement = connection.prepareStatement(delete);
             statement.setInt(1, ID);
-            statement.executeUpdate(delete);
+            statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("error deleting user");
+            e.printStackTrace();
         }
 
     }
@@ -195,7 +198,7 @@ public class JdbcUserRepository implements IUserRepository {
     @Override
     public User findById(Integer id) {
         String query = "select id, cartId, name, email," +
-                " phoneNumber, password, addressId from Users where ID = ?";
+                " phoneNumber, password, addressId from Users where id = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
@@ -203,13 +206,16 @@ public class JdbcUserRepository implements IUserRepository {
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             //Display values
-            User user = new User(rs.getString("name"),
-                    rs.getString("email"),
-                    rs.getString("phoneNumber"),
-                    rs.getString("password"),
-                    getAddress(rs.getInt("addressId")), new ArrayList<>());
-            user.setId(id);
-            user.setOrderHistory(getOrderHistoryOfUser(user));
+            if (rs.next()) {
+                User user = new User(rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phoneNumber"),
+                        rs.getString("password"),
+                        getAddress(rs.getInt("addressId")), new ArrayList<>());
+                user.setId(id);
+                user.setOrderHistory(getOrderHistoryOfUser(user));
+                return user;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -246,7 +252,7 @@ public class JdbcUserRepository implements IUserRepository {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, email);
             ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 User user = new User(rs.getString("name"),
                         rs.getString("email"),
                         rs.getString("phoneNumber"),
@@ -263,7 +269,7 @@ public class JdbcUserRepository implements IUserRepository {
     }
 
     @Override
-    public void modifyName(Integer ID, String newName) {
+    public void modifyName(Integer id, String newName) {
 
         String query = "update Users set name = ? where ID = ?";
 
@@ -271,7 +277,7 @@ public class JdbcUserRepository implements IUserRepository {
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, newName);
-            statement.setInt(2, ID);
+            statement.setInt(2, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("problems modifying user name");
@@ -281,14 +287,14 @@ public class JdbcUserRepository implements IUserRepository {
     }
 
     @Override
-    public void modifyEmail(Integer ID, String newEmail) {
+    public void modifyEmail(Integer id, String newEmail) {
         String query = "update Users set email = ? where id = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, newEmail);
-            statement.setInt(2, ID);
+            statement.setInt(2, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("problems modifying user email");
@@ -297,14 +303,14 @@ public class JdbcUserRepository implements IUserRepository {
     }
 
     @Override
-    public void modifyPhoneNumber(Integer ID, String newPhoneNumber) {
+    public void modifyPhoneNumber(Integer id, String newPhoneNumber) {
         String query = "update Users set phoneNumber = ? where id = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, newPhoneNumber);
-            statement.setInt(2, ID);
+            statement.setInt(2, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("problems modifying user phone number");
@@ -314,14 +320,14 @@ public class JdbcUserRepository implements IUserRepository {
     }
 
     @Override
-    public void modifyPassword(Integer ID, String newPassword) {
+    public void modifyPassword(Integer id, String newPassword) {
         String query = "update Users set password = ? where id = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, newPassword);
-            statement.setInt(2, ID);
+            statement.setInt(2, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("problems modifying user password");
@@ -405,7 +411,7 @@ public class JdbcUserRepository implements IUserRepository {
         }
     }
 
-    void emptyAllCarts(){
+    void emptyAllCarts() {
         String query = "delete from ProductOrder where cartId IS NOT NULL";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
@@ -454,6 +460,27 @@ public class JdbcUserRepository implements IUserRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void modifyDeliveryAddress(User user, Address newDeliveryAddress) {
+
+        addAddress(newDeliveryAddress);
+        Integer addressId = getAddressId(newDeliveryAddress);
+
+        String query = "update Users set addressId = ? where id = ?";
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, addressId);
+            statement.setInt(2, user.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("problems modifying user delivery address");
+            e.printStackTrace();
+        } catch (NullPointerException e1) {
+            System.out.println("address id is null");
+            e1.printStackTrace();
+        }
     }
 
 }

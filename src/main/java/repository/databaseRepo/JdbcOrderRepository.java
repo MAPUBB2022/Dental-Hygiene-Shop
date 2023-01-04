@@ -98,6 +98,28 @@ public class JdbcOrderRepository implements IOrderRepository {
         }
     }
 
+    public static Integer getAddressId(Address address) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+
+            String query = "select id from Addresses where country = ? and region = ? " +
+                    "and city = ? and street = ? and number = ? and postalCode = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, address.getCountry());
+            statement.setString(2, address.getRegion());
+            statement.setString(3, address.getCity());
+            statement.setString(4, address.getStreet());
+            statement.setString(5, address.getNumber());
+            statement.setString(6, address.getPostalCode());
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println("Problem retrieving address id");
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public void add(Order order) {
@@ -108,7 +130,6 @@ public class JdbcOrderRepository implements IOrderRepository {
             BigDecimal price = BigDecimal.valueOf(order.getPrice());
 
             PreparedStatement statement = connection.prepareStatement(insert);
-            //statement.setInt(1, order.getId());
             statement.setTimestamp(1, Timestamp.valueOf(order.getDateTime()));
             statement.setInt(2, order.getUserId());
             statement.setInt(3, order.getDeliveryAddress().getId());
@@ -194,19 +215,24 @@ public class JdbcOrderRepository implements IOrderRepository {
     }
 
     @Override
-    public void modifyDeliveryAddress(Integer ID, Address newDeliveryAddress) {
+    public void modifyDeliveryAddress(Integer id, Address newDeliveryAddress) {
 
         addAddress(newDeliveryAddress);
+        Integer addressId = getAddressId(newDeliveryAddress);
 
         String query = "update Orders set deliveryAddressId = ? where ID = ?";
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, newDeliveryAddress.getId());
-            statement.setInt(2, ID);
+            statement.setInt(1, addressId);
+            statement.setInt(2, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("problems modifying delivery address");
             e.printStackTrace();
+        }
+        catch (NullPointerException e1){
+            System.out.println("address id is null");
+            e1.printStackTrace();
         }
     }
 
