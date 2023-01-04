@@ -3,6 +3,7 @@ package repository.databaseRepo;
 import model.Address;
 import model.Order;
 import model.ProductOrder;
+import model.User;
 import repository.IOrderRepository;
 
 import java.math.BigDecimal;
@@ -76,7 +77,7 @@ public class JdbcOrderRepository implements IOrderRepository {
     }
 
 
-    public static void addAddress(Address address){
+    public static void addAddress(Address address) {
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
@@ -102,15 +103,16 @@ public class JdbcOrderRepository implements IOrderRepository {
     public void add(Order order) {
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
-            System.out.println("Connected to database");
             String insert = "insert into Orders (dateTime, userId, deliveryAddressID, price)" +
                     " values (?, ?, ?, ?)";
+            BigDecimal price = BigDecimal.valueOf(order.getPrice());
+
             PreparedStatement statement = connection.prepareStatement(insert);
             //statement.setInt(1, order.getId());
             statement.setTimestamp(1, Timestamp.valueOf(order.getDateTime()));
             statement.setInt(2, order.getUserId());
             statement.setInt(3, order.getDeliveryAddress().getId());
-            statement.setBigDecimal(4, BigDecimal.valueOf(order.getPrice()));
+            statement.setBigDecimal(4, price);
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Problem inserting order");
@@ -205,6 +207,50 @@ public class JdbcOrderRepository implements IOrderRepository {
         } catch (SQLException e) {
             System.out.println("problems modifying delivery address");
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void placeOrder(User user, Order order) {
+        //        insert order into orders table
+        //         insert products of order in ProductOrder table
+
+        add(order);
+        Integer orderId = null;
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+            //select top 1 from orders where userId = ?
+            String queryOrderId = "select top 1 ID from Orders where userId = ? " +
+                    " order by dateTime desc";
+            PreparedStatement statement = connection.prepareStatement(queryOrderId);
+            statement.setInt(1, user.getId());
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                orderId = rs.getInt("ID");
+            }
+            if (orderId == null) {
+                throw new SQLException("order id is null");
+            }
+        } catch (SQLException e) {
+            System.out.println("problems retrieving order id");
+            e.printStackTrace();
+        }
+
+        for (ProductOrder p : order.getProducts()) {
+            String query = "insert into ProductOrder (productId, price, quantity, orderId) " +
+                    "values (?,?,?,?)";
+
+            try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setInt(1, p.getProductId());
+                statement.setBigDecimal(2, BigDecimal.valueOf(p.getPrice()));
+                statement.setInt(3, p.getQuantity());
+                statement.setInt(4, orderId);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("problems placing products in productOrder");
+                e.printStackTrace();
+            }
         }
     }
 }

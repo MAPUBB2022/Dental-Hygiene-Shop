@@ -3,6 +3,7 @@ package repository.memoryRepo;
 import model.Address;
 import model.Order;
 import model.ProductOrder;
+import model.User;
 import repository.IOrderRepository;
 
 import java.time.LocalDateTime;
@@ -73,5 +74,10 @@ public class InMemoryOrderRepository implements IOrderRepository {
         order.setDeliveryAddress(newDeliveryAddress);
     }
 
+    @Override
+    public void placeOrder(User user, Order order) {
+        orderList.add(order);
+        user.getOrderHistory().add(order);
+    }
 
 }

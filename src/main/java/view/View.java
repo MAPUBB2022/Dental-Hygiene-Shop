@@ -28,6 +28,7 @@ public abstract class View {
 
     /**
      * This function verifies that the credentials used to log in as an admin are correct.
+     *
      * @param username This is the username that we will check to see if it is the admin username.
      * @param password This is the password that we will check to see if it is the admin password.
      * @return Boolean value. True if the admin username and password are correct, false otherwise.
@@ -37,10 +38,7 @@ public abstract class View {
     }
 
     /**
-     * This function asks the user if they want to log in as an admin. If the user inputs "y" or "Y", they will have to
-     * input the admin username and admin password.
-     * @return 1 if the user wants to log in as an admin and the admin username and password are correct.
-     * Return 0 otherwise.
+     * @return
      */
     static public int askAdminLogin() {
         System.out.println("Login as admin? y/n");
@@ -52,18 +50,18 @@ public abstract class View {
             System.out.println("password: ");
             String password = scanner.next();
             if (checkAdminLogin(username, password)) {
-                 return 1;
+                return 1;
             }
-        }
-        else {
+        } else {
             return 0;
         }
         return -1;
     }
 
-    /**
-     * This function displays the guest menu prompt.
-     */
+    public void continueAsGuest() {
+        useGuestMenu();
+    }
+
     public void showGuestMenuPrompt() {
         System.out.println("""
 
@@ -76,10 +74,6 @@ public abstract class View {
                 """);
     }
 
-    /**
-     * This function receives input from the user. The input must be an Integer, and it signifies an ID.
-     * @return The input is returned if it is of Integer type. Otherwise, null is returned.
-     */
     public Integer readId() {
         Scanner scanner = new Scanner(System.in);
         try {
@@ -90,10 +84,6 @@ public abstract class View {
         }
     }
 
-    /**
-     * This function receives input from the user. The input must be an Integer, and it signifies a product quantity.
-     * @return The input is returned if it is of Integer type. Otherwise, null is returned.
-     */
     public Integer readProductQuantity() {
         System.out.println("Quantity to add to cart (adding negative quantity will remove pieces): ");
         Scanner scanner = new Scanner(System.in);
@@ -105,26 +95,21 @@ public abstract class View {
         }
     }
 
-    /**
-     * This function displays the guest menu prompt and allows the user to choose between the given options.
-     */
     public abstract void useGuestMenu();
 
-    /**
-     * This function prints all the products in the product repository.
-     */
     public void showAllProducts() {
         for (Product p : controller.getProductRepository().getProductList()) {
-            if (p.getStock() == 0) {
-                System.out.println("\nout of stock");
-            }
             System.out.println(p);
+            if (p.getStock() == 0) {
+                System.out.println("OUT OF STOCK");
+            }
         }
     }
 
-    /**
-     * This function displays the filtering menu prompt.
-     */
+    public void filterProducts() {
+        useFilteringMenu();
+    }
+
     public void showFilteringMenuPrompt() {
         System.out.println("""
 
@@ -138,9 +123,6 @@ public abstract class View {
                 """);
     }
 
-    /**
-     * This function displays the filtering menu prompt and allows the user to choose between the given options.
-     */
     public void useFilteringMenu() {
         int filteringMenuOption = -1;
         boolean filteringMenuExit = false;
@@ -149,7 +131,7 @@ public abstract class View {
             try {
                 showFilteringMenuPrompt();
                 filteringMenuOption = Integer.parseInt(scanner.next());
-                if (filteringMenuOption < 0 || filteringMenuOption > 3) {
+                if (filteringMenuOption < 0 || filteringMenuOption > 4) {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException exception) {
@@ -160,8 +142,16 @@ public abstract class View {
                 case 1 -> filterProductsByName();
                 case 2 -> filterProductsByType();
                 case 3 -> filterProductsByUse();
+                case 4 -> filterProductsBySize();
             }
         }
+    }
+
+    private void filterProductsBySize() {
+        System.out.println("Enter (part of) product size: ");
+        String size = readString();
+        List<Product> filtered = controller.filterByHasInSize(size);
+        printProductList(filtered);
     }
 
     String readName() {
@@ -312,5 +302,10 @@ public abstract class View {
     private void sortByNameDescending() {
         List<Product> sorted = controller.sortByName(false);
         printProductList(sorted);
+    }
+
+    String readString() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
     }
 }

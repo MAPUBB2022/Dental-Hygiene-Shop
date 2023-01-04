@@ -23,11 +23,6 @@ public class InMemoryUserRepository implements IUserRepository {
         this.userList.add(user1);
     }
 
-    @Override
-    public void placeOrder(User user, Order order) {
-        user.getOrderHistory().add(order);
-        emptyCart(user);
-    }
 
     public List<User> getUserList() {
         return userList;

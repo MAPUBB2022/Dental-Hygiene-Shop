@@ -2,6 +2,7 @@ package repository;
 
 import model.Address;
 import model.Order;
+import model.User;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface IOrderRepository extends ICrudRepository<Integer, Order> {
     abstract void modifyProducts(Integer orderId, Integer productId);
 
     abstract void modifyDeliveryAddress(Integer ID, Address newDeliveryAddress);
+
+    void placeOrder(User user, Order order);
 }

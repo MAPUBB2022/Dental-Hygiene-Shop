@@ -36,7 +36,7 @@ public class UserView extends View {
                 """);
     }
 
-    public void useMainMenu()  {
+    public void useMainMenu() {
         int mainMenuOption = -1;
         boolean mainMenuExit = false;
         Scanner scanner = new Scanner(System.in);
@@ -156,20 +156,23 @@ public class UserView extends View {
 
     private void viewCart() {
         List<ProductOrder> productOrders = controller.getUserCart(user);
+        double price = 0.0;
         if (productOrders.isEmpty()) {
             System.out.println("Cart is empty");
         } else {
             for (ProductOrder product : productOrders) {
                 System.out.println(controller.getProductRepository().findById(product.getProductId()).getName());
                 System.out.println(product);
+                price += product.getPrice() * product.getQuantity();
             }
+            System.out.println("Total: " + price);
             emptyCart();
         }
     }
 
     public String readOptionEmptyCart() {
         //returns lowercase letter(s)
-        System.out.println("Empty cart? Y/N");
+        System.out.println("Empty cart? y/n");
         Scanner s = new Scanner(System.in);
         return s.nextLine().toLowerCase();
     }

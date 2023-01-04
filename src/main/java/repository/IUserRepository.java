@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface IUserRepository extends ICrudRepository<Integer, User> {
 
-    void placeOrder(User user, Order order);
-
     public List<User> getUserList();
 
     public void setUserList(List<User> userList);

@@ -51,33 +51,6 @@ public class JdbcUserRepository implements IUserRepository {
         return null;
     }
 
-    @Override
-    public void placeOrder(User user, Order order) {
-        //        insert order into orders table
-        //        empty cart <=> delete all products from ProductOrder with that cartId
-        //insert products of order in ProductOrder table
-
-        for (ProductOrder p: order.getProducts()){
-            String query = "insert into ProductOrder (productId, price, quantity, orderId) " +
-                    "values (?,?,?,?)";
-
-            try (Connection connection = DriverManager.getConnection(connectionUrl)) {
-
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setInt(1, p.getProductId());
-                statement.setBigDecimal(2, BigDecimal.valueOf(p.getPrice()));
-                statement.setInt(3, p.getQuantity());
-                statement.setInt(4, order.getId());
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                System.out.println("problems placing products in productOrder");
-                e.printStackTrace();
-            }
-        }
-
-
-        emptyCart(user);
-    }
 
     @Override
     public List<User> getUserList() {
