@@ -37,8 +37,10 @@ public abstract class View {
     }
 
     /**
-     *
-     * @return
+     * This function asks the user if they want to log in as an admin. If the user inputs "y" or "Y", they will have to
+     * input the admin username and admin password.
+     * @return 1 if the user wants to log in as an admin and the admin username and password are correct.
+     * Return 0 otherwise.
      */
     static public int askAdminLogin() {
         System.out.println("Login as admin? y/n");
@@ -59,10 +61,9 @@ public abstract class View {
         return -1;
     }
 
-    public void continueAsGuest() {
-        useGuestMenu();
-    }
-
+    /**
+     * This function displays the guest menu prompt.
+     */
     public void showGuestMenuPrompt() {
         System.out.println("""
 
@@ -75,6 +76,10 @@ public abstract class View {
                 """);
     }
 
+    /**
+     * This function receives input from the user. The input must be an Integer, and it signifies an ID.
+     * @return The input is returned if it is of Integer type. Otherwise, null is returned.
+     */
     public Integer readId() {
         Scanner scanner = new Scanner(System.in);
         try {
@@ -85,6 +90,10 @@ public abstract class View {
         }
     }
 
+    /**
+     * This function receives input from the user. The input must be an Integer, and it signifies a product quantity.
+     * @return The input is returned if it is of Integer type. Otherwise, null is returned.
+     */
     public Integer readProductQuantity() {
         System.out.println("Quantity to add to cart (adding negative quantity will remove pieces): ");
         Scanner scanner = new Scanner(System.in);
@@ -96,8 +105,14 @@ public abstract class View {
         }
     }
 
+    /**
+     * This function displays the guest menu prompt and allows the user to choose between the given options.
+     */
     public abstract void useGuestMenu();
 
+    /**
+     * This function prints all the products in the product repository.
+     */
     public void showAllProducts() {
         for (Product p : controller.getProductRepository().getProductList()) {
             if (p.getStock() == 0) {
@@ -107,10 +122,9 @@ public abstract class View {
         }
     }
 
-    public void filterProducts() {
-        useFilteringMenu();
-    }
-
+    /**
+     * This function displays the filtering menu prompt.
+     */
     public void showFilteringMenuPrompt() {
         System.out.println("""
 
@@ -124,6 +138,9 @@ public abstract class View {
                 """);
     }
 
+    /**
+     * This function displays the filtering menu prompt and allows the user to choose between the given options.
+     */
     public void useFilteringMenu() {
         int filteringMenuOption = -1;
         boolean filteringMenuExit = false;

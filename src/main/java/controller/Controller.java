@@ -297,22 +297,44 @@ public class Controller {
         orderRepository.modifyProducts(orderId, productId);
     }
 
+    /**
+     * This method adds a product to the product repository.
+     * @param product The product we want to add.
+     */
     public void addProduct(Product product){
         productRepository.add(product);
     }
 
+    /**
+     * This method deletes a product from the product repository.
+     * @param id The ID of the product we want to delete.
+     */
     public void deleteProduct(Integer id) {
         productRepository.delete(id);
     }
 
+    /**
+     * This method empties the shopping cart of a user.
+     * @param user The user whose shopping cart we want to empty.
+     */
     public void emptyCart(User user) {
         userRepository.emptyCart(user);
     }
 
+    /**
+     * This method returns the shopping cart of a user.
+     * @param user The user whose shopping cart we want to return.
+     * @return The shopping cart of the user.
+     */
     public List<ProductOrder> getUserCart(User user) {
         return userRepository.getCartOfUser(user);
     }
 
+    /**
+     * This method returns the order history of a user.
+     * @param user The user whose order history we want to return.
+     * @return The order history of the user.
+     */
     public List<Order> getOrderHistoryOfUser(User user){
         return userRepository.getOrderHistoryOfUser(user);
     }

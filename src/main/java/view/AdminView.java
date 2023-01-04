@@ -62,7 +62,7 @@ public class AdminView extends View {
                     guestMenuExit = true;
                 }
                 case 1 -> showAllProducts();
-                case 2 -> filterProducts();
+                case 2 -> useFilteringMenu();
                 case 3 -> sortProducts();
             }
         }

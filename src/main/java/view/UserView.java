@@ -62,7 +62,7 @@ public class UserView extends View {
                     }
                 }
                 case 2 -> finishSignUp();
-                case 3 -> continueAsGuest();
+                case 3 -> useGuestMenu();
             }
         }
     }
@@ -120,7 +120,7 @@ public class UserView extends View {
                     this.user = null;
                 }
                 case 1 -> showAllProducts();
-                case 2 -> filterProducts();
+                case 2 -> useFilteringMenu();
                 case 3 -> sortProducts();
                 case 4 -> addProductsToCart();
                 case 5 -> viewCart();
@@ -258,7 +258,7 @@ public class UserView extends View {
                     this.user = null;
                 }
                 case 1 -> showAllProducts();
-                case 2 -> filterProducts();
+                case 2 -> useFilteringMenu();
                 case 3 -> sortProducts();
             }
         }
