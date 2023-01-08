@@ -27,6 +27,7 @@ class ControllerTest {
         this.controller = new Controller(orderRepository, productRepository, userRepository);
     }
 
+
     @Test
     void getOrderRepository() {
         assertEquals(orderRepository, controller.getOrderRepository());
@@ -105,7 +106,7 @@ class ControllerTest {
 
     @Test
     void loginThrowsIncorrectPassword() {
-        assertThrows(UserNotFoundException.class, () ->
+        assertThrows(IncorrectPasswordException.class, () ->
                 controller.login("ana@yahoo.com", "asa"));
     }
 
@@ -141,7 +142,7 @@ class ControllerTest {
     void addToCartThrowsProductNotInRepository() {
         User user = controller.userRepository.findByEmail("ana@yahoo.com");
         assertThrows(ProductNotInRepositoryException.class,
-                () -> controller.addToCart(user, 30, 2));
+                () -> controller.addToCart(user, 0, 2));
 
     }
 
@@ -149,15 +150,17 @@ class ControllerTest {
     void addToCartThrowsNegativeQuantity() {
         User user = controller.userRepository.findByEmail("ana@yahoo.com");
         assertThrows(NegativeQuantityException.class,
-                () -> controller.addToCart(user, 3, -2));
+                () -> controller.addToCart(user,
+                        productRepository.getProductList().get(2).getId(), -2));
 
     }
 
     @Test
     void addToCartThrowsInsufficientStock() {
         User user = controller.userRepository.findByEmail("ana@yahoo.com");
-        assertThrows(NegativeQuantityException.class,
-                () -> controller.addToCart(user, 3, -2));
+        assertThrows(InsufficientStockException.class,
+                () -> controller.addToCart(user,
+                        productRepository.getProductList().get(0).getId(), 1000));
 
     }
 
@@ -230,7 +233,7 @@ class ControllerTest {
     @Test
     void modifyProductThrowsProductNotInRepository() {
         assertThrows(ProductNotInRepositoryException.class, ()->
-                controller.modifyProduct(35, null));
+                controller.modifyProduct(0, null));
     }
 
     @Test
@@ -241,7 +244,7 @@ class ControllerTest {
 
     @Test
     void findProductByIdSuccessful() throws ProductNotInRepositoryException {
-        Product product = controller.findProductById(1);
+        Product product = controller.findProductById(productRepository.getProductList().get(0).getId());
         assertEquals(product, productRepository.getProductList().get(0));
     }
 
