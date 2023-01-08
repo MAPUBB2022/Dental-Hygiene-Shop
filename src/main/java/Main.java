@@ -17,16 +17,6 @@ import static model.ProductUse.HOME;
 
 public class Main {
 
-    /**
-     *
-     * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     * user should be able to edit own data
-     * 3. Order id: 3userId: 1
-     * date, time: 2022-12-19T15:32:42.571498700
-     * make this prettier :)
-     * Admin: filter orders by date
-     * */
-
     public static void main(String[] args) {
 
         InMemoryOrderRepository inMemoryOrderRepository = new InMemoryOrderRepository();

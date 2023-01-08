@@ -136,12 +136,12 @@ public class Controller {
      * it doesn't add a new product, but it modifies the quantity of a product already in the shopping cart).
      * If the quantity to add is negative, the quantity of the product in the shopping cart will be reduced accordingly.
      *
-     * @param user      This is the user in whose shopping cart we want to add the product.
-     * @param productId This is the ID of the product we want to add to the user's shopping cart.
-     * @param qtyToAdd  This is the amount of pieces of a product we want to add to the user's shopping cart.
-     * @throws ProductNotInRepositoryException On product ID not matching the ID of a product in the product repository.
-     * @throws NegativeQuantityException       On trying to remove a product from the shopping cart that is not inside it.
-     * @throws InsufficientStockException      On trying to add more pieces of a product in a shopping cart than there are in stock.
+     * @param user      the user in whose shopping cart we want to add the product.
+     * @param productId the ID of the product we want to add to the user's shopping cart.
+     * @param qtyToAdd  the amount of pieces of a product we want to add to the user's shopping cart.
+     * @throws ProductNotInRepositoryException on product ID not matching the ID of a product in the product repository.
+     * @throws NegativeQuantityException       on trying to remove a product from the shopping cart that is not inside it.
+     * @throws InsufficientStockException      on trying to add more pieces of a product in a shopping cart than there are in stock.
      */
     public void addToCart(@NotNull User user, Integer productId, Integer qtyToAdd)
             throws ProductNotInRepositoryException, NegativeQuantityException, InsufficientStockException {

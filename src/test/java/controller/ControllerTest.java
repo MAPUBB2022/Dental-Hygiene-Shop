@@ -11,6 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class ControllerTest {
 
     private Controller controller;
@@ -26,44 +27,40 @@ class ControllerTest {
         this.controller = new Controller(orderRepository, productRepository, userRepository);
     }
 
-    @org.junit.jupiter.api.AfterEach
-    void tearDown() {
-    }
-
-    @org.junit.jupiter.api.Test
+    @Test
     void getOrderRepository() {
         assertEquals(orderRepository, controller.getOrderRepository());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setOrderRepository() {
         controller.setOrderRepository(orderRepository);
         assertEquals(orderRepository, controller.getOrderRepository());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getProductRepository() {
         assertEquals(productRepository, controller.getProductRepository());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setProductRepository() {
         controller.setProductRepository(productRepository);
         assertEquals(productRepository, controller.getProductRepository());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getUserRepository() {
         assertEquals(userRepository, controller.getUserRepository());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setUserRepository() {
         controller.setUserRepository(userRepository);
         assertEquals(userRepository, controller.getUserRepository());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void createOrderWithUser() {
         User user1 = new User("Andrei", "andreiandrei@gmail.con", "0720202020", "andrei",
                 new Address("andrei", "andrei", "andrei", "andrei", "2", "2"),
@@ -77,7 +74,7 @@ class ControllerTest {
         assertEquals(order1, order2);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void placeOrderWithUser() {
         User user1 = new User("Andrei", "andreiandrei@gmail.con", "0720202020", "andrei",
                 new Address("andrei", "andrei", "andrei", "andrei", "2", "2"),
@@ -91,31 +88,28 @@ class ControllerTest {
         assertTrue(user1.getCart().getProducts().isEmpty());
     }
 
-    @org.junit.jupiter.api.Test
-    void login() {
+    @Test
+    void loginSuccessful() {
         try {
             assertEquals(controller.login("ana@yahoo.com", "psswd"), userRepository.findByEmail("ana@yahoo.com"));
         } catch (IncorrectPasswordException | UserNotFoundException e) {
             assert false;
         }
-        try {
-            controller.login("anasasa@yahoo.com", "asa");
-        } catch (UserNotFoundException e) {
-            assert true;
-        } catch (IncorrectPasswordException e) {
-            assert false;
-        }
-
-        try {
-            controller.login("ana@yahoo.com", "asa");
-        } catch (IncorrectPasswordException e) {
-            assert true;
-        } catch (UserNotFoundException e) {
-            assert false;
-        }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
+    void loginThrowsUserNotFound() {
+        assertThrows(UserNotFoundException.class, () ->
+                controller.login("anasasa@yahoo.com", "asa"));
+    }
+
+    @Test
+    void loginThrowsIncorrectPassword() {
+        assertThrows(UserNotFoundException.class, () ->
+                controller.login("ana@yahoo.com", "asa"));
+    }
+
+    @Test
     void addNewProductToCart() {
         User user = controller.userRepository.findByEmail("ana@yahoo.com");
         Product product = controller.productRepository.getProductList().get(1);
@@ -127,8 +121,8 @@ class ControllerTest {
         assertEquals(cart1, cart2);
     }
 
-    @org.junit.jupiter.api.Test
-    void addToCart() {
+    @Test
+    void addToCartSuccessful() {
         User user = controller.userRepository.findByEmail("ana@yahoo.com");
         Product product = controller.productRepository.getProductList().get(1);
         ProductOrder productOrder = new ProductOrder(product.getId(), 2, 10);
@@ -143,7 +137,31 @@ class ControllerTest {
         assertEquals(cart1, cart2);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
+    void addToCartThrowsProductNotInRepository() {
+        User user = controller.userRepository.findByEmail("ana@yahoo.com");
+        assertThrows(ProductNotInRepositoryException.class,
+                () -> controller.addToCart(user, 30, 2));
+
+    }
+
+    @Test
+    void addToCartThrowsNegativeQuantity() {
+        User user = controller.userRepository.findByEmail("ana@yahoo.com");
+        assertThrows(NegativeQuantityException.class,
+                () -> controller.addToCart(user, 3, -2));
+
+    }
+
+    @Test
+    void addToCartThrowsInsufficientStock() {
+        User user = controller.userRepository.findByEmail("ana@yahoo.com");
+        assertThrows(NegativeQuantityException.class,
+                () -> controller.addToCart(user, 3, -2));
+
+    }
+
+    @Test
     void createAccount() {
         User user1 = new User("Andrei", "andreiandrei@gmail.con", "0720202020", "andrei",
                 new Address("andrei", "andrei", "andrei", "andrei", "2", "2"),
@@ -153,23 +171,26 @@ class ControllerTest {
         assertEquals(user1, user2);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void sortByName() {
+        //sort by name: 1,2,6,4,3,5
+        List<Product> expected = new ArrayList<>();
+        expected.add(productRepository.getProductList().get(1));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void sortByPrice() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void filterByHasInName() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void filterByType() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void filterByUse() {
     }
 

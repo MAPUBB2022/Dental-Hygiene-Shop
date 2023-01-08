@@ -38,6 +38,7 @@ public class InMemoryProductRepository implements IProductRepository {
         productList.add(p4);
         productList.add(p5);
         productList.add(p6);
+
     }
 
     public List<Product> getProductList() {
