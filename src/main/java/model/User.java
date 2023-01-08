@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ public class User {
      * User default constructor.
      */
     public User() {
+        this.orderHistory = new ArrayList<>();
     }
 
     /**

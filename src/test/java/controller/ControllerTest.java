@@ -175,64 +175,93 @@ class ControllerTest {
     void sortByName() {
         //sort by name: 1,2,6,4,3,5
         List<Product> expected = new ArrayList<>();
+        expected.add(productRepository.getProductList().get(0));
         expected.add(productRepository.getProductList().get(1));
+        expected.add(productRepository.getProductList().get(5));
+        expected.add(productRepository.getProductList().get(3));
+        expected.add(productRepository.getProductList().get(2));
+        expected.add(productRepository.getProductList().get(4));
+        List<Product> actual = controller.sortByName(true);
+        assertEquals(expected, actual);
     }
 
     @Test
     void sortByPrice() {
+        //1,5,6,3,2,4
+        List<Product> expected = new ArrayList<>();
+        expected.add(productRepository.getProductList().get(0));
+        expected.add(productRepository.getProductList().get(4));
+        expected.add(productRepository.getProductList().get(5));
+        expected.add(productRepository.getProductList().get(2));
+        expected.add(productRepository.getProductList().get(1));
+        expected.add(productRepository.getProductList().get(3));
+        List<Product> actual = controller.sortByPrice(true);
+        assertEquals(expected, actual);
     }
 
     @Test
     void filterByHasInName() {
+        List<Product> actual = controller.filterByHasInName("Colgate");
+        assert(actual.contains(productRepository.getProductList().get(0)));
+        assert(actual.contains(productRepository.getProductList().get(1)));
+        assert(actual.size()==2);
     }
 
     @Test
     void filterByType() {
+        List<Product> actual = controller.filterByType(ProductType.DENTAL_FLOSS);
+        assert (actual.contains(productRepository.getProductList().get(2)));
+        assert (actual.size()==1);
     }
 
     @Test
     void filterByUse() {
+        List<Product> actual = controller.filterByUse(ProductUse.HOME);
+        assert (actual.containsAll(productRepository.getProductList()));
+        assert (actual.size()==productRepository.getProductList().size());
+    }
+
+    @Test
+    void modifyProductSuccessful(){
+
     }
 
 
     @Test
-    void modifyProduct() {
+    void modifyProductThrowsProductNotInRepository() {
+        assertThrows(ProductNotInRepositoryException.class, ()->
+                controller.modifyProduct(35, null));
     }
 
     @Test
-    void findProductById() {
+    void findProductByIdThrowsProductNotInRepository() {
+        assertThrows(ProductNotInRepositoryException.class, ()->
+        controller.findProductById(0));
     }
 
     @Test
-    void modifyOrderDeliveryAddress() {
+    void findProductByIdSuccessful() throws ProductNotInRepositoryException {
+        Product product = controller.findProductById(1);
+        assertEquals(product, productRepository.getProductList().get(0));
     }
 
-    @Test
-    void modifyOrderProductList() {
-    }
-
-    @Test
-    void addProduct() {
-    }
-
-    @Test
-    void deleteProduct() {
-    }
-
-    @Test
-    void emptyCart() {
-    }
-
-    @Test
-    void getUserCart() {
-    }
-
-    @Test
-    void getOrderHistoryOfUser() {
-    }
 
     @Test
     void filterByHasInSize() {
+        List<Product> actual = controller.filterByHasInSize("2p");
+        assert(actual.contains(productRepository.getProductList().get(3)));
+        assert (actual.size()==1);
+    }
+
+    @Test
+    void emptyCart(){
+        User user = userRepository.getUserList().get(0);
+        Product product = productRepository.getProductList().get(0);
+        ProductOrder productOrder = new ProductOrder(product.getId(), 17, product.getBasePrice());
+        user.getCart().addProduct(productOrder);
+        assertFalse(user.getCart().getProducts().isEmpty());
+        controller.emptyCart(user);
+        assertTrue(user.getCart().getProducts().isEmpty());
     }
 
 }

@@ -28,8 +28,8 @@ public class InMemoryProductRepository implements IProductRepository {
     public void populateProducts() {
         Product p1 = new Product("Colgate Max White", "150ml", TOOTHPASTE, 3.5, HOME, 500);
         Product p2 = new Product("Colgate Max White 3D", "200ml", MOUTHWASH, 13.5, HOME, 150);
-        Product p3 = new Product("Oral-B Silky", "50m", DENTAL_FLOSS, 13.5, HOME, 150);
-        Product p4 = new Product("Oral-B Pro 2", "2pcs", TOOTHBRUSH, 13.5, HOME, 200);
+        Product p3 = new Product("Oral-B Silky", "50m", DENTAL_FLOSS, 10.5, HOME, 150);
+        Product p4 = new Product("Oral-B Pro 2", "2pcs", TOOTHBRUSH, 20, HOME, 200);
         Product p5 = new Product("Sensodyne Repair & Protect", "100ml", TOOTHPASTE, 4, HOME, 300);
         Product p6 = new Product("Listerine Cool", "100ml", MOUTHWASH, 8, HOME, 43);
         productList.add(p1);
@@ -38,7 +38,6 @@ public class InMemoryProductRepository implements IProductRepository {
         productList.add(p4);
         productList.add(p5);
         productList.add(p6);
-
     }
 
     public List<Product> getProductList() {

@@ -402,8 +402,11 @@ public class AdminView extends View {
     }
 
     public void showAllUsers() {
-        System.out.println(controller.getUserRepository().getUserList());
+        for (User u : controller.getUserRepository().getUserList()) {
+            System.out.println("Name: " + u.getName());
+            System.out.println("Email: " + u.getEmail());
+            System.out.println();
+        }
     }
-
 
 }

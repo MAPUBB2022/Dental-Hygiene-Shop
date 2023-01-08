@@ -64,17 +64,16 @@ public class JdbcUserRepository implements IUserRepository {
 
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(QUERY);
-            User user = new User();
             while (rs.next()) {
                 //Display values
+                User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setAddress(getAddress(rs.getInt("addressId")));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhoneNumber(rs.getString("phoneNumber"));
+                user.setPassword(rs.getString("password"));
                 user.setOrderHistory(getOrderHistoryOfUser(user));
-                rs.getInt("cartId");
-                rs.getString("name");
-                rs.getString("email");
-                rs.getString("phoneNumber");
-                rs.getString("password");
                 userList.add(user);
             }
             return userList;

@@ -63,7 +63,7 @@ public class JdbcOrderRepository implements IOrderRepository {
             while (rs.next()) {
                 Address address = getAddress(rs.getInt("deliveryAddressID"));
                 List<ProductOrder> productList = JdbcOrderRepository.getProductListByOrder(rs.getInt("ID"));
-                Order order = new Order((LocalDateTime) rs.getObject("dateTime"),
+                Order order = new Order(rs.getTimestamp("dateTime").toLocalDateTime(),
                         rs.getInt("userId"), address, productList);
                 order.setId(rs.getInt("ID"));
                 orderList.add(order);
