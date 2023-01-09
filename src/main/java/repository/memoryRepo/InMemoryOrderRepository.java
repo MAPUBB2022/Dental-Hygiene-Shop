@@ -17,6 +17,9 @@ public class InMemoryOrderRepository implements IOrderRepository {
         return orderList;
     }
 
+    /**
+     * This method populates the order list with some data.
+     */
     void populate() {
         List<ProductOrder> prodList = new ArrayList<>();
         prodList.add(new ProductOrder(1, 4, 7.8));
@@ -34,6 +37,9 @@ public class InMemoryOrderRepository implements IOrderRepository {
 
     private List<Order> orderList;
 
+    /**
+     * Constructor which initializes the order list and populates it.
+     */
     public InMemoryOrderRepository() {
         this.orderList = new ArrayList<>();
         populate();

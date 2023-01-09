@@ -11,9 +11,6 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * The controller intermediates between the model and the view.
- */
 public class Controller {
     IOrderRepository orderRepository;
     IProductRepository productRepository;

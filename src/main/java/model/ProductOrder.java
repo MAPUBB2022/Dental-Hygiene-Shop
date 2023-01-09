@@ -1,8 +1,5 @@
 package model;
 
-/**
- * This class resolves the many to many relationship between the Product and Order classes.
- */
 public class ProductOrder {
     private Integer productId;
     private int quantity;

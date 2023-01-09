@@ -16,15 +16,24 @@ public class InMemoryProductRepository implements IProductRepository {
 
     private List<Product> productList;
 
+    /**
+     * Constructor with a parameter for the product list.
+     */
     public InMemoryProductRepository(List<Product> productList) {
         this.productList = productList;
     }
 
+    /**
+     * Constructor which initializes the product list and populates it.
+     */
     public InMemoryProductRepository() {
         productList = new ArrayList<>();
         populateProducts();
     }
 
+    /**
+     * This method populates the product list with some data.
+     */
     public void populateProducts() {
         Product p1 = new Product("Colgate Max White", "150ml", TOOTHPASTE, 3.5, HOME, 500);
         Product p2 = new Product("Colgate Max White 3D", "200ml", MOUTHWASH, 13.5, HOME, 150);
@@ -40,10 +49,16 @@ public class InMemoryProductRepository implements IProductRepository {
         productList.add(p6);
     }
 
+    /**
+     * Product list getter.
+     */
     public List<Product> getProductList() {
         return productList;
     }
 
+    /**
+     * Product list setter.
+     */
     public void setProductList(List<Product> productList) {
         this.productList = productList;
     }
@@ -69,9 +84,14 @@ public class InMemoryProductRepository implements IProductRepository {
         return null;
     }
 
-
-    public void modify(Integer ID, Product newProduct) {
-        Product product = this.findById(ID);
+    /**
+     * This method modifies a product by replacing it with another product with the same attributes, except the one/s to modify.
+     *
+     * @param id         the id of the product.
+     * @param newProduct the new product.
+     */
+    public void modify(Integer id, Product newProduct) {
+        Product product = this.findById(id);
         newProduct.setId(product.getId());
         product = newProduct;
     }

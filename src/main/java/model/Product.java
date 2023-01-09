@@ -1,9 +1,5 @@
 package model;
 
-/**
- * Users view products, put them in their cards and order them. Each product has an ID, a name, a base price, a size,
- * a stock, a type and a use.
- */
 public class Product {
 
     private static int idCounter = 0;
@@ -18,7 +14,8 @@ public class Product {
 
     /**
      * This is the product copy constructor. It creates a new product with the same attributes as a product given as parameter.
-     * @param other The product given as a parameter for the copy constructor to copy.
+     *
+     * @param other the product given as parameter.
      */
     public Product(Product other) {
         this.id = other.id;

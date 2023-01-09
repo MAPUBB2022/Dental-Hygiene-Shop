@@ -17,6 +17,9 @@ import static repository.databaseRepo.JdbcUserRepository.getAddress;
 public class JdbcOrderRepository implements IOrderRepository {
     static String connectionUrl;
 
+    /**
+     * Constructor that establishes the database connection.
+     */
     public JdbcOrderRepository() {
         connectionUrl =
                 "jdbc:sqlserver://localhost\\SQLEXPRESS;database=Dental-Hygiene-Shop;"
@@ -26,6 +29,12 @@ public class JdbcOrderRepository implements IOrderRepository {
                         + "trustServerCertificate=true;";
     }
 
+    /**
+     * This method gets the products from an order.
+     *
+     * @param orderId the ID of the order.
+     * @return a list with the products from the order.
+     */
     static List<ProductOrder> getProductListByOrder(int orderId) {
         String query = "select productId, price, " +
                 " quantity from ProductOrder where orderId = ?";
@@ -76,7 +85,11 @@ public class JdbcOrderRepository implements IOrderRepository {
         return null;
     }
 
-
+    /**
+     * This method adds an address to the Addresses table in the database.
+     *
+     * @param address the address.
+     */
     public static void addAddress(Address address) {
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
@@ -98,6 +111,12 @@ public class JdbcOrderRepository implements IOrderRepository {
         }
     }
 
+    /**
+     * This method gets the ID of an address from the database.
+     *
+     * @param address the address.
+     * @return the id of the address.
+     */
     public static Integer getAddressId(Address address) {
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
@@ -229,8 +248,7 @@ public class JdbcOrderRepository implements IOrderRepository {
         } catch (SQLException e) {
             System.out.println("problems modifying delivery address");
             e.printStackTrace();
-        }
-        catch (NullPointerException e1){
+        } catch (NullPointerException e1) {
             System.out.println("address id is null");
             e1.printStackTrace();
         }

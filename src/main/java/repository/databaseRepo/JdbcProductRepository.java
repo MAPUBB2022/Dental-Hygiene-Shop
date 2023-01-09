@@ -12,17 +12,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcProductRepository implements IProductRepository {
+
+    static String connectionUrl;
+
+    /**
+     * Constructor that establishes the database connection.
+     */
+    public JdbcProductRepository() {
+        connectionUrl =
+                "jdbc:sqlserver://localhost\\SQLEXPRESS;database=Dental-Hygiene-Shop;"
+                        + "user=guest;"
+                        + "password=1234;"
+                        + "encrypt=true;"
+                        + "trustServerCertificate=true;";
+    }
+
     @Override
     public List<Product> getProductList() {
         String query = "select ID, name, basePrice, size, stock, type, [use] from Products";
 
-        try (Connection connection = DriverManager.getConnection(JdbcUserRepository.connectionUrl)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(query);
             List<Product> productList = new ArrayList<>();
             while (rs.next()) {
-                Product product = new Product (rs.getString("name"), rs.getString("size"),
+                Product product = new Product(rs.getString("name"), rs.getString("size"),
                         ProductType.valueOf(rs.getString("type")), rs.getDouble("basePrice"),
                         ProductUse.valueOf(rs.getString("use")), rs.getInt("stock"));
                 product.setId(rs.getInt("ID"));
@@ -47,7 +62,7 @@ public class JdbcProductRepository implements IProductRepository {
         String query = "insert into Products(name, basePrice, size, stock, type, [use])" +
                 " values  (?,?,?,?,?,?)";
 
-        try (Connection connection = DriverManager.getConnection(JdbcUserRepository.connectionUrl)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
             PreparedStatement statement = connection.prepareStatement(query);
             //statement.setInt(1, product.getId());
@@ -69,7 +84,7 @@ public class JdbcProductRepository implements IProductRepository {
     public void delete(Integer ID) {
         String query = "delete from Products where ID = ?";
 
-        try (Connection connection = DriverManager.getConnection(JdbcUserRepository.connectionUrl)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, ID);
@@ -86,14 +101,14 @@ public class JdbcProductRepository implements IProductRepository {
         String query = "select ID, name, basePrice, size, stock, type, [use] from Products" +
                 " where ID = ?";
 
-        try (Connection connection = DriverManager.getConnection(JdbcUserRepository.connectionUrl)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, ID);
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
-                Product product = new Product (rs.getString("name"), rs.getString("size"),
+                Product product = new Product(rs.getString("name"), rs.getString("size"),
                         ProductType.valueOf(rs.getString("type")), rs.getDouble("basePrice"),
                         ProductUse.valueOf(rs.getString("use")), rs.getInt("stock"));
                 product.setId(rs.getInt("ID"));
@@ -114,7 +129,7 @@ public class JdbcProductRepository implements IProductRepository {
         String query = "update Products set name = ?, basePrice = ?, size = ?, stock = ?, type = ?, [use]  = ?" +
                 " where ID = ?";
 
-        try (Connection connection = DriverManager.getConnection(JdbcUserRepository.connectionUrl)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, newProduct.getName());
             statement.setBigDecimal(2, BigDecimal.valueOf(newProduct.getBasePrice()));
@@ -137,7 +152,7 @@ public class JdbcProductRepository implements IProductRepository {
         String query = "update Products set stock = ? " +
                 " where ID = ?";
 
-        try (Connection connection = DriverManager.getConnection(JdbcUserRepository.connectionUrl)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, stock);
             statement.setInt(2, product.getId());

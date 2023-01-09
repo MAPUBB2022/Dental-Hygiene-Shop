@@ -1,8 +1,5 @@
 package model;
 
-/**
- * Each user has an address.
- */
 public class Address {
     private static int idCounter = 0;
     private int id;

@@ -1,8 +1,5 @@
 package model;
 
-/**
- * Is thrown when the user that is being looked up in a certain function is not found.
- */
 public class UserNotFoundException extends Exception {
     public UserNotFoundException() {
     }

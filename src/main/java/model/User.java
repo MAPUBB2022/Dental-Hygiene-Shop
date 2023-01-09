@@ -3,10 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Users can add products into their shopping carts, make orders and filter and sort products. Each user has an ID, a
- * shopping cart, a name, an email address, a phone number, a password, an address and an order history.
- */
 public class User {
     private static int idCounter = 0;
     private Integer id;
@@ -48,12 +44,12 @@ public class User {
     public String toString() {
         return
                 "id: " + id +
-                "\ncart: " + cart +
-                "\nname: " + name  +
-                "\nemail: " + email  +
-                "\nphone number: " + phoneNumber  +
-                "\npassword: " + password +
-                "\naddress: " + address;
+                        "\ncart: " + cart +
+                        "\nname: " + name +
+                        "\nemail: " + email +
+                        "\nphone number: " + phoneNumber +
+                        "\npassword: " + password +
+                        "\naddress: " + address;
     }
 
     /**

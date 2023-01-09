@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Every user has a shopping cart. The shopping cart has an ID and a list of products.
- */
 public class ShoppingCart {
 
     static int idCounter = 0;
@@ -51,9 +48,9 @@ public class ShoppingCart {
     }
 
     /**
-     * This method add a product to the shopping cart.
+     * This method adds a product to the shopping cart.
      *
-     * @param product This is the product we want to add to the shopping cart.
+     * @param product the product.
      */
     public void addProduct(ProductOrder product) {
         products.add(product);
@@ -62,8 +59,8 @@ public class ShoppingCart {
     /**
      * This method finds a product order by ID.
      *
-     * @param id The ID of the product order we are looking for.
-     * @return The product order if found, null otherwise.
+     * @param id the ID of the product order.
+     * @return the product order if found, null otherwise.
      */
     public ProductOrder findById(Integer id) {
         for (ProductOrder p : products) {

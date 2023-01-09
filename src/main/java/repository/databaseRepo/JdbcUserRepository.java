@@ -15,6 +15,9 @@ import static repository.databaseRepo.JdbcOrderRepository.getAddressId;
 public class JdbcUserRepository implements IUserRepository {
     static String connectionUrl;
 
+    /**
+     * Constructor that establishes the database connection.
+     */
     public JdbcUserRepository() {
         connectionUrl =
                 "jdbc:sqlserver://localhost\\SQLEXPRESS;database=Dental-Hygiene-Shop;"
@@ -26,6 +29,12 @@ public class JdbcUserRepository implements IUserRepository {
         emptyAllCarts();
     }
 
+    /**
+     * This method gets an address from the Addresses table in the database based on its ID.
+     *
+     * @param id the ID of the address.
+     * @return the address.
+     */
     static Address getAddress(int id) {
         String query = "select id, country, region, city, " +
                 " street, number, postalCode from Addresses where ID = ?";
@@ -113,6 +122,11 @@ public class JdbcUserRepository implements IUserRepository {
     public void setUserList(List<User> userList) {
     }
 
+    /**
+     * This method adds the address of a user to the Addresses table in the database.
+     *
+     * @param user the user.
+     */
     public void addAddressOfUser(User user) {
 
         Address address = user.getAddress();
@@ -410,6 +424,9 @@ public class JdbcUserRepository implements IUserRepository {
         }
     }
 
+    /**
+     * This method empties the shopping carts of all users in the database.
+     */
     void emptyAllCarts() {
         String query = "delete from ProductOrder where cartId IS NOT NULL";
 

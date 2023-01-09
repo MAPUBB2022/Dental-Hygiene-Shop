@@ -10,10 +10,16 @@ import java.util.Objects;
 public class InMemoryUserRepository implements IUserRepository {
     private List<User> userList;
 
+    /**
+     * Constructor which populates the user list using {@link Void populateUsers()}
+     */
     public InMemoryUserRepository() {
         this.populateUsers();
     }
 
+    /**
+     * This method populates the user list with some data.
+     */
     public void populateUsers() {
         this.userList = new ArrayList<>();
         Address address = new Address("USA", "NY", "NY", "5h Ave", "12", "12345");
@@ -23,11 +29,16 @@ public class InMemoryUserRepository implements IUserRepository {
         this.userList.add(user1);
     }
 
-
+    /**
+     * User list getter.
+     */
     public List<User> getUserList() {
         return userList;
     }
 
+    /**
+     * User list setter.
+     */
     public void setUserList(List<User> userList) {
         this.userList = userList;
     }
@@ -38,20 +49,31 @@ public class InMemoryUserRepository implements IUserRepository {
     }
 
     @Override
-    public void delete(Integer ID) {
-        User user = this.findById(ID);
+    public void delete(Integer id) {
+        User user = this.findById(id);
         userList.remove(user);
     }
 
-    public User findById(Integer ID) {
+    /**
+     * This method finds a user by their ID.
+     * @param id the id.
+     * @return the user if found, otherwise null.
+     */
+    public User findById(Integer id) {
         for (User r : userList) {
-            if (Objects.equals(r.getId(), ID)) {
+            if (Objects.equals(r.getId(), id)) {
                 return r;
             }
         }
         return null;
     }
 
+    /**
+     * This method finds the password of a user by their email address.
+     *
+     * @param email the email address.
+     * @return the user if found, otherwise null.
+     */
     public String findPasswordByEmail(String email) {
         for (User r : userList) {
             if (Objects.equals(r.getEmail(), email)) {
@@ -61,6 +83,12 @@ public class InMemoryUserRepository implements IUserRepository {
         return null;
     }
 
+    /**
+     * This method finds a user by their email address.
+     *
+     * @param email the email address.
+     * @return the user if found, otherwise null.
+     */
     public User findByEmail(String email) {
         for (User r : userList) {
             if (Objects.equals(r.getEmail(), email)) {

@@ -1,8 +1,5 @@
 package model;
 
-/**
- * Is thrown when the stock is insufficient for a certain operation.
- */
 public class InsufficientStockException extends Exception {
     public InsufficientStockException() {
     }

@@ -3,10 +3,7 @@ package model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Users can place orders. Orders have an ID, a date and time, a list of products, a delivery address and the ID of
- * the user who placed them.
- */
+
 public class Order {
     public static int idCounter = 0;
 
@@ -112,8 +109,9 @@ public class Order {
 
     /**
      * This method finds a product order by ID.
-     * @param id The ID of the product order we are looking for.
-     * @return The product order if found, null otherwise.
+     *
+     * @param id the ID of the product order.
+     * @return the product order if found, null otherwise.
      */
     public ProductOrder findById(Integer id) {
         for (ProductOrder p : this.products) {
@@ -126,7 +124,8 @@ public class Order {
 
     /**
      * Searches for a product by ID and deletes it if found.
-     * @param id The ID of the product we want to remove.
+     *
+     * @param id the ID of the product.
      */
     public void deleteProduct(Integer id) {
         ProductOrder product = findById(id);
@@ -135,7 +134,8 @@ public class Order {
 
     /**
      * This method calculates the price of a number of products of the same type.
-     * @return The price of the products in question.
+     *
+     * @return the price of the products in question.
      */
     public double calculatePrice() {
         double s = 0;
